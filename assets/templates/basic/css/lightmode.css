@@ -1,0 +1,1133 @@
+a {
+	color: #000 !important;
+}
+
+* {
+    color: black;
+	background: #fff;
+}
+
+.auction__item-countdown .inner__grp .total-price {
+    color: #000;
+}
+
+.header-bottom {
+	background: #fff;
+}
+
+.change-language a:not(:last-child)::after {
+	color: black;
+}
+
+.form--check label {
+    color: #000 !important;
+}
+
+.modal .modal-header .modal-title {
+    color: #000 !important;
+}
+
+.price-range label {
+    color: #000 !important;
+}
+
+.price-range input {
+    color: #000 !important;
+}
+
+.bg--section {
+    border: 1px solid rgba(0, 0, 0, 0.3) !important;
+    box-shadow: 5px 5px 25px #3366994d;
+}
+
+.bg--section::before {
+	background-color: #fff !important;
+}
+
+.account__section-content.bg--section {
+    box-shadow: none !important;
+}
+
+i {
+    background-color: transparent;
+}
+
+input.form-control {
+    background-color: #eee!important;
+    color: #000 !important;
+}
+
+input.form-control::placeholder {
+  color: #aaa;
+}
+
+.change-language .language {
+    color: black;
+    border-color: #000;
+}
+
+.banner-section .banner__inner {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content .banner__title {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content .banner__title span {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content .banner__content-txt {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content .btn__grp {
+    background-color: #fff;
+}
+
+.banner-section .banner__inner .container .banner__content .btn__grp font {
+    background: transparent;
+}
+
+div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
+    background-color: #bbb !important;
+}
+
+ .feature__item-icon {
+     background-color: #bbb;
+ }
+
+h6.feature__item-title {
+    color: black;
+}
+
+h3.section__title {
+    color: #000;
+}
+
+h3.title {
+    color: #000;
+}
+
+.contact-info .cont .name {
+    color: #000;
+}
+
+.bg--section .faq__item {
+    background: #ccc;
+    border: 1px solid black;
+}
+
+.faq__item .faq__title {
+    background-color: #ccc;
+}
+
+.faq__item .faq__title .title {
+    background-color: #ccc;
+    color: black;
+}
+
+.faq__item .faq__title .title font {
+    background: transparent;
+}
+
+.faq__item .faq__content font {
+    background: transparent;
+}
+
+.faq__item .faq__title .right--icon::before, .faq__item .faq__title .right--icon::after {
+    background-color: #000;
+}
+
+.faq__item .faq__content {
+    background-color: #ccc;
+}
+
+.faq__item .faq__content p {
+    background-color: #ccc !important;
+    color: #000 !important;
+}
+
+.faq__item .faq__content p span {
+    background-color: #ccc;
+}
+
+.auction__item-thumb .total-bids {
+    background-color: transparent;
+}
+
+.auction__item-thumb .total-bids > span {
+    background-color: transparent;
+}
+
+.preloader .loader-frame {
+    background-color: transparent;
+}
+
+.preloader .loader-frame .loader1 {
+    background-color: transparent;
+}
+
+.preloader .loader-frame .circle {
+    background-color: transparent;
+}
+
+.preloader .loader-frame img {
+    background-color: transparent;
+}
+
+h6.sub-title {
+    color: #000;
+}
+
+h4.title {
+    color: #000;
+}
+
+h5.title {
+    color: #000;
+}
+
+.inner-hero .container {
+    background-color: transparent;
+}
+
+.container .hero-content {
+    background-color: transparent;
+}
+
+.hero-section .hero-title {
+    background-color: transparent;
+    color: #000 !important;
+}
+
+.specification-table tr {
+    border-left: 1px solid #aaa;
+}
+
+.specification-table tr th, .specification-table tr td {
+    border-top: 1px solid #aaa;
+    border-right: 1px solid #aaa;
+}
+
+.specification-table tr:last-child {
+    border-bottom: 1px solid #aaa;
+}
+
+.specification-table tr th {
+    color: #000;
+}
+
+h6.about-seller {
+    color: #000;
+}
+
+h6.title {
+    color: #000;
+}
+
+.account__section-wrapper {
+    background-color: transparent;
+}
+
+.account__section-content select.form-control {
+    color: #000;
+}
+
+h4.mb-0 {
+    color: #000;
+}
+
+div.text--white {
+    color: #000 !important;
+}
+
+.change-language .language option {
+    background-color: transparent;
+}
+
+button.cmn--btn:hover {
+    color: #000 !important;
+}
+
+.dashboard__item .cont {
+    background-color: transparent;
+}
+
+.bg--body::before {
+    background-color: #eee !important;
+}
+
+.dashboard__item .dashboard__title {
+    background-color: transparent;
+}
+
+.dashboard__item .dashboard__title .title {
+    background-color: transparent;
+}
+
+h4.page-title {
+    color: #fff;
+    background-color: transparent;
+}
+
+.overlay-2 {
+    background-color: #eee;
+}
+
+div#overlay {
+    background-color: transparent;
+}
+
+.cv-spinner {
+    background-color: transparent;
+}
+
+.spinner {
+    background-color: transparent;
+    border-color: #000;
+    border-top-color: #2e93e6;
+}
+
+h6.message {
+    background-color: transparent;
+}
+
+
+h5.modal-title {
+    background-color: transparent;
+}
+
+.modal-header .modal-close span {
+    background-color: transparent;
+}
+
+.product__single-item .meta-post .meta-item .social-share li {
+  background-color: transparent;
+}
+
+.inner-hero::before {
+    background-color: transparent;
+}
+
+.shopping-table thead tr {
+  background-color: #aaa;
+}
+
+.shopping-table thead tr th {
+  color: #fff;
+}
+
+.shopping-table tbody tr td {
+  border: 0px solid #aaa;
+}
+
+.shopping-table tbody tr td a {
+    background: transparent !important;
+}
+
+.shopping-table tbody tr td div {
+    background: transparent !important;
+}
+
+.shopping-table tbody tr td span {
+    background: transparent !important;
+}
+
+.shopping-table thead tr {
+  border: 1px solid gray;
+}
+
+.shopping-table tbody tr {
+  border: 1px solid gray;
+}
+
+@media (max-width: 1199px) {
+  .shopping-table tbody tr td::before {
+    color: #000;
+  }
+}
+
+@media (max-width: 1199px) {
+  .shopping-table tbody tr:last-child {
+    border-bottom: 1px solid gray;
+  }
+}
+
+.shopping-footer {
+  background-color: #aaa;
+}
+
+.shopping-footer-blk1 {
+    background-color: transparent;
+}
+
+.shopping-footer-blk1 > div {
+  background-color: #aaa;
+}
+
+.shopping-footer-blk2 > div {
+  background-color: #aaa;
+}
+
+.shopping-footer-blk1 > div > div {
+  background-color: #aaa;
+  margin-bottom: 0;
+}
+
+.shopping-footer-blk1 > div > div > label {
+  background-color: #aaa;
+}
+
+.shopping-footer-blk2 > div > span {
+  background-color: #aaa;
+}
+
+
+select.form-control {
+    background-color: #eee!important;
+    color: #000 !important;
+}
+
+.payment-ul li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.payment-ul li span {
+    background: transparent;
+}
+
+/*.payment-ul li:hover {*/
+/*    background: #aaa;*/
+/*    border-left-color: green;*/
+/*}*/
+
+textarea.form--control-2 {
+    background: #eee !important;
+    color: black;
+}
+
+textarea.form--control-2:focus {
+    background: #eee;
+    color: #000;
+}
+
+.formselecttag > option {
+    background: #fff;
+}
+
+.selectdivblock {
+    background: #eee;
+}
+
+.selectdivblock > select {
+    background-color: transparent !important;
+}
+
+.selectdivblock > label {
+    background-color: transparent;
+}
+
+.selectdivblock > label > svg {
+    background-color: transparent;
+}
+
+.monitor-section {
+    background-color: #aaa;
+}
+
+.monitor-section.active {
+    background-color: #fff;
+}
+
+.monitor-section > div:nth-child(1) {
+    background-color: #aaa;
+}
+
+.monitor-section.active > div:nth-child(1) {
+    background-color: #fff;
+}
+
+.monitor-section > div:nth-child(3) {
+    background-color: transparent;
+}
+
+.monitor-section > div:nth-child(1) > span {
+    background-color: #aaa;
+}
+
+.monitor-section > div:nth-child(2) {
+    background-color: #aaa;
+}
+
+.monitor-section.active > div:nth-child(2) {
+    background-color: #fff;
+}
+
+.monitor-section > div:nth-child(2) > p {
+    background-color: #aaa;
+}
+
+.monitor-section.active > div:nth-child(2) > p {
+    background-color: #fff;
+}
+
+.monitor-section > div:nth-child(4) {
+    background-color: transparent;
+    border-left: 13px solid #aaa;
+}
+
+.monitor-section.active > div:nth-child(4) {
+    border-left: 13px solid #fff;
+}
+
+.bonus-section > div {
+    z-index: 1;
+    background-color: transparent;
+}
+
+.bonus-section > div > p > i {
+    background: #ccc;
+}
+
+.bonus-back-show {
+    z-index: 0;
+}
+
+.bonus-back {
+    z-index: 0;
+}
+
+.footer-fixed-sec {
+    background: #fff;
+}
+
+.header-bar.d-lg-none > span {
+    background: #000;
+}
+
+.menu-close {
+    background: transparent;
+}
+
+.close-filter-bar > i {
+    color: #000 !important;
+}
+
+.menu-close > i {
+    color: #000;
+}
+
+@media (max-width: 991px) {
+    ul.menu {
+        background: transparent;
+    }
+
+    ul.menu > li {
+        background: transparent;
+    }
+
+    ul.menu > li > a {
+        background: transparent;
+        color: #000 !important;
+    }
+
+    ul.menu > li > a > i {
+        color: #000;
+    }
+
+    .menu-area .menu > li:first-child > a {
+        border-top-color: rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .menu-area .menu li a {
+        border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+div.change-language {
+    background: transparent;
+}
+
+div.change-language > .sign-in-up {
+    background: transparent;
+}
+
+div.change-language > .sign-in-up > span {
+    background: transparent;
+}
+
+div.change-language > .sign-in-up > span > a {
+    background: transparent;
+}
+
+div.change-language > .sign-in-up > span > a > i {
+    color: #fff;
+}
+
+div.change-language > .sign-in-up > span > i {
+    color: #000;
+}
+
+div.change-language > .sign-in-up > a {
+    background: transparent;
+    color: #000 !important;
+}
+
+.sign-in-up.d-none.d-sm-block > span > i {
+    color: #000;
+}
+
+.sign-in-up.d-none.d-sm-block > span > a > i {
+    color: #000;
+}
+
+.sign-in-up.d-none.d-sm-block > a {
+    color: #000 !important;
+}
+
+.dashboard__header__bar.d-lg-none {
+    background: transparent;
+}
+
+.dashboard__header__bar.d-lg-none > .header-bar {
+    background: transparent;
+}
+
+.btn.text--danger.modal-close > span {
+    background: transparent;
+    color: #000;
+}
+
+.item_feature_icons > span > svg > g {
+    fill: #000 !important;
+}
+
+.item_feature_icons > i {
+    color: #000 !important;
+}
+
+.item_heart_icon > span > i {
+    color: #000;
+}
+
+.modal_space_list {
+    background: #fff;
+}
+
+.modal_image_content_big {
+    background-color: #fff !important;
+    /*border-color: transparent !important;*/
+}
+
+#highImgModal {
+    background: #fff !important;
+}
+
+#highIconImgModal {
+    background: #fff !important;
+}
+
+table.cmn--table > thead > tr {
+    background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.middle-section-logo > h1 {
+    color: #000 !important;
+}
+
+.account__section-wrapper h2 {
+    color: #000 !important;
+}
+
+.account-section {
+    background: #fff !important;
+}
+
+.account-section.bg_img {
+    background: #fff !important;
+}
+
+.cmn--table tbody tr:nth-of-type(even) {
+    background: #ddd !important;
+}
+
+.side__menu li a svg g {
+    fill: #000 !important;
+}
+
+.side__menu li a.active {
+    background: rgba(0, 0, 0, 0.1) !important;
+}
+
+.side__menu li a.active span {
+    background: transparent;
+}
+
+.middle-section-logo > h2 {
+    color: #000;
+}
+
+
+.iziToast-wrapper.iziToast-wrapper-topRight {
+    background: transparent;
+}
+
+.iziToast-wrapper.iziToast-wrapper-topRight > * {
+    background: transparent;
+}
+
+.iziToast-body {
+    background: transparent;
+}
+
+.iziToast-capsule {
+    background: transparent !important;
+}
+
+.iziToast-texts {
+    background: transparent;
+}
+
+.iziToast-message.slideIn {
+    background: transparent;
+}
+
+.modal.fade {
+    background: transparent;
+}
+
+.relatedabids-tr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+
+.chooseamountstyle {
+    background-color: transparent !important;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.chooseamountstyle:focus {
+    border-color: #000 !important;
+}
+
+.chooseamountstyle > option {
+    background: #fff;
+}
+
+.topchooseamount {
+    background-color: #fff !important;
+}
+
+.chooseamounttext > .choosefirsttext {
+    color: #000 !important;
+}
+
+.chooseamountstyle > option {
+    color: #000 !important;
+}
+
+.seller-section {
+    background: #fff !important;
+}
+
+.lockslide-text {
+    color: #000;
+}
+
+.perforatedstick {
+    border-color: rgba(0, 0, 0, 0.8);
+}
+
+#locker {
+    background: transparent !important;
+}
+
+#button-background {
+    border-color: rgba(0, 0, 0, 0.6) !important;
+    border-style: solid solid solid none !important;
+}
+
+.nav--tabs li {
+    border-style: solid solid solid none;
+    border-color: rgba(0, 0, 0, 0.6);
+    border-width: 1px;
+}
+
+.nav--tabs li:first-child {
+    border-right-style: solid;
+    border-color: rgba(0, 0, 0, 0.6);
+    border-width: 1px;
+}
+
+.htitle5 {
+    color: #000;
+}
+
+.shortdes {
+    color: #000;
+}
+
+.productcost {
+    color: #000;
+}
+
+.productcur {
+    color: #000;
+}
+
+.about-seller {
+    color: #000;
+}
+
+.bidders-title::after {
+    background-color: #000 !important;
+}
+
+.searchkeybtngroup > input {
+    border: 1px solid transparent !important;
+}
+
+.searchkeybtngroup > input:focus {
+    border-color: #000 !important;
+}
+
+.searchkeybtngroup > button {
+    border: 1px solid #bbb !important;
+}
+
+.searchkeybtngroup > button:hover {
+    border: 1px solid #000 !important;
+    z-index: 10;
+}
+
+.cmn--btn {
+    background: transparent !important;
+    color: #000 !important;
+}
+
+.cmn--btn:hover {
+    background: transparent !important;
+    border-color: #000 !important;
+}
+
+.scrollToTop.active {
+    background-color: #fff !important;
+    border-color: #000 !important;
+}
+
+.filter-btn {
+    background-color: #fff !important;
+    border: 1px solid #bbb;
+}
+
+.filter-btn:hover {
+    border-color: #000 !important;
+}
+
+.filter-btn > i{
+    color: #000 !important;
+}
+
+.userloginbtns {
+    color: #000 !important;
+}
+
+.account__section-content {
+    border: 1px solid transparent !important;
+}
+
+@media (max-width: 991px) {
+    .cartplusmins {
+        width: 48% !important;
+    }
+}
+
+.sellwithush4 {
+    color: darkblue;
+}
+
+.selladdinfo::-webkit-input-placeholder {
+    color: #aaaaaa;
+}
+
+.selladdinfo:-moz-placeholder {
+    color: #aaaaaa;
+}
+
+.selladdinfo::-moz-placeholder {
+    color: #aaaaaa;
+}
+
+.selladdinfo:-ms-input-placeholder {
+    color: #aaaaaa;
+}
+
+.uploadbtnstyle {
+    border-color: #000;
+}
+
+.header-bottom {
+    box-shadow: none;
+}
+
+.inputsellwithus::-webkit-input-placeholder {
+    color: #000 !important;
+}
+
+.inputsellwithus:-moz-placeholder {
+    color: #000 !important;
+}
+
+.inputsellwithus::-moz-placeholder {
+    color: #000 !important;
+}
+
+.inputsellwithus:-ms-input-placeholder {
+    color: #000 !important;
+}
+
+.inputsellwithus::placeholder {
+    color: #000 !important;
+}
+
+.inputsellwithus:-webkit-autofill, .inputsellwithus:-webkit-autofill:hover, .inputsellwithus:-webkit-autofill:focus, .inputsellwithus:-webkit-autofill:active {
+    -webkit-text-fill-color: #000 !important;
+}
+
+.form--control:-webkit-autofill, .form--control:-webkit-autofill:hover, .form--control:-webkit-autofill:focus, .form--control:-webkit-autofill:active {
+    -webkit-text-fill-color: #000 !important;
+}
+
+.carousel-indicators {
+    background: transparent;
+}
+
+.post-item > .post-content {
+    background: transparent !important;
+}
+
+.faq-section {
+    box-shadow: 1px 1px 0px #fff;
+    border: 0px solid transparent !important;
+}
+
+.contact-section form label {
+    color: #000;
+}
+
+.contact-section textarea.form--control {
+    background-color: #eee !important;
+    color: #000 !important;
+}
+
+.enddivstick {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.curdivstick {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.charitydesc {
+    color: #000 !important;
+}
+
+.charitydesc span {
+    color: #000 !important;
+}
+
+.cur_text_text_base {
+    color: #000 !important;
+}
+
+#lockslider > i {
+    color: #000 !important;
+}
+
+.fontcolorblack {
+    color: #000;
+}
+
+.fontcolorwhite {
+    color: #fff;
+}
+
+.form--control-2:-webkit-autofill, .form--control-2:-webkit-autofill:hover, .form--control-2:-webkit-autofill:focus, .form--control-2:-webkit-autofill:active {
+    -webkit-text-fill-color: #000 !important;
+}
+
+.modal .modal-header {
+    background: #fff !important;
+}
+
+.modal .modal-body {
+    background: #fff !important;
+}
+
+.modal .modal-footer {
+    background: #fff !important;
+}
+
+.lagnuagesettingselect {
+    color: black !important;
+    border-color: #aaa !important;
+}
+
+.lagnuagesettingselect option {
+    background-color: transparent !important;
+}
+
+.cookies-card__icon > i {
+    color: #fff !important;
+}
+
+.pagination .page-item .page-link {
+    background: transparent !important;
+    border-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: rgba(193, 81, 204, 0.3) !important;
+}
+
+.shoppingapplybtn {
+    border: 1px solid #000 !important;
+}
+
+.step-method1 {
+    background-color: gray !important;
+    color: gray !important;
+}
+
+.step-method2 {
+    background-color: gray !important;
+    color: gray !important;
+}
+
+.step-method3 {
+    background-color: gray !important;
+    color: gray !important;
+}
+
+.step-submethod1 {
+    background-color: gray !important;
+}
+
+.step-submethod2 {
+    background-color: gray !important;
+}
+
+.step-method {
+    background-color: #000 !important;
+}
+
+.step-method-success {
+
+}
+
+.step-submethod {
+    background-color: #000 !important;
+}
+
+.step-method-div-text > div {
+    color: #000 !important;
+}
+
+.bidcalc_select {
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.currencyicon {
+    background-color: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.5) !important;
+}
+
+.currencyicon > i {
+    color: #000 !important;
+}
+
+.chooseamounttext {
+    background-color: transparent !important;
+}
+
+.chooseamounticon > i {
+    color: #000 !important;
+}
+
+#lockslider {
+    background-color: rgb(255, 255, 255) !important;
+    border: 1px solid #6c6969 !important;
+}
+
+.bonus-text {
+    color: #000 !important;
+}
+
+.high_img_modal_close > span {
+    color: #000 !important;
+    border-color: #000 !important;
+}
+
+.bidcalcmodalclosebtn {
+    border-color: #000 !important;
+}
+
+.lightmodeswitchresponsive > div > svg {
+    background: transparent !important;
+}
+
+.lightmodeswitchresponsive > div > svg > path {
+    color: #000 !important;
+}
+
+.changelanguageresponsive select {
+    color: #000 !important;
+}
+
+.header-wrapper > .menu-area {
+    background: #eee !important;
+}
+
+.delete-filter-list > i {
+    color: #000 !important;
+}
+
+.item-block-tags {
+    border: 1px solid #000;
+}
+
+#existModalCenter > .modal-dialog {
+    background: transparent !important;
+}
+
+#existModalCenter > .modal-dialog > .modal-content > .modal-body > h6 {
+    color: #000 !important;
+}
+.filter-btn-sticky {
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    background-color: #fff !important;
+    line-height: 24px;
+    font-weight: 700;
+    padding: 14px 30px 12px;
+    border: 1px solid darkgray;
+    text-transform: uppercase;
+    font-size: 16px;
+    overflow: hidden;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Jost", sans-serif;
+}

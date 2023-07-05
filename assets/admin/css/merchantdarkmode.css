@@ -1,0 +1,75 @@
+.sidebar__inner {
+    background: #eee;
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item .menu-icon, .sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item .menu-title {
+    color: #000;
+    font-weight: bold;
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item > a:hover {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item > a.side-menu--open, .sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item.active > a {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-dropdown > a::before {
+    color: #000;
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item.active a .menu-icon, .sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item.active a .menu-title, .sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item:hover a .menu-icon, .sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item:hover a .menu-title {
+    color: #000;
+}
+
+.sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item a .menu-icon, .sidebar[class*="overlay"] .sidebar__menu .sidebar-submenu .sidebar-menu-item a .menu-title {
+    color: #000;
+}
+
+.sidebar[class*="overlay"] .navbar__expand::before {
+    background-color: #000;
+}
+
+.navbar__expand::after {
+    border-color: #000;
+}
+
+.navbar-wrapper {
+    background: #eee;
+}
+
+.navbar__right > a {
+    color: #000;
+}
+
+.navbar__right > a:last-child {
+    color: #eee;
+}
+
+.navbar__action-list li button > i {
+    color: #000 !important;
+}
+
+.navbar__action-list li a > i {
+    color: #000 !important;
+}
+
+.navbar__right > .navbar__action-list > li:last-child > a {
+    color: #eee !important;
+}
+
+.navbar__right > .navbar__action-list > li:last-child > a > i {
+    color: #eee !important;
+}
+
+table.table--light thead th {
+    background-color: transparent;
+    color: #000;
+}
+
+.side__menu__bage__num {
+    background: none !important;
+    box-shadow: none !important;
+    color: #000 !important;
+}

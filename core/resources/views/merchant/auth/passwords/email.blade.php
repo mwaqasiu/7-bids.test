@@ -1,0 +1,61 @@
+@extends('merchant.layouts.master')
+@section('content')
+    <div class="page-wrapper default-version">
+        <div class="form-area" style="background-color: #001635;">
+            <div class="form-wrapper" style="background-color: unset;">
+                <h4 class="logo-text mb-15"><strong>@lang('Recover Account')</strong></h4>
+                <form action="{{ route('merchant.password.email') }}" method="POST" class="cmn-form mt-30">
+                    @csrf
+                    <div class="form-group">
+                        <label>@lang('Select One')</label>
+                        <div>
+                            <select class="form-control" name="type">
+                                <option value="email">@lang('E-Mail Address')</option>
+                                <option value="username">@lang('Username')</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="my_value"></label>
+                        <input type="text" name="value" class="form-control" value="{{ old('value') }}">
+                    </div>
+                    <div class="form-group d-flex justify-content-between align-items-center">
+                        <a href="{{ route('merchant.login') }}" class="text-muted text--small"><i class="las la-lock"></i>@lang('Login Here')</a>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="submit-btn mt-25">@lang('Send Reset Code') <i class="las la-sign-in-alt"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- login-area end -->
+    </div>
+@endsection
+
+@push('style')
+<style>
+    .form-area .form-wrapper::before {
+        background-color: unset;
+    }
+    
+    .form-area .form-wrapper::after {
+        background-color: #001635ee;
+    }
+</style>
+@endpush
+
+@push('script')
+<script>
+
+    (function($){
+        "use strict";
+        
+        myVal();
+        $('select[name=type]').on('change',function(){
+            myVal();
+        });
+        function myVal(){
+            $('.my_value').text($('select[name=type] :selected').text());
+        }
+    })(jQuery)
+</script>
+@endpush

@@ -1,0 +1,229 @@
+* {
+    background: #001329;
+    color: #fff !important;
+}
+
+.navbar-wrapper {
+    background: #001329;
+}
+
+.card-header {
+    background: #001329;
+}
+
+.dashboard-w1 .details {
+    background: transparent;
+}
+
+.dashboard-w1 .details .numbers {
+    background: transparent;
+}
+
+.dashboard-w1 .details .numbers span {
+    background: transparent;
+}
+
+.dashboard-w1 .details .desciption {
+    background: transparent;
+}
+
+.dashboard-w1 .details .desciption span {
+    background: transparent;
+}
+
+.dashboard-w1 .details a {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: #fff !important;
+}
+
+.sidebar__menu .menu-icon {
+    background: transparent;
+}
+
+.sidebar__menu .menu-title {
+    background: transparent;
+}
+
+.text--shadow {
+    background: transparent;
+}
+
+.card-footer {
+    background: #001329 !important;
+}
+
+.bonus-section > div {
+    z-index: 1;
+    background: transparent;
+}
+
+.bonus-back {
+    z-index: unset;
+}
+
+.bonus-back-show {
+    z-index: unset;
+}
+
+.monitor-section > div:nth-child(1) {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(1) > i {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(2) {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(2) > p {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(2) > span {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(3) {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(4) {
+    background: transparent;
+}
+
+.monitor-section > div:nth-child(1) > span {
+    background: transparent;
+}
+
+.profile-user .remove-image {
+    background: transparent;
+}
+
+.profile-user .remove-image i {
+    color: #001329 !important;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #001329;
+}
+
+.form-control:focus {
+    background-color: #001329;
+}
+
+[data-label]::before {
+    color: #fff;
+}
+
+.btn--danger i {
+    background: transparent;
+}
+
+.btn--primary i {
+    background: transparent;
+}
+
+select.form-control {
+    background: transparent;
+}
+
+textarea.form-control {
+    background: transparent;
+}
+
+.input-group-text {
+    background: #336699;
+}
+
+.payment-method-item .payment-method-header .thumb .avatar-edit {
+    background: transparent;
+}
+
+.payment-method-item .payment-method-header .thumb .avatar-edit label i {
+    background: transparent;
+}
+
+.iziToast-wrapper.iziToast-wrapper-topRight {
+    background: transparent;
+}
+
+.iziToast-wrapper.iziToast-wrapper-topRight > * {
+    background: transparent;
+}
+
+.iziToast-body {
+    background: transparent;
+}
+
+.iziToast-capsule {
+    background: transparent !important;
+}
+
+.iziToast-texts {
+    background: transparent;
+}
+
+.iziToast-message.slideIn {
+    background: transparent;
+    color: #000 !important;
+}
+
+.image_data_item > div > i {
+    background: transparent;
+}
+
+.list-group-flush>.list-group-item {
+    background: transparent;
+}
+
+.modal.fade {
+    background: transparent;
+}
+
+a.icon-btn > i {
+    background: transparent;
+}
+
+.pl-3, .px-3 {
+    background: transparent;
+}
+
+.text--white {
+    background: transparent;
+}
+
+.list-group-item {
+    background: transparent;
+}
+
+.add-social > i {
+    background: transparent;
+}
+
+.remove-social > i {
+    background: transparent;
+}
+
+.card {
+    background: transparent;
+}
+
+.th-header-price > div {
+    background: transparent;
+}
+
+.th-header-price > div > i {
+    background: transparent;
+}
+
+table.table--light thead th {
+    background-color: unset !important;
+}
+
+.side__menu__bage__num {
+    background: none !important;
+    background-color: unset !important;
+    box-shadow: none !important;
+}
