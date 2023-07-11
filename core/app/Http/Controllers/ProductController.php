@@ -42,7 +42,8 @@ class ProductController extends Controller
         if(request()->category_id){
             $products = $products->where('category_id', request()->category_id);
         }
-        $products = $products->orderBy('expired_at', 'ASC')->paginate(getPaginate(18));
+        $products = $products->orderBy('price', 'ASC')->orderBy('created_at', 'ASC')->paginate(getPaginate(18));
+
         return view($this->activeTemplate.'product.list', compact('pageTitle', 'emptyMessage', 'wishlists', 'products', 'allProducts', 'priceProducts', 'categories', 'winnertext'));
     }
 
@@ -55,166 +56,182 @@ class ProductController extends Controller
         $winnertext = "";
         $categories = Category::with('products')->where('status', 1)->get();
         $allProducts = clone $products->get();
-        
+
         if($request->timing == "sold") {
             $winnertext = "winner";
             $products = Product::whereIn('products.id', Winner::select('product_id as id')->get())->leftJoin("winners", "winners.product_id", '=', 'products.id')->select("products.*", DB::raw("winners.bid_id as wbid_id"))->leftJoin("bids", "bids.id", '=', 'winners.bid_id')->select("products.*", DB::raw("bids.amount as soldamount"))->where('products.name', 'like', '%'.$request->search_key.'%');
-            
-            if($request->sorting) {
-                if($request->sorting == "excellent") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Condition","value":null%');
-                } else if($request->sorting == "certificated") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Certificated","value":null%');
-                } else if($request->sorting == "mentioned") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Literature","value":null%');
-                } else if($request->sorting == "limited") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Edition","value":null%');
-                } else if($request->sorting == "noteworthy") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Provenance","value":null%');
-                } else if($request->sorting == "price_desc") {
+
+            if(!empty($request->sorting)) {
+                if($request->sorting['excellent'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Condition","value":null%');
+                }
+                if($request->sorting['certificated'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Certificated","value":null%');
+                }
+                if($request->sorting['mentioned'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Literature","value":null%');
+                }
+                if($request->sorting['limited'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Edition","value":null%');
+                }
+                if($request->sorting['noteworthy'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Provenance","value":null%');
+                }
+            }
+
+            if($request->date) {
+                if($request->date == "created_at_desc") {
+                    $products = $products->orderBy('products.created_at', 'DESC');
+                } else {
+                    $products = $products->orderBy('products.created_at', 'ASC');
+                }
+            }
+
+            if($request->price){
+                if($request->price == "created_at_desc") {
                     $products = $products->orderBy('price', 'DESC');
                 } else {
-                    $products = $products->orderBy($request->sorting, 'ASC');
+                    $products = $products->orderBy('price', 'ASC');
                 }
             }
-            
-            if($request->dateprice) {
-                if($request->dateprice == "created_at") {
-                    $products = $products->orderBy('products.created_at', 'DESC');
-                } else if($request->dateprice == "created_at_asc") {
-                    $products = $products->orderBy('products.created_at', 'ASC');
-                } else if($request->dateprice == "price_desc") {
-                    $products = $products->orderBy('bids.amount', 'DESC');
-                } else {
-                    $products = $products->orderBy('bids.amount', 'ASC');
-                }
-            }
-            
+
             if($request->categories){
                 $products = $products->whereIn('category_id', $request->categories);
             }
         } else if($request->timing == "arrivals") {
             $sdate=date_create(now());
             date_sub($sdate, date_interval_create_from_date_string("2days"));
-            $products = $products->orderBy('expired_at', 'ASC')->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"));
-            
-            if($request->sorting) {
-                if($request->sorting == "excellent") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Condition","value":null%');
-                } else if($request->sorting == "certificated") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Certificated","value":null%');
-                } else if($request->sorting == "mentioned") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Literature","value":null%');
-                } else if($request->sorting == "limited") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Edition","value":null%');
-                } else if($request->sorting == "noteworthy") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Provenance","value":null%');
-                } else if($request->sorting == "price_desc") {
-                    $products = $products->orderBy('price', 'DESC');
-                } else {
-                    $products = $products->orderBy($request->sorting, 'ASC');
+            $products = $products->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"));
+
+            if(!empty($request->sorting)) {
+                if($request->sorting['excellent'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Condition","value":null%');
+                }
+                if($request->sorting['certificated'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Certificated","value":null%');
+                }
+                if($request->sorting['mentioned'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Literature","value":null%');
+                }
+                if($request->sorting['limited'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Edition","value":null%');
+                }
+                if($request->sorting['noteworthy'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Provenance","value":null%');
                 }
             }
-            
-            if($request->dateprice) {
-                if($request->dateprice == "created_at") {
+
+            if($request->date) {
+                if($request->date == "created_at_desc") {
                     $products = $products->orderBy('products.created_at', 'DESC');
-                } else if($request->dateprice == "created_at_asc") {
+                } else {
                     $products = $products->orderBy('products.created_at', 'ASC');
-                } else if($request->dateprice == "price_desc") {
+                }
+            }
+
+            if($request->price){
+                if($request->price == "created_at_desc") {
                     $products = $products->orderBy('price', 'DESC');
                 } else {
                     $products = $products->orderBy('price', 'ASC');
                 }
             }
-            
+
             if($request->categories){
                 $products = $products->whereIn('category_id', $request->categories);
             }
         } else {
-            if($request->sorting) {
-                if($request->sorting == "excellent") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Condition","value":null%');
-                } else if($request->sorting == "certificated") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Certificated","value":null%');
-                } else if($request->sorting == "mentioned") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Literature","value":null%');
-                } else if($request->sorting == "limited") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Edition","value":null%');
-                } else if($request->sorting == "noteworthy") {
-                    $products = $products->orderBy('expired_at', 'ASC')->where('specification', 'not like', '%"name":"Provenance","value":null%');
-                } else if($request->sorting == "price_desc") {
-                    $products = $products->orderBy('price', 'DESC');
-                } else {
-                    $products = $products->orderBy($request->sorting, 'ASC');
+            if(!empty($request->sorting)) {
+                if($request->sorting['excellent'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Condition","value":null%');
+                }
+                if($request->sorting['certificated'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Certificated","value":null%');
+                }
+                if($request->sorting['mentioned'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Literature","value":null%');
+                }
+                if($request->sorting['limited'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Edition","value":null%');
+                }
+                if($request->sorting['noteworthy'] == "true") {
+                    $products = $products->where('specification', 'not like', '%"name":"Provenance","value":null%');
                 }
             }
-            
-            if($request->dateprice) {
-                if($request->dateprice == "created_at") {
+
+            if($request->date) {
+                if($request->date == "created_at_desc") {
                     $products = $products->orderBy('products.created_at', 'DESC');
-                } else if($request->dateprice == "created_at_asc") {
-                    $products = $products->orderBy('products.created_at', 'ASC');
-                } else if($request->dateprice == "price_desc") {
-                    $products = $products->orderBy('price', 'DESC');
                 } else {
-                    $products = $products->orderBy('price', 'ASC');
+                    $products = $products->orderBy('products.created_at', 'ASC');
                 }
             }
-            
+
+            if($request->price){
+               if($request->price == "created_at_desc") {
+                    $products = $products->orderBy('price', 'DESC');
+               } else {
+                    $products = $products->orderBy('price', 'ASC');
+               }
+            }
+
             if($request->categories){
                 $products = $products->whereIn('category_id', $request->categories);
             }
         }
-        
-        $priceProducts = clone $products->get();
-        
+
         if($request->minPrice){
             $products = $products->where('price', '>=', $request->minPrice);
         }
         if($request->maxPrice){
             $products = $products->where('price', '<=', $request->maxPrice);
         }
-        
+        $minPrice = $products->min('price');
+        $maxPrice = $products->max('price');
+        $priceProducts = clone $products->get();
         $products = $products->paginate(getPaginate(18));
 
-        return view($this->activeTemplate.'product.filtered', compact('pageTitle', 'emptyMessage', 'allProducts', 'priceProducts', 'categories', 'products', 'wishlists', 'winnertext'));
+        return response()->json([
+            'html' => view($this->activeTemplate.'product.filtered', compact('pageTitle', 'emptyMessage', 'allProducts', 'priceProducts', 'categories', 'products', 'wishlists', 'winnertext'))->render(),
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+        ]);
     }
 
     public function productDetails($id)
     {
         $pageTitle = '';
-        
+
         $user = auth()->user();
-        
+
         $product = Product::with('reviews', 'merchant', 'reviews.user', 'admin')->where('status', '!=', 0)->findOrFail($id);
-        
+
         $relatedProducts = Product::live()->where('category_id', $product->category_id)->where('id', '!=', $id)->limit(10)->get();
-        
+
         $imageData      = imagePath()['product'];
-        
+
         $seoContents    = getSeoContents($product, $imageData, 'image');
-        
+
         $winnerflag = Winner::query()->where('product_id', $id)->count();
         $winnerdatas = Winner::where('product_id', $id)->with('bid')->get();
-        
+
         $productquestions_count = Question::where('product_id', $product->id)->count();
         $productquestions = Question::where('product_id', $product->id)->orderBy('id', 'desc')->get();
-        
+
         $productanswers = Answer::where('product_id', $product->id)->get();
-        
+
         $wishlist = Wishlist::where('product_id', $product->id)->where('ip_address', getenv('REMOTE_ADDR'))->get();
-        
+
         return view($this->activeTemplate.'product.details', compact('pageTitle', 'productanswers', 'productquestions', 'productquestions_count', 'product', 'relatedProducts', 'seoContents', 'winnerdatas', 'winnerflag', 'wishlist'));
     }
-    
+
     public function productQuestionSave(Request $request) {
         $request->validate([
             'username' => 'required',
             'product_id' => 'required|numeric',
             'question' => 'required',
         ]);
-        
+
         $user = auth()->user();
         $productquestion = new Question();
         $productquestion->user_id = $user->id;
@@ -222,9 +239,9 @@ class ProductController extends Controller
         $productquestion->username = $request->username;
         $productquestion->question = $request->question;
         $productquestion->save();
-        
+
         $product = Product::findOrFail($request->product_id);
-        
+
         $adminanswernotification = new AdminanswerNotification();
         $adminanswernotification->admin_id = $product->admin_id;
         $adminanswernotification->user_id = $user->id;
@@ -233,7 +250,7 @@ class ProductController extends Controller
         $adminanswernotification->question_id = $productquestion->id;
         $adminanswernotification->question = $request->question;
         $adminanswernotification->save();
-        
+
         $sellernotification = new SellerNotification();
         $sellernotification->n_seller_id = $product->merchant_id;
         $sellernotification->user_id = $user->id;
@@ -242,7 +259,7 @@ class ProductController extends Controller
         $sellernotification->question_id = $productquestion->id;
         $sellernotification->question = $request->question;
         $sellernotification->save();
-        
+
         $notify[] = ['success', 'Question successfully sent.'];
         return back()->withNotify($notify);
     }
@@ -282,7 +299,7 @@ class ProductController extends Controller
         //     $notify[] = ['error', 'You already bidden on this product'];
         //     return back()->withNotify($notify);
         // }
-        
+
         $bid = new Bid();
         $bid->product_id = $product->id;
         $bid->user_id = $user->id;

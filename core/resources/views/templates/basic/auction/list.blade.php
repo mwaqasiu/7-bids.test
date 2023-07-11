@@ -162,7 +162,7 @@
                             <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">
                             <label style="margin-right: 10px;">@lang('Date')</label>
                             <div style="display: flex; flex-direction: row;">
-                                <select class="date-select-sort">
+                                <select class="date-select-sort form-select">
                                     <option value="asc">@lang('ascending')</option>
                                     <option value="desc">@lang('descending')</option>
                                 </select>
@@ -173,7 +173,7 @@
                             <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">
                             <label style="margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>
                             <div style="display: flex; flex-direction: row;">
-                                <select class="price-select-sort">
+                                <select class="price-select-sort form-select">
                                     <option value="asc">@lang('ascending')</option>
                                     <option value="desc">@lang('descending')</option>
                                 </select>
@@ -346,7 +346,7 @@
 
         $(document).on('click', '.page-link', function(e){
           e.preventDefault();
-          page = $(this).attr('href').match(/page=([0-9]+)/)[1];;
+          page = $(this).attr('href').match(/page=([0-9]+)/)[1];
           loadSearch();
           $(".close-filter-bar").click();
         });
@@ -393,7 +393,7 @@
                     }
                 }
             });
-            
+
             console.log(sorting, "---");
             loadSearch();
             $(".close-filter-bar").click();
