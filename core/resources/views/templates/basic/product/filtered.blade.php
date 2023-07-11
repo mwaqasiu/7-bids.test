@@ -27,7 +27,7 @@
                                     - {{ number_format(number_format(100 - (float)$product->price / ((float)$product->newprice / 100))) }} %
                                 @endif
                             </div>
-                            <img style="width: 100%; height: 100%;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$product->image,imagePath()['product']['thumb'])}}" alt="auction">
+                            <img style="max-width: 100%; height: auto; padding: 0.25rem;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$product->image,imagePath()['product']['thumb'])}}" alt="auction">
                         </div>
                         <div class="item-block-tags item-block-tags{{ $product->id }}">
                             <table class="item-block-tables">
@@ -89,6 +89,9 @@
                             </table>
                         </div>
                     </a>
+
+                </div>
+                <div class="auction__item-content">
                     @php
                         $wishnum = 0;
                         $wishid = 0;
@@ -155,7 +158,7 @@
                                         <span title="Certificated" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
                                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900.000000 714.000000" preserveAspectRatio="xMidYMid meet">
                                                 <g transform="translate(0.000000,714.000000) scale(0.100000,-0.100000)"
-                                                fill="#000000" stroke="none">
+                                                   fill="#000000" stroke="none">
                                                 <path d="M384 7104 c-44 -6 -92 -17 -109 -25 -150 -71 -247 -208 -262 -371
                                                 -10 -108 -9 -4721 1 -4812 9 -82 26 -121 83 -198 62 -81 118 -122 220 -158 57
                                                 -20 68 -20 2960 -20 1990 0 2904 3 2908 10 4 6 11 36 15 68 5 31 14 84 20 117
@@ -244,7 +247,7 @@
                                         <span title="Limited Edition" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
                                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet" title="Limited Edition">
                                             <g transform="translate(0.000000,300.000000) scale(0.050000,-0.050000)"
-                                            fill="#000000" stroke="none">
+                                               fill="#000000" stroke="none">
                                             <path d="M2926 5380 c-24 -10 -89 -49 -145 -87 -143 -99 -223 -121 -369 -103
                                             -304 38 -352 30 -426 -70 -196 -267 -256 -309 -514 -361 -152 -30 -201 -79
                                             -231 -231 -50 -257 -92 -317 -361 -514 -75 -55 -91 -78 -96 -140 l-6 -74 198
@@ -306,8 +309,6 @@
                             @endforeach
                         @endif
                     </div>
-                </div>
-                <div class="auction__item-content">
                     <h6 class="auction__item-title">
                         <a href="{{ route('product.details', [$product->id, slug($product->name)]) }}">{{ __($product->name) }}</a>
                     </h6>
@@ -491,15 +492,13 @@
         }
 
         .item_provenance_icon {
-            position: absolute;
-            right: 30px;
-            top: 30px;
             background-color: transparent;
+            padding: 5px 0;
+            gap: 8px;
             display: flex;
             align-items: center;
             color: #fff;
             justify-content: center;
-            flex-direction: column;
         }
 
         .item_provenance_icon > span {

@@ -4362,7 +4362,7 @@ div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
 
 .auction__item-title {
     margin: 0;
-    padding: 18px 0 15px;
+    padding-bottom: 4px;
     border-bottom: 1px dashed rgba(193, 81, 204, 0.3);
     font-size: 18px;
 }

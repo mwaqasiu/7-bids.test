@@ -86,27 +86,27 @@
 
                         <div class="filter-widget">
                             <h6 class="sub-title">@lang('by Feature')</h6>
-                            <span class="delete-filter-list delete-filter-feature-list">
-                                <i class="las la-trash"></i>
-                            </span>
+{{--                            <span class="delete-filter-list delete-filter-feature-list">--}}
+{{--                                <i class="las la-trash"></i>--}}
+{{--                            </span>--}}
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="excellent" type="radio" name="radiofeature" id="radio4">
+                                <input class="form-check-input sorting" value="excellent" type="checkbox" name="radiofeature" id="radio4">
                                 <label  for="radio4">@lang('Excellent Condition')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="certificated" type="radio" name="radiofeature" id="radio5">
+                                <input class="form-check-input sorting" value="certificated" type="checkbox" name="radiofeature" id="radio5">
                                 <label  for="radio5">@lang('Certificated')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="mentioned" type="radio" name="radiofeature" id="radio6">
+                                <input class="form-check-input sorting" value="mentioned" type="checkbox" name="radiofeature" id="radio6">
                                 <label  for="radio6">@lang('Mentioned in Literature')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="limited" type="radio" name="radiofeature" id="radio7">
+                                <input class="form-check-input sorting" value="limited" type="checkbox" name="radiofeature" id="radio7">
                                 <label  for="radio7">@lang('Limited Edition')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="noteworthy" type="radio" name="radiofeature" id="radio8">
+                                <input class="form-check-input sorting" value="noteworthy" type="checkbox" name="radiofeature" id="radio8">
                                 <label  for="radio8">@lang('Noteworthy Provenance')</label>
                             </div>
                         </div>
@@ -153,30 +153,28 @@
                 </style>
                 <div class="sort-fields row">
                     <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
-                        <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">
+                        <input class="form-check-input date" style="display: none;" value="created_at" type="radio" name="date" id="radio1">
                         <label style="margin-right: 10px;">@lang('Date')</label>
                         <div style="display: flex; flex-direction: row;">
-                            <select class="date-select-sort">
-                                <option value="asc">@lang('ascending')</option>
-                                <option value="desc">@lang('descending')</option>
+                            <select class="date-select-sort form-select">
+                                <option value="created_at_asc">@lang('ascending')</option>
+                                <option value="created_at_desc">@lang('descending')</option>
                             </select>
                         </div>
-                        <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">
                     </div>
                     <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
-                        <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">
+                        <input class="form-check-input price" style="display: none;" value="price" type="radio" name="price" id="radio2">
                         <label style="margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>
                         <div style="display: flex; flex-direction: row;">
-                            <select class="price-select-sort">
-                                <option value="asc">@lang('ascending')</option>
-                                <option value="desc">@lang('descending')</option>
+                            <select class="price-select-sort form-select">
+                                <option value="created_at_asc">@lang('ascending')</option>
+                                <option value="created_at_desc">@lang('descending')</option>
                             </select>
                         </div>
-                        <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">
                     </div>
                 </div>
                 <div class="search-result" style="background: transparent;">
-                    @include($activeTemplate.'product.filtered', ['products'=> $products, 'wishlists' => $wishlists, 'winnertext' => $winnertext])
+                   @include($activeTemplate.'product.filtered', ['products'=> $products, 'wishlists' => $wishlists, 'winnertext' => $winnertext])
                 </div>
             </div>
         </div>
@@ -257,7 +255,6 @@
             border-radius: 50%;
             display: block;
             border: none;
-            border-radius: 50%;
             background-color: $base-color !important;
             box-shadow: 0 9px 20px 0 rgba(22, 26, 57, 0.36);
             outline: none;
@@ -321,32 +318,54 @@
 
 @push('script')
 <script>
-    (function ($) {
+   (function ($) {
         "use strict";
-        var page = 1;
-        var search_key = @json(request()->search_key);
-        var sorting = '';
-        var timing = '';
-        var dateprice = '';
-        var categories = [];
-        var minPrice = parseInt(`{{ $priceProducts->min('price') }}`);
-        var maxPrice = parseInt(`{{ $priceProducts->max('price') }}`);
+       let page = 1;
+       let search_key = '';
+       let sorting = {
+           'excellent': false,
+           'certificated': false,
+           'mentioned': false,
+           'limited': false,
+           'noteworthy': false,
+       };
+       let timing = '';
+       let date = '';
+       let price = '';
+       let categories = [];
+       let minPrice = parseInt(`{{ $products->min('price') }}`);
+       let maxPrice = parseInt(`{{ $products->max('price') }}`);
 
-        $(document).on('click', '.page-link', function(e){
+       $(document).on('click', '.page-link', function(e){
           e.preventDefault();
-          page = $(this).attr('href').match(/page=([0-9]+)/)[1];;
+          page = $(this).attr('href').match(/page=([0-9]+)/)[1];
           loadSearch();
           $(".close-filter-bar").click();
         });
 
-        $('.dateprice').on('click', function(e){
-            dateprice = $(this).val();
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
         $('.sorting').on('click', function(e){
-            sorting = e.target.value;
+            $('.sorting').each(function(){
+                if($(this).val() === "excellent") {
+                    sorting.excellent = !!$(this).is(':checked');
+                } else if($(this).val() === "certificated") {
+                    sorting.certificated = !!$(this).is(':checked');
+                } else if($(this).val() === "mentioned") {
+                    sorting.mentioned = !!$(this).is(':checked');
+                } else if($(this).val() === "limited") {
+                    sorting.limited = !!$(this).is(':checked');
+                } else if($(this).val() === "noteworthy") {
+                    sorting.noteworthy = !!$(this).is(':checked');
+                } else {
+                    sorting = {
+                        'excellent': false,
+                        'certificated': false,
+                        'mentioned': false,
+                        'limited': false,
+                        'noteworthy': false,
+                    }
+                }
+            });
+
             loadSearch();
             $(".close-filter-bar").click();
         });
@@ -367,6 +386,7 @@
                 $("#amount").val("€" + ui.values[0] + " - €" + ui.values[1]);
                 $('input[name=min_price]').val(ui.values[0]);
                 $('input[name=max_price]').val(ui.values[1]);
+
             },
 
             change: function () {
@@ -376,7 +396,6 @@
                 $('.brand-filter input:checked').each(function () {
                     brand.push(parseInt($(this).attr('value')));
                 });
-
                 loadSearch();
                 $(".close-filter-bar").click();
             }
@@ -386,16 +405,16 @@
 
         $('.category-check').click(function(e){
             categories = [];
-            var categoryArr = $('.category-check:checked:checked');
-                if(e.target.value == 'All'){
-                    $('input:checkbox').not(this).prop('checked', false);
-                    categories = [];
-                    loadSearch();
-                    $(".close-filter-bar").click();
-                    return 0;
-                }else{
-                    $('#cate-00').prop('checked', false);
-                }
+            const categoryArr = $('.category-check:checked:checked');
+            if(e.target.value === 'All'){
+                $('input:checkbox').not(this).prop('checked', false);
+                categories = [];
+                loadSearch();
+                $(".close-filter-bar").click();
+                return 0;
+            }else{
+                $('#cate-00').prop('checked', false);
+            }
 
             $.each(categoryArr, function (indexInArray, valueOfElement) {
                 categories.push(valueOfElement.value);
@@ -410,7 +429,13 @@
                 $(this).prop('checked', false);
             });
 
-            sorting = "created_at";
+            sorting =  {
+                'excellent': false,
+                'certificated': false,
+                'mentioned': false,
+                'limited': false,
+                'noteworthy': false,
+            };
             loadSearch();
             $(".close-filter-bar").click();
         });
@@ -420,42 +445,53 @@
                 $(this).prop('checked', false);
             });
             timing = '';
-            sorting = "created_at";
+            sorting =  {
+                'excellent': false,
+                'certificated': false,
+                'mentioned': false,
+                'limited': false,
+                'noteworthy': false,
+            };
 
             loadSearch();
             $(".close-filter-bar").click();
         });
 
         $('.date-select-sort').on('change', function() {
-            if($(this).val() == "asc") {
-                $('#radio1').click();
-            } else if($(this).val() == "desc") {
-                $('#radio10').click();
-            }
+            date = $(this).val();
+            loadSearch();
+            $(".close-filter-bar").click();
         });
 
         $('.price-select-sort').on('change', function() {
-            if($(this).val() == "asc") {
-                $('#radio2').click();
-            } else if($(this).val() == "desc") {
-                $('#radio11').click();
-            }
+            price = $(this).val();
+            loadSearch();
+            $(".close-filter-bar").click();
         });
 
         function loadSearch(){
             // $("#overlay, #overlay2").fadeIn(300);
             $('.preloader').fadeIn(300);
 
-            var url = `{{ route('product.search.filter') }}`;
-            var data = {'sorting': sorting, 'timing': timing, 'dateprice': dateprice, 'minPrice': minPrice, 'maxPrice': maxPrice, 'search_key':search_key, 'categories': categories, 'page': page }
+            const url = `{{ route('product.search.filter') }}`;
+            const data = {
+                'sorting': sorting,
+                'timing': timing,
+                'date': date,
+                'price': price,
+                'minPrice': minPrice,
+                'maxPrice': maxPrice,
+                'search_key': search_key,
+                'categories': categories,
+                'page': page
+            };
 
             $.ajax({
                 type: "GET",
                 url: url,
                 data: data,
                 success: function (response) {
-                    $('.search-result').html(response);
-                    // $("#overlay, #overlay2").fadeOut(300);
+                    $('.search-result').html(response.html);
                     $('.preloader').fadeOut(300);
                     runCountDown();
                 },
@@ -468,8 +504,8 @@
 
         function runCountDown() {
             $('.countdown').each(function(){
-            var date = $(this).data('date');
-              $(this).countdown({
+                const date = $(this).data('date');
+                $(this).countdown({
                 date: date,
                 offset: +6,
                 day: 'Day',
@@ -479,6 +515,5 @@
         }
 
       })(jQuery);
-
-  </script>
-  @endpush
+</script>
+@endpush
