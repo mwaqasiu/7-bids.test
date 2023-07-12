@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    public function products()
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
-    
-    public function auctions()
+
+    public function auctions(): HasMany
     {
         return $this->hasMany(Auction::class);
     }

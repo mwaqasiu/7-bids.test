@@ -1,189 +1,20 @@
 @extends($activeTemplate.'layouts.frontend')
-
 @section('content')
 <!-- Product -->
 <section class="product-section pt-120 pb-120">
     <div class="container">
-{{--        <div class="mb-4 d-lg-none">--}}
-{{--            <div class="filter-btn ms-auto">--}}
-{{--                <i class="las la-filter"></i>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
         <div class="position-fixed position-absolute start-50 translate-middle-x d-lg-none" style="bottom: 63px; z-index: 10; background: none;">
             <div style="background: transparent !important;">
-                {{--                <a href="#" class="cmn--btn sort-btn-sticky">Sortierung</a>--}}
                 <a href="#" class="cmn--btn filter-btn-sticky">Filter</a>
             </div>
         </div>
 
-        <div class="row flex-wrap-reverse">
-            <div class="col-lg-4 col-xl-3">
-                <aside class="search-filter">
-                    <div class="bg--section pb-5 pb-lg-0">
-                        <div class="filter-widget d-block d-lg-none">
-                            <span class="close-filter-bar d-lg-none">
-                                <i class="las la-times"></i>
-                            </span>
-
-{{--                            <h6 class="sub-title">@lang('Sort by')</h6>--}}
-{{--                            <div class="form-check form--check" style="display: flex;">--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">--}}
-{{--                                <label style="width: 40px; margin-right: 10px; margin-left: -1.5rem;">@lang('Date')</label>--}}
-{{--                                <div style="display: flex; flex-direction: row;">--}}
-{{--                                    <select class="date-select-sort">--}}
-{{--                                        <option value="asc">ascending</option>--}}
-{{--                                        <option value="desc">descending</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-check form--check" style="display: flex;">--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">--}}
-{{--                                <label style="width: 40px; margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>--}}
-{{--                                <div style="display: flex; flex-direction: row;">--}}
-{{--                                    <select class="price-select-sort">--}}
-{{--                                        <option value="asc">ascending</option>--}}
-{{--                                        <option value="desc">descending</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">--}}
-{{--                            </div>--}}
-
-                        </div>
-
-                        <div class="filter-widget pt-3 pb-2">
-                            <h4 class="title m-0"><i class="las la-random"></i>@lang('Filter')</h4>
-                        </div>
-
-                        <div class="filter-widget">
-                            <h6 class="sub-title">@lang('by Category')</h6>
-                            <form>
-                                @foreach ($categories as $category)
-                                    @if($allProducts->where('category_id', $category->id)->count() != 0)
-                                        <div class="form-check form--check">
-                                            <input type="checkbox" class="form-check-input category-check" value="{{ $category->id }}" id="cate-{{ $category->id }}" {{ $category->id == request()->category_id ? 'checked':'' }}>
-                                            <label  for="cate-{{ $category->id }}"><span>{{ __($category->name) }}</span><span>({{ $allProducts->where('category_id', $category->id)->count() }})</span></label>
-                                        </div>
-                                    @endif
-                                @endforeach
-                            </form>
-                        </div>
-
-                        <div class="filter-widget">
-                            <h6 class="sub-title">@lang('by Price')</h6>
-
-                            <div class="widget">
-                                <div id="slider-range"></div>
-                                <div class="price-range">
-                                    <label for="amount">@lang('Price') :</label>
-                                    <input type="text" id="amount" readonly>
-                                    <input type="hidden" name="min_price" >
-                                    <input type="hidden" name="max_price">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="filter-widget">
-                            <h6 class="sub-title">@lang('by Feature')</h6>
-{{--                            <span class="delete-filter-list delete-filter-feature-list">--}}
-{{--                                <i class="las la-trash"></i>--}}
-{{--                            </span>--}}
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="excellent" type="checkbox" name="radiofeature" id="radio4">
-                                <label  for="radio4">@lang('Excellent Condition')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="certificated" type="checkbox" name="radiofeature" id="radio5">
-                                <label  for="radio5">@lang('Certificated')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="mentioned" type="checkbox" name="radiofeature" id="radio6">
-                                <label  for="radio6">@lang('Mentioned in Literature')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="limited" type="checkbox" name="radiofeature" id="radio7">
-                                <label  for="radio7">@lang('Limited Edition')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="noteworthy" type="checkbox" name="radiofeature" id="radio8">
-                                <label  for="radio8">@lang('Noteworthy Provenance')</label>
-                            </div>
-                        </div>
-
-                        <div class="filter-widget">
-                            <span class="delete-filter-list delete-filter-time-list">
-                                <i class="las la-trash"></i>
-                            </span>
-                            <h6 class="sub-title">@lang('by Time')</h6>
-                            <div class="form-check form--check">
-                                <input class="form-check-input timing" value="arrivals" type="radio" name="radiotime" id="radio3">
-                                <label  for="radio3">@lang('New Arrivals')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input timing" value="sold" type="radio" name="radiotime" id="radio9">
-                                <label  for="radio9">@lang('Sold Items')</label>
-                            </div>
-                        </div>
-                    </div>
-                </aside>
-                <div class="mini-banner-area mt-4">
-                    <div class="mini-banner">
-                        @php
-                            showAd('370x670');
-                        @endphp
-                    </div>
-                    <div class="mini-banner">
-                        @php
-                            showAd('370x300');
-                        @endphp
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8 col-xl-9">
-                <style>
-                    .sort-fields {
-                        margin-bottom: 15px !important;
-                    }
-                    @media (min-width: 768px) {
-                        .sort-fields {
-                            margin-bottom: -15px !important;
-                        }
-                    }
-                </style>
-                <div class="sort-fields row">
-                    <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
-                        <input class="form-check-input date" style="display: none;" value="created_at" type="radio" name="date" id="radio1">
-                        <label style="margin-right: 10px;">@lang('Date')</label>
-                        <div style="display: flex; flex-direction: row;">
-                            <select class="date-select-sort form-select">
-                                <option value="created_at_asc">@lang('ascending')</option>
-                                <option value="created_at_desc">@lang('descending')</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
-                        <input class="form-check-input price" style="display: none;" value="price" type="radio" name="price" id="radio2">
-                        <label style="margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>
-                        <div style="display: flex; flex-direction: row;">
-                            <select class="price-select-sort form-select">
-                                <option value="created_at_asc">@lang('ascending')</option>
-                                <option value="created_at_desc">@lang('descending')</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="search-result" style="background: transparent;">
-                   @include($activeTemplate.'product.filtered', ['products'=> $products, 'wishlists' => $wishlists, 'winnertext' => $winnertext])
-                </div>
-            </div>
-        </div>
+        @livewire('product.product-list')
     </div>
 </section>
 <!-- Product -->
 
 @endsection
-
 @push('style')
     <style>
         .ui-datepicker .ui-datepicker-prev,
@@ -203,7 +34,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-family: "Line Awesome Free";
             font-weight: 900;
         }
 
@@ -213,7 +43,6 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-family: "Line Awesome Free";
             font-weight: 900;
         }
 
@@ -242,12 +71,7 @@
             padding-right: 0;
         }
 
-        .ui-slider-range {
-            height: 3px;
-            background: $base-color;
-            position: relative;
-            z-index: 1;
-        }
+
 
         .widget .ui-state-default {
             width: 20px;
@@ -307,213 +131,10 @@
         }
     </style>
 @endpush
-
 @push('style-lib')
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/jquery-ui.min.css') }}">
 @endpush
 
 @push('script-lib')
     <script src="{{ asset($activeTemplateTrue.'js/jquery-ui.min.js') }}"></script>
-@endpush
-
-@push('script')
-<script>
-   (function ($) {
-        "use strict";
-       let page = 1;
-       let search_key = '';
-       let sorting = {
-           'excellent': false,
-           'certificated': false,
-           'mentioned': false,
-           'limited': false,
-           'noteworthy': false,
-       };
-       let timing = '';
-       let date = '';
-       let price = '';
-       let categories = [];
-       let minPrice = parseInt(`{{ $products->min('price') }}`);
-       let maxPrice = parseInt(`{{ $products->max('price') }}`);
-
-       $(document).on('click', '.page-link', function(e){
-          e.preventDefault();
-          page = $(this).attr('href').match(/page=([0-9]+)/)[1];
-          loadSearch();
-          $(".close-filter-bar").click();
-        });
-
-        $('.sorting').on('click', function(e){
-            $('.sorting').each(function(){
-                if($(this).val() === "excellent") {
-                    sorting.excellent = !!$(this).is(':checked');
-                } else if($(this).val() === "certificated") {
-                    sorting.certificated = !!$(this).is(':checked');
-                } else if($(this).val() === "mentioned") {
-                    sorting.mentioned = !!$(this).is(':checked');
-                } else if($(this).val() === "limited") {
-                    sorting.limited = !!$(this).is(':checked');
-                } else if($(this).val() === "noteworthy") {
-                    sorting.noteworthy = !!$(this).is(':checked');
-                } else {
-                    sorting = {
-                        'excellent': false,
-                        'certificated': false,
-                        'mentioned': false,
-                        'limited': false,
-                        'noteworthy': false,
-                    }
-                }
-            });
-
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $('.timing').on('click', function(e){
-            timing = e.target.value;
-
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $( "#slider-range" ).slider({
-            range: true,
-            min: minPrice,
-            max: maxPrice,
-            values: [minPrice, maxPrice],
-            slide: function (event, ui) {
-                $("#amount").val("€" + ui.values[0] + " - €" + ui.values[1]);
-                $('input[name=min_price]').val(ui.values[0]);
-                $('input[name=max_price]').val(ui.values[1]);
-
-            },
-
-            change: function () {
-                minPrice = $('input[name="min_price"]').val();
-                maxPrice = $('input[name="max_price"]').val();
-
-                $('.brand-filter input:checked').each(function () {
-                    brand.push(parseInt($(this).attr('value')));
-                });
-                loadSearch();
-                $(".close-filter-bar").click();
-            }
-        });
-
-        $("#amount" ).val( "€ " + $( "#slider-range" ).slider( "values", 0 ) + " - € " + $( "#slider-range" ).slider( "values", 1 ));
-
-        $('.category-check').click(function(e){
-            categories = [];
-            const categoryArr = $('.category-check:checked:checked');
-            if(e.target.value === 'All'){
-                $('input:checkbox').not(this).prop('checked', false);
-                categories = [];
-                loadSearch();
-                $(".close-filter-bar").click();
-                return 0;
-            }else{
-                $('#cate-00').prop('checked', false);
-            }
-
-            $.each(categoryArr, function (indexInArray, valueOfElement) {
-                categories.push(valueOfElement.value);
-            });
-
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $('.delete-filter-feature-list').on('click', function(e) {
-            $('input[name="radiofeature"]').each(function(){
-                $(this).prop('checked', false);
-            });
-
-            sorting =  {
-                'excellent': false,
-                'certificated': false,
-                'mentioned': false,
-                'limited': false,
-                'noteworthy': false,
-            };
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $('.delete-filter-time-list').on('click', function(e) {
-            $('input[name="radiotime"]').each(function(){
-                $(this).prop('checked', false);
-            });
-            timing = '';
-            sorting =  {
-                'excellent': false,
-                'certificated': false,
-                'mentioned': false,
-                'limited': false,
-                'noteworthy': false,
-            };
-
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $('.date-select-sort').on('change', function() {
-            date = $(this).val();
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        $('.price-select-sort').on('change', function() {
-            price = $(this).val();
-            loadSearch();
-            $(".close-filter-bar").click();
-        });
-
-        function loadSearch(){
-            // $("#overlay, #overlay2").fadeIn(300);
-            $('.preloader').fadeIn(300);
-
-            const url = `{{ route('product.search.filter') }}`;
-            const data = {
-                'sorting': sorting,
-                'timing': timing,
-                'date': date,
-                'price': price,
-                'minPrice': minPrice,
-                'maxPrice': maxPrice,
-                'search_key': search_key,
-                'categories': categories,
-                'page': page
-            };
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: data,
-                success: function (response) {
-                    $('.search-result').html(response.html);
-                    $('.preloader').fadeOut(300);
-                    runCountDown();
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Status: " + textStatus); alert("Error: " + errorThrown);
-                }
-
-            });
-        }
-
-        function runCountDown() {
-            $('.countdown').each(function(){
-                const date = $(this).data('date');
-                $(this).countdown({
-                date: date,
-                offset: +6,
-                day: 'Day',
-                days: 'Days'
-              });
-           });
-        }
-
-      })(jQuery);
-</script>
 @endpush

@@ -27,7 +27,7 @@
     @stack('style-lib')
 
     @stack('style')
-
+    @livewireStyles
 </head>
 
 <body>
@@ -138,5 +138,6 @@
 
         })(jQuery);
     </script>
+    @livewireScripts
 </body>
 </html>
