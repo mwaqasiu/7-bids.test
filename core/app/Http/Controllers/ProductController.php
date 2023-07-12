@@ -31,20 +31,8 @@ class ProductController extends Controller
     public function products()
     {
         $pageTitle      = request()->search_key?'Search Products':'Marketplace';
-        $emptyMessage   = 'No product found';
-        $categories     = Category::with('products')->where('status', 1)->get();
-        $winnertext = "";
-        $wishlists = Wishlist::all();
-        $products       = Product::live();
-        $products       = $products->whereNotIn('id', Winner::select('product_id as id')->get())->where('name', 'like', '%'.request()->search_key.'%')->with('category');
-        $allProducts    = clone $products->get();
-        $priceProducts = clone Product::query()->get();
-        if(request()->category_id){
-            $products = $products->where('category_id', request()->category_id);
-        }
-        $products = $products->orderBy('price', 'ASC')->orderBy('created_at', 'ASC')->paginate(getPaginate(18));
 
-        return view($this->activeTemplate.'product.list', compact('pageTitle', 'emptyMessage', 'wishlists', 'products', 'allProducts', 'priceProducts', 'categories', 'winnertext'));
+        return view($this->activeTemplate.'product.list', compact('pageTitle'));
     }
 
     public function filter(Request $request)
