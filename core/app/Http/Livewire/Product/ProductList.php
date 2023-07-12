@@ -85,11 +85,13 @@ class ProductList extends Component
         $wishlist->product_id = $product->id;
         $wishlist->ip_address = getenv('REMOTE_ADDR');
         $wishlist->save();
+        $this->products = $this->implementQuery();
     }
 
     public function removeFromWishList(Wishlist $wishlist)
     {
         $wishlist->delete();
+        $this->products = $this->implementQuery();
     }
 
     public function implementQuery()

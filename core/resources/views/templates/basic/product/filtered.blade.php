@@ -497,3 +497,41 @@
     </style>
 @endpush
 
+@push('script')
+    <script>
+        $('.item_shift_icon').on('click', function() {
+            const data = $(this).data();
+            $(this).css('display', 'none');
+            const itemtags = "item_shift_icon_replace" + data.productid;
+            const origintags = "item_shift_icon" + data.productid;
+            $('.' + itemtags).css('display', 'flex');
+            const blocktags = "item-block-tags" + data.productid;
+            const imagetags = "item-image-tags" + data.productid;
+            const newpricetags = "newpricecalc" + data.productid;
+            $('.' + blocktags).css("display", 'flex');
+            $('.' + imagetags).css('display', 'none');
+            $('.' + newpricetags).css('display', 'none');
+
+            setTimeout(function() {
+                $('.' + origintags).css('display', 'flex');
+                $('.' + itemtags).css('display', 'none');
+                $('.' + blocktags).css("display", 'none');
+                $('.' + imagetags).css('display', 'flex');
+                $('.' + newpricetags).css('display', 'flex');
+            }, 7000);
+        });
+
+        $('.item_shift_icon_replace').on('click', function() {
+            const data = $(this).data();
+            $(this).css('display', 'none');
+            const itemtags = "item_shift_icon" + data.productid;
+            $('.' + itemtags).css('display', 'flex');
+            const blocktags = "item-block-tags" + data.productid;
+            const imagetags = "item-image-tags" + data.productid;
+            const newpricetags = "newpricecalc" + data.productid;
+            $('.' + blocktags).css("display", 'none');
+            $('.' + imagetags).css('display', 'flex');
+            $('.' + newpricetags).css('display', 'flex');
+        });
+    </script>
+@endpush

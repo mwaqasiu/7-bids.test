@@ -33,21 +33,9 @@ class AuctionController extends Controller
     public function auctions()
     {
         $pageTitle = request()->search_key ? 'Search Auctions' : 'Auction';
-        $emptyMessage = 'No auction found';
-        $categories = Category::with('auctions')->where('status', 1)->get();
-        $winnertext = "";
-        $upcomingtext = "";
-        $wishlists = Auctionwishlist::all();
-        $auctions = Auction::live();
-        $auctions = $auctions->where('name', 'like', '%' . request()->search_key . '%')->with('category');
-        $allAuctions = clone $auctions->get();
-        $priceAuctions = clone Auction::query()->live()->get();
-        if (request()->category_id) {
-            $auctions = $auctions->where('category_id', request()->category_id);
-        }
-        $auctions = $auctions->orderBy('expired_at', 'ASC')->paginate(getPaginate(18));
 
-        return view($this->activeTemplate . 'auction.list', compact('pageTitle', 'emptyMessage', 'auctions', 'allAuctions', 'priceAuctions', 'categories', 'wishlists', 'winnertext', 'upcomingtext'));
+
+        return view($this->activeTemplate . 'auction.list', compact('pageTitle'));
     }
 
     public function filter(Request $request)

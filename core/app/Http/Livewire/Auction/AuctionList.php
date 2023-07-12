@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Auction;
 
+use App\Models\Auction;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Wishlist;
@@ -10,7 +11,7 @@ use Livewire\Component;
 
 class AuctionList extends Component
 {
-    private $products;
+    private $auctions;
 
     public $searchByCategories = [];
 
@@ -31,7 +32,7 @@ class AuctionList extends Component
 
     public function mount()
     {
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
@@ -39,42 +40,42 @@ class AuctionList extends Component
     {
         $this->minPrice = (int)$value[0];
         $this->maxPrice = (int)$value[1];
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function updatedSearchByCategories($value): void
     {
         $this->searchByCategories = $value;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function updatedSearchByFeature($value): void
     {
         $this->searchByFeature = $value;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function updatedSearchByStatus($value): void
     {
         $this->searchByStatus = $value;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function updatedSortByDate($value)
     {
         $this->sortByDate = $value;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function updatedSortByPrice($value)
     {
         $this->sortByPrice = $value;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
@@ -94,9 +95,9 @@ class AuctionList extends Component
 
     public function implementQuery()
     {
-        return Product::live()
-            ->with('winner.bid')
-            ->with('wishlists', function ($wishLists) {
+        return Auction::live()
+            ->with('auctionwinner.auctionbid')
+            ->with('auctionWishlists', function ($wishLists) {
                 $user = auth()->user();
                 $ipAddress = getenv('REMOTE_ADDR');
                 $wishLists->where(function ($query) use ($user, $ipAddress) {
@@ -109,7 +110,6 @@ class AuctionList extends Component
                 $query->whereIn('category_id', $this->searchByCategories);
             })
             ->when(count($this->searchByFeature) > 0, function ($query) {
-                $query->where('specification', 'not like', '%"name":"ExcellentCondition","value":null%');
                 foreach ($this->searchByFeature as $value) {
                     $query->where('specification', 'not like', '%"name":"' . $value . '","value":null%');
                 }
@@ -118,7 +118,7 @@ class AuctionList extends Component
                 $query->whereDate('created_at', '>=', Carbon::now()->subDays(2));
             })
             ->when(!empty($this->searchByStatus) && $this->searchByStatus === 'sold', function($query){
-                $query->whereHas('winner');
+                $query->whereHas('auctionwinner');
             })
             ->when(isset($this->minPrice) && $this->minPrice !=0 && isset($this->maxPrice) && $this->maxPrice != 0, function($query){
                 $query->whereBetween('price', [$this->minPrice, $this->maxPrice]);
@@ -138,21 +138,21 @@ class AuctionList extends Component
                 }
             })
             ->when(empty($this->searchByStatus), function($query){
-                $query->doesnthave('winner');
+                $query->doesnthave('auctionwinner');
             })
             ->paginate(18);
     }
 
     public function setPriceRangeValues()
     {
-        $this->minPrice = (int)$this->products->min('price');
-        $this->maxPrice = (int)$this->products->max('price');
+        $this->minPrice = (int)$this->auctions->min('price');
+        $this->maxPrice = (int)$this->auctions->max('price');
     }
 
     public function resetTimingFilers()
     {
         $this->searchByStatus = '';
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
@@ -160,19 +160,19 @@ class AuctionList extends Component
     {
         $this->minPrice = 0;
         $this->maxPrice = 0;
-        $this->products = $this->implementQuery();
+        $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
 
     public function render()
     {
         $emptyMessage = "No Product Found";
-        $categories = Category::withCount(['products' => function ($query) {
-            $query->live()->with('winner')->doesntHave('winner');
-        }])->whereStatus(true)->having('products_count', '>', 0)->get();
+        $categories = Category::withCount(['auctions' => function ($query) {
+            $query->live()->with('auctionwinner')->doesntHave('auctionwinner');
+        }])->whereStatus(true)->having('auctions_count', '>', 0)->get();
 
         return view('livewire.auction.auction-list')
-            ->with('products', $this->products)
+            ->with('auctions', $this->auctions)
             ->with('categories', $categories)
             ->with('emptyMessage', $emptyMessage)
             ->with('minPrice', $this->minPrice)
