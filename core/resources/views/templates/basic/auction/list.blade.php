@@ -4,15 +4,8 @@
 <!-- Product -->
 <section class="product-section pt-120 pb-120">
     <div class="container">
-{{--        <div class="mb-4 d-lg-none">--}}
-{{--            <div class="filter-btn ms-auto">--}}
-{{--                <i class="las la-filter"></i>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
         <div class="position-fixed position-absolute start-50 translate-middle-x d-lg-none" style="bottom: 63px; z-index: 10; background: none;">
             <div style="background: transparent !important;">
-{{--                <a href="#" class="cmn--btn sort-btn-sticky">Sortierung</a>--}}
                 <a href="#" class="cmn--btn filter-btn-sticky">Filter</a>
             </div>
         </div>
@@ -25,31 +18,6 @@
                             <span class="close-filter-bar d-lg-none">
                                 <i class="las la-times"></i>
                             </span>
-
-{{--                            <h6 class="sub-title">@lang('Sort by')</h6>--}}
-{{--                            <div class="form-check form--check" style="display: flex;">--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">--}}
-{{--                                <label style="width: 40px; margin-right: 10px; margin-left: -1.5rem;">@lang('Date')</label>--}}
-{{--                                <div style="display: flex; flex-direction: row;">--}}
-{{--                                    <select class="date-select-sort">--}}
-{{--                                        <option value="asc">ascending</option>--}}
-{{--                                        <option value="desc">descending</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">--}}
-{{--                            </div>--}}
-{{--                            <div class="form-check form--check" style="display: flex;">--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">--}}
-{{--                                <label style="width: 40px; margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>--}}
-{{--                                <div style="display: flex; flex-direction: row;">--}}
-{{--                                    <select class="price-select-sort">--}}
-{{--                                        <option value="asc">ascending</option>--}}
-{{--                                        <option value="desc">descending</option>--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                                <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">--}}
-{{--                            </div>--}}
-
                         </div>
 
                         <div class="filter-widget pt-3 pb-2">
@@ -59,10 +27,6 @@
                         <div class="filter-widget">
                             <h6 class="sub-title">@lang('by Category')</h6>
                             <form>
-                                <!--<div class="form-check form--check">-->
-                                <!--    <input type="checkbox" class="form-check-input category-check" value="All" id="cate-00">-->
-                                <!--    <label  for="cate-00"><span>@lang('All')</span><span>({{ $allAuctions->count() }})</span></label>-->
-                                <!--</div>-->
                                 @foreach ($categories as $category)
                                     @if($allAuctions->where('category_id', $category->id)->count() != 0)
                                         <div class="form-check form--check">
@@ -89,9 +53,6 @@
                         </div>
 
                         <div class="filter-widget">
-                            <!--<span class="delete-filter-list delete-filter-feature-list">-->
-                            <!--    <i class="las la-trash"></i>-->
-                            <!--</span>-->
                             <h6 class="sub-title">@lang('by Feature')</h6>
                             <div class="form-check form--check">
                                 <input class="form-check-input sorting" value="excellent" type="checkbox" name="radiofeature" id="radio4">
