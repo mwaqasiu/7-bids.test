@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Auction;
 
 use App\Models\Auction;
+use App\Models\Auctionwishlist;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Wishlist;
@@ -79,18 +80,22 @@ class AuctionList extends Component
         $this->setPriceRangeValues();
     }
 
-    public function addToWishList(Product $product)
+    public function addToWishList(Auction $auction)
     {
-        $wishlist = new Wishlist();
+        $wishlist = new Auctionwishlist();
         $wishlist->user_id = auth()->user() ? auth()->user()->id : null;
-        $wishlist->product_id = $product->id;
+        $wishlist->auction_id = $auction->id;
         $wishlist->ip_address = getenv('REMOTE_ADDR');
         $wishlist->save();
+        $this->auctions = $this->implementQuery();
+        $this->setPriceRangeValues();
     }
 
-    public function removeFromWishList(Wishlist $wishlist)
+    public function removeFromWishList(Auctionwishlist $wishlist)
     {
         $wishlist->delete();
+        $this->auctions = $this->implementQuery();
+        $this->setPriceRangeValues();
     }
 
     public function implementQuery()

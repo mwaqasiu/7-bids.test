@@ -161,19 +161,6 @@
                     $( "#slider-range" ).slider("option", "max", maxPrice).slider("option", "min", minPrice);
                 }
             });
-
-            function runCountDown() {
-                $('.countdown').each(function(){
-                    const date = $(this).data('date');
-                    $(this).countdown({
-                        date: date,
-                        offset: +6,
-                        day: 'Day',
-                        days: 'Days'
-                    });
-                });
-            }
-            runCountDown();
         })(jQuery);
 
 

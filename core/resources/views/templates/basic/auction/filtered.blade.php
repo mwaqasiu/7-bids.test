@@ -65,14 +65,15 @@
                                 <span><i class="far la-heart"></i></span>
                             </a>
                         @endif
+
                         @if ($auction->specification)
                             @foreach ($auction->specification as $spec)
-                                @if ($spec['name'] == "ExcellentCondition" && $spec['value'] != null)
-                                    <span title="Excellent Condition" class="icon_select">
+                                    @if ($spec['name'] == "ExcellentCondition" && $spec['value'] != null)
+                                        <span title="Excellent Condition" class="icon_select">
                                         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"  width="900.000000pt" height="900.000000pt" viewBox="0 0 900.000000 900.000000"  preserveAspectRatio="xMidYMid meet">  <g transform="translate(0.000000,900.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none"> <path d="M8219 8871 c-37 -36 -48 -79 -49 -186 0 -111 12 -147 59 -178 59 -39 84 -42 136 -17 79 38 85 53 85 204 l0 132 -38 37 c-35 35 -42 37 -100 37 -55 0 -66 -3 -93 -29z"/> <path d="M2214 8678 c-18 -29 -35 -63 -38 -75 -4 -12 -25 -50 -48 -83 -37 -56 -54 -70 -140 -115 -16 -8 -40 -22 -55 -30 -16 -8 -43 -22 -61 -32 -18 -9 -31 -24 -30 -32 2 -8 35 -31 73 -50 39 -20 84 -45 100 -57 17 -11 42 -25 57 -32 15 -6 37 -28 48 -49 11 -21 43 -78 69 -128 27 -49 55 -91 64 -93 10 -2 23 11 35 35 34 67 73 138 86 153 7 8 18 28 24 43 7 16 26 34 45 42 17 7 36 17 40 22 5 4 48 29 95 54 48 25 88 53 90 60 2 9 -28 30 -80 57 -105 53 -178 101 -192 127 -6 11 -18 32 -28 47 -10 15 -36 63 -59 107 -23 45 -46 81 -53 81 -6 0 -25 -24 -42 -52z"/> <path d="M7762 8411 c-39 -36 -42 -43 -42 -89 0 -62 12 -89 53 -122 28 -22 42 -25 137 -28 143 -5 167 2 208 62 44 66 43 101 -8 165 l-40 51 -133 0 -132 0 -43 -39z"/> <path d="M8524 8413 c-19 -21 -39 -54 -46 -74 -9 -33 -7 -42 18 -89 40 -73 66 -83 215 -78 100 2 120 6 139 23 35 31 50 70 50 124 0 44 -5 56 -36 91 l-36 40 -135 0 -135 0 -34 -37z"/> <path d="M5977 8283 c-28 -11 -42 -26 -57 -60 -25 -56 -25 -74 -1 -121 44 -85 126 -110 194 -58 70 53 85 119 44 190 -34 60 -106 80 -180 49z"/> <path d="M8243 8121 c-61 -39 -61 -40 -69 -97 -3 -31 -4 -95 -1 -142 5 -80 7 -86 39 -119 25 -24 47 -36 76 -40 56 -8 81 1 125 42 l37 36 0 129 c0 71 -3 135 -6 144 -6 16 -86 70 -120 80 -14 4 -39 -6 -81 -33z"/> <path d="M2158 7093 c-10 -2 -18 -8 -18 -13 0 -11 29 -54 90 -134 25 -32 52 -68 60 -80 8 -11 34 -45 57 -74 24 -30 43 -57 43 -61 0 -4 15 -23 33 -43 17 -20 43 -52 57 -73 14 -20 39 -54 55 -75 17 -21 50 -66 75 -99 83 -113 95 -128 155 -206 65 -84 92 -120 130 -177 13 -20 29 -39 34 -42 6 -4 31 -38 57 -77 26 -38 52 -73 58 -77 6 -4 31 -37 56 -74 24 -38 49 -68 56 -68 14 0 114 112 134 149 11 21 56 84 88 122 27 32 79 100 102 134 14 20 41 56 60 80 19 24 60 78 90 120 30 42 66 90 80 105 14 16 35 43 48 62 28 41 101 141 209 284 57 77 88 117 168 218 58 72 65 90 39 100 -18 7 -1990 6 -2016 -1z"/> <path d="M4877 7093 c-15 -14 -5 -36 47 -106 30 -39 67 -89 83 -110 15 -21 40 -52 56 -69 15 -17 27 -34 27 -38 0 -4 24 -37 53 -73 59 -75 74 -95 193 -257 123 -167 143 -193 202 -266 29 -37 58 -76 64 -88 6 -11 29 -43 51 -69 45 -55 72 -91 121 -164 46 -68 105 -133 121 -133 7 0 22 15 34 33 11 17 36 52 56 77 19 25 48 64 65 88 17 24 56 76 88 115 31 39 62 79 67 88 6 10 30 44 55 76 25 32 53 69 63 83 9 14 32 44 50 67 17 23 52 70 77 104 25 34 65 87 90 118 25 31 51 68 57 84 7 15 16 27 21 27 4 0 25 25 47 56 22 31 54 73 70 95 17 21 44 57 60 79 17 23 42 55 56 73 14 18 34 47 45 65 16 29 17 34 4 42 -17 11 -2013 14 -2023 3z"/> <path d="M1730 6918 c-33 -34 -60 -66 -60 -70 0 -7 -88 -114 -146 -178 -23 -25 -206 -245 -311 -375 -31 -38 -67 -81 -80 -95 -13 -14 -53 -61 -89 -105 -136 -165 -166 -201 -210 -251 -25 -28 -53 -63 -62 -77 -9 -14 -38 -50 -64 -80 -50 -56 -60 -87 -30 -87 297 -3 2137 2 2143 6 5 3 -1 19 -13 35 -57 73 -85 110 -108 144 -14 20 -49 65 -77 101 -29 36 -53 70 -53 74 0 5 -17 29 -37 54 -21 25 -46 56 -55 68 -10 13 -32 42 -50 65 -18 23 -58 76 -88 118 -30 42 -71 96 -90 120 -19 24 -46 60 -60 80 -23 33 -97 130 -153 200 -13 17 -30 41 -37 55 -7 14 -32 48 -54 75 -51 62 -79 99 -111 148 -14 20 -30 37 -35 37 -5 0 -36 -28 -70 -62z"/> <path d="M7223 6953 c-4 -10 -18 -32 -32 -50 -25 -31 -46 -59 -111 -148 -60 -82 -86 -117 -130 -173 -25 -31 -54 -70 -64 -85 -9 -16 -24 -36 -31 -45 -27 -33 -80 -102 -108 -139 -15 -21 -51 -69 -80 -107 -68 -90 -94 -125 -142 -192 -22 -30 -62 -84 -90 -119 -149 -193 -207 -277 -198 -286 12 -12 2143 -13 2156 0 7 7 5 17 -4 29 -22 31 -318 383 -353 422 -18 19 -37 42 -42 52 -9 15 -65 82 -150 177 -22 25 -49 58 -60 73 -18 25 -185 226 -260 313 -18 22 -61 74 -94 115 -119 146 -152 180 -177 180 -13 0 -26 -7 -30 -17z"/> <path d="M4465 6903 c-22 -26 -48 -59 -57 -73 -33 -48 -121 -167 -182 -245 -18 -23 -65 -86 -116 -156 -19 -26 -69 -91 -110 -145 -41 -53 -93 -122 -114 -153 -22 -31 -51 -70 -65 -88 -14 -17 -39 -50 -56 -73 -16 -24 -43 -60 -60 -81 -16 -21 -50 -65 -75 -99 -25 -33 -57 -75 -71 -93 -38 -47 -52 -78 -42 -88 10 -10 1998 -13 2014 -4 16 10 10 29 -24 72 -17 23 -70 94 -117 158 -47 64 -107 145 -135 179 -27 35 -63 82 -80 105 -16 24 -42 58 -57 76 -16 18 -28 37 -28 42 0 6 -9 18 -19 27 -11 10 -55 66 -97 124 -43 59 -84 113 -90 119 -7 7 -22 28 -34 48 -12 19 -25 35 -30 35 -5 0 -12 9 -15 20 -3 11 -30 49 -58 85 -29 36 -65 83 -82 105 -34 46 -90 119 -105 138 -22 25 -55 13 -95 -35z"/> <path d="M712 5258 c-7 -7 -12 -16 -12 -21 0 -8 175 -204 221 -247 9 -8 72 -76 139 -150 68 -74 142 -155 166 -180 24 -25 60 -63 81 -85 21 -23 106 -113 189 -200 82 -88 210 -225 284 -305 73 -80 163 -176 200 -215 36 -38 124 -133 195 -210 71 -77 133 -141 137 -143 4 -2 41 -42 84 -90 42 -48 109 -121 148 -162 40 -41 126 -133 192 -205 66 -71 142 -153 169 -182 28 -28 86 -91 130 -139 44 -49 96 -104 115 -124 19 -20 85 -89 145 -155 61 -65 122 -130 136 -144 14 -14 82 -87 150 -161 119 -129 169 -183 340 -364 42 -45 103 -110 136 -145 71 -76 89 -75 79 2 -4 28 -14 63 -22 79 -8 16 -24 64 -34 107 -11 43 -28 98 -39 122 -10 24 -22 67 -26 94 -3 28 -13 60 -21 72 -8 13 -21 55 -29 95 -9 40 -22 82 -29 93 -8 12 -22 57 -31 100 -10 44 -23 91 -30 105 -7 14 -18 52 -25 85 -7 33 -20 76 -30 95 -9 19 -20 56 -23 82 -4 26 -18 75 -32 107 -14 33 -25 71 -25 83 0 13 -11 47 -25 76 -13 29 -27 76 -31 105 -4 29 -15 73 -26 98 -11 26 -25 73 -33 105 -13 57 -39 140 -72 234 -8 25 -26 83 -39 130 -12 47 -30 103 -38 125 -8 22 -15 54 -16 70 0 17 -11 50 -24 75 -13 25 -27 65 -31 90 -4 25 -18 74 -31 109 -13 35 -24 72 -24 83 0 11 -13 53 -30 95 -17 41 -30 88 -30 104 0 16 -11 55 -24 87 -13 31 -27 77 -31 102 -4 25 -15 61 -25 80 -10 19 -23 62 -30 95 -6 33 -21 80 -32 105 -11 25 -24 72 -29 104 -6 32 -16 68 -24 80 -8 11 -18 42 -21 69 -4 26 -15 58 -24 70 l-18 22 -1154 3 c-893 2 -1156 0 -1166 -10z"/> <path d="M3410 5255 c-17 -20 -5 -94 25 -165 13 -30 26 -75 30 -100 3 -25 12 -58 20 -74 9 -16 22 -57 30 -93 8 -35 22 -77 30 -93 9 -17 22 -65 31 -107 9 -43 22 -88 30 -100 7 -11 18 -48 23 -81 5 -33 18 -77 29 -98 11 -22 23 -60 26 -87 4 -26 18 -71 31 -100 13 -28 26 -72 30 -97 4 -25 15 -61 25 -80 10 -19 23 -66 29 -104 7 -37 18 -78 26 -90 8 -12 21 -55 30 -95 8 -41 19 -79 24 -85 5 -6 18 -48 30 -93 11 -45 27 -95 35 -110 8 -16 17 -51 21 -78 4 -28 18 -75 30 -105 12 -30 25 -74 29 -97 3 -24 15 -60 26 -81 11 -20 24 -60 29 -88 5 -27 19 -74 30 -104 10 -30 22 -75 26 -100 4 -25 15 -60 26 -78 10 -18 24 -63 29 -100 6 -37 18 -77 26 -89 8 -13 21 -54 29 -93 8 -39 21 -84 30 -99 8 -16 21 -60 29 -99 8 -39 21 -81 30 -94 8 -13 20 -51 26 -85 6 -35 20 -82 30 -105 11 -24 20 -54 20 -68 0 -14 12 -52 26 -85 14 -33 32 -91 40 -130 17 -86 33 -105 67 -82 20 13 27 30 37 84 6 37 20 87 30 110 10 23 24 68 30 99 7 32 19 68 26 80 8 12 19 50 26 85 6 35 19 80 28 99 10 20 23 61 29 93 5 31 17 70 25 86 9 16 23 64 31 106 9 43 23 87 30 99 8 12 21 54 30 94 8 40 21 82 29 95 8 12 17 44 21 72 4 27 17 77 30 110 13 33 26 78 30 100 4 22 18 66 31 97 13 32 24 70 24 85 0 16 11 49 24 74 14 25 28 70 32 100 3 30 14 72 24 94 9 23 22 65 29 95 7 30 21 73 31 95 10 22 24 69 30 105 6 36 18 75 26 87 8 13 21 54 29 92 8 38 21 84 29 102 8 19 21 61 29 94 9 33 25 89 37 125 55 170 69 218 75 255 4 21 15 55 25 75 10 20 24 65 30 100 6 35 17 76 24 90 8 14 19 50 25 80 7 30 23 80 36 110 13 30 27 78 31 105 3 28 15 67 26 88 25 50 35 132 18 152 -11 13 -141 15 -1115 15 -965 0 -1104 -2 -1115 -15z"/> <path d="M6020 5257 c-20 -10 -27 -24 -36 -72 -6 -33 -18 -72 -28 -86 -9 -15 -21 -55 -27 -89 -5 -35 -16 -75 -24 -90 -8 -15 -22 -61 -31 -101 -9 -41 -24 -90 -34 -109 -10 -19 -21 -55 -25 -80 -4 -25 -13 -57 -21 -71 -7 -15 -18 -49 -23 -75 -10 -45 -51 -183 -88 -294 -8 -25 -21 -74 -29 -108 -8 -35 -23 -80 -33 -100 -10 -21 -22 -59 -25 -87 -4 -27 -16 -68 -26 -90 -11 -22 -26 -69 -34 -105 -8 -36 -24 -91 -35 -122 -12 -32 -21 -68 -21 -81 0 -13 -11 -45 -24 -72 -14 -26 -28 -66 -31 -89 -4 -23 -17 -73 -31 -113 -13 -39 -24 -80 -24 -91 0 -11 -13 -54 -30 -95 -16 -42 -30 -85 -30 -96 0 -12 -11 -47 -24 -79 -13 -31 -26 -77 -30 -100 -4 -24 -15 -60 -25 -81 -11 -20 -22 -59 -26 -86 -4 -28 -16 -70 -27 -95 -10 -25 -26 -75 -34 -113 -7 -37 -20 -77 -28 -90 -8 -12 -20 -52 -26 -89 -5 -37 -19 -82 -29 -100 -11 -18 -23 -51 -26 -73 -6 -37 -17 -73 -75 -255 -46 -141 -53 -169 -47 -184 12 -32 43 -14 112 64 39 43 104 114 145 157 41 44 131 139 200 213 68 74 133 144 145 155 11 12 72 77 135 145 63 68 153 165 200 215 47 49 135 143 195 208 61 65 133 142 160 172 28 29 88 94 135 145 47 51 101 109 120 129 19 20 82 88 140 151 58 62 121 130 140 150 33 34 152 161 335 358 44 48 116 125 160 172 44 47 136 146 205 219 69 74 150 160 180 191 30 32 73 77 95 102 83 91 299 324 319 344 18 17 70 73 284 303 35 38 38 51 20 69 -18 18 -2282 17 -2318 -1z"/> <path d="M7479 3768 c-10 -18 -8 -24 11 -40 37 -30 72 0 54 46 -9 24 -51 20 -65 -6z"/> <path d="M639 2801 l-39 -39 0 -121 c0 -85 4 -130 14 -149 18 -35 84 -72 128 -72 41 0 112 43 127 77 6 13 11 78 11 145 l0 120 -39 39 c-37 37 -42 39 -101 39 -59 0 -64 -2 -101 -39z"/> <path d="M206 2369 c-37 -29 -56 -71 -56 -124 0 -39 5 -52 39 -88 l40 -42 130 0 130 0 31 30 c39 37 60 76 60 109 0 35 -56 122 -83 130 -12 3 -77 6 -143 6 -108 0 -124 -2 -148 -21z"/> <path d="M977 2382 c-26 -11 -77 -93 -77 -125 0 -36 20 -75 60 -112 l31 -30 129 0 129 0 41 40 c38 37 40 42 40 98 0 56 -2 62 -39 98 l-39 39 -128 -1 c-71 0 -137 -4 -147 -7z"/> <path d="M695 2085 c-16 -7 -43 -25 -60 -38 l-30 -25 -3 -127 c-4 -144 2 -167 55 -207 28 -22 47 -28 86 -28 45 0 53 4 93 44 l44 43 0 126 0 126 -32 37 c-31 35 -82 64 -110 64 -7 -1 -26 -7 -43 -15z"/> <path d="M7666 1713 c-18 -41 -58 -116 -95 -175 -21 -34 -82 -79 -141 -103 -44 -18 -130 -78 -130 -90 0 -13 85 -69 122 -80 12 -4 37 -18 55 -31 17 -13 36 -24 42 -24 21 0 88 -105 143 -222 12 -27 27 -48 33 -48 18 0 62 52 85 100 68 145 78 154 235 235 76 40 107 63 102 78 -2 6 -43 32 -92 58 -50 27 -107 58 -127 69 -37 20 -43 29 -118 170 -33 62 -64 100 -82 100 -8 0 -22 -17 -32 -37z"/> <path d="M2199 874 c-9 -3 -31 -22 -48 -44 -26 -33 -31 -47 -31 -95 0 -53 2 -58 41 -93 69 -63 114 -64 187 -4 42 34 42 35 42 101 0 63 -2 69 -35 101 -29 28 -43 34 -87 36 -29 1 -60 1 -69 -2z"/> </g> </svg>
                                     </span>
-                                @elseif ($spec['name'] == "Certificated" && $spec['value'] != null)
-                                    <span title="Certificated" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
+                                    @elseif ($spec['name'] == "Certificated" && $spec['value'] != null)
+                                        <span title="Certificated" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
                                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900.000000 714.000000" preserveAspectRatio="xMidYMid meet">
                                                 <g transform="translate(0.000000,714.000000) scale(0.100000,-0.100000)"
                                                    fill="#000000" stroke="none">
@@ -150,12 +151,12 @@
                                                 </g>
                                                 </svg>
                                         </span>
-                                @elseif ($spec['name'] == "Literature" && $spec['value'] != null)
-                                    <span title="Mentioned in Literature">
+                                    @elseif ($spec['name'] == "Literature" && $spec['value'] != null)
+                                        <span title="Mentioned in Literature">
                                         <i class="fas fa-book-open icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}"></i>
                                     </span>
-                                @elseif ($spec['name'] == "Edition" && $spec['value'] != null)
-                                    <span title="Limited Edition" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
+                                    @elseif ($spec['name'] == "Edition" && $spec['value'] != null)
+                                        <span title="Limited Edition" class="icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}">
                                             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet" title="Limited Edition">
                                             <g transform="translate(0.000000,300.000000) scale(0.050000,-0.050000)"
                                                fill="#000000" stroke="none">
@@ -208,12 +209,12 @@
                                             </g>
                                         </svg>
                                         </span>
-                                @elseif ($spec['name'] == "Provenance" && $spec['value'] != null)
-                                    <span title="Noteworthy Provenance">
+                                    @elseif ($spec['name'] == "Provenance" && $spec['value'] != null)
+                                        <span title="Noteworthy Provenance">
                                         <i class="fas fa-crown icon_select attachiconpaper" data-imgsrc="{{$spec['value']}}"></i>
                                     </span>
-                                @endif
-                            @endforeach
+                                    @endif
+                                @endforeach
                         @endif
                     </div>
                     <h6 class="auction__item-title">
@@ -284,64 +285,11 @@
 </div>
 {{ $auctions->links() }}
 
+
 @push('style')
     <style>
         .productcost {
             color: #fff;
-        }
-
-        .item_heart_icon {
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-            color: #fff;
-        }
-
-        .item_heart_icon > span {
-            background-color: transparent;
-        }
-
-        .item_heart_icon > span > i {
-            color: #e9ba17 !important;
-            transition: 0.3s color ease-in-out;
-        }
-
-        .item_heart_icon_red {
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-            color: #fff;
-        }
-
-        .item_heart_icon_red > span > i {
-            color: red !important;
-        }
-
-        .item_heart_icon_red > span {
-            background-color: transparent;
-        }
-
-        .soldactive {
-            position: absolute;
-            background: transparent;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 34px;
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: red;
-        }
-
-        .soldactive > div {
-            border: 4px solid red;
-            background: transparent;
-            border-radius: 5px;
-            padding: 8px 16px;
-            transform: rotate(-25deg);
-            color: red;
         }
 
         .item_shift_icon_condition {
@@ -419,29 +367,37 @@
             background-color: transparent;
         }
 
-        .item-block-tags {
-            border: 1px solid #fff;
-            color: #fff;
-            display: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            height: 250px;
+        .item_heart_icon_red {
+            background-color: transparent;
+            display: flex;
             align-items: center;
+            color: #fff;
+            z-index: 10;
         }
 
-        .item-block-tags > table {
-            width: 100%;
+        .item_heart_icon_red > span > i {
+            color: red !important;
         }
 
-
-        .item-block-tags > table > tbody > tr > th {
-            padding: 0;
-            font-size: 13px;
+        .item_heart_icon_red > span {
+            background-color: transparent;
         }
 
-        .item-block-tags > table > tbody > tr > td {
-            padding: 0;
-            font-size: 13px;
+        .item_heart_icon {
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .item_heart_icon > span {
+            background-color: transparent;
+        }
+
+        .item_heart_icon > span > i {
+            color: #e9ba17 !important;
+            transition: 0.3s color ease-in-out;
         }
 
         .item_provenance_icon {
@@ -479,6 +435,64 @@
         .item_provenance_icon > span > svg > g {
             fill: #e9ba17 !important;
         }
+
+        .soldactive {
+            position: absolute;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 34px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: red;
+        }
+
+        .soldactive > div {
+            border: 4px solid red;
+            background: transparent;
+            border-radius: 5px;
+            padding: 8px 16px;
+            transform: rotate(-25deg);
+            color: red;
+        }
+
+        .newpricecalc {
+            position: absolute;
+            top: 10%;
+            left: 0;
+            background: red !important;
+            color: #fff !important;
+            padding: 0 12px;
+            border-radius: 0px 3px 3px 0px;
+            font-weight: bold;
+        }
+
+        .item-block-tags {
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 12px 20px;
+            display: none;
+            align-items: center;
+            border-radius: 6px;
+            height: 250px;
+        }
+
+        .item-block-tags > table {
+            width: 100%;
+        }
+
+        .item-block-tables > tbody > tr > th {
+            padding: 0;
+            font-size: 13px;
+        }
+
+        .item-block-tables > tbody > tr > td {
+            padding: 0;
+            font-size: 13px;
+        }
     </style>
 @endpush
 
@@ -497,14 +511,12 @@
             const imagetags = "item-image-tags" + data.auctionid;
             $('.' + blocktags).css("display", 'flex');
             $('.' + imagetags).css('display', 'none');
-            $('.newpricecalc').css('display', 'none');
 
             setTimeout(function() {
                 $('.' + origintags).css('display', 'flex');
                 $('.' + itemtags).css('display', 'none');
                 $('.' + blocktags).css("display", 'none');
                 $('.' + imagetags).css('display', 'flex');
-                $('.' + newpricetags).css('display', 'flex');
             }, 7000);
         });
 
@@ -517,7 +529,6 @@
             const imagetags = "item-image-tags" + data.auctionid;
             $('.' + blocktags).css("display", 'none');
             $('.' + imagetags).css('display', 'flex');
-            $('.newpricecalc').css('display', 'flex');
         });
     })(jQuery);
 </script>
