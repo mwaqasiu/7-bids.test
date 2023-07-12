@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Product extends Model
 {
@@ -17,55 +21,58 @@ class Product extends Model
 
     // Scope
 
-    public function scopePending()
+    public function scopePending(Builder $query): Builder
     {
-        return $this->where('status', 0)->where('expired_at', '>', now());
+        return $query->where('status', 0)->where('expired_at', '>', now());
     }
 
-    public function scopeLive()
+    public function scopeLive(Builder $query): Builder
     {
-        return $this->where('status', 1)->where('started_at', '<', now())->where('expired_at', '>', now());
+        return $query->where('status',true)->where('started_at', '<', now())->where('expired_at', '>', now());
     }
 
-    public function scopeUpcoming()
+    public function scopeUpcoming(Builder $query): Builder
     {
-        return $this->where('status', 1)->where('started_at', '>', now());
+        return $query->where('status', 1)->where('started_at', '>', now());
     }
 
-    public function scopeExpired()
+    public function scopeExpired(Builder $query): Builder
     {
-        return $this->where('expired_at', '<', now());
+        return $query->where('expired_at', '<', now());
     }
 
-    public function merchant()
+    public function merchant(): BelongsTo
     {
         return $this->belongsTo(Merchant::class);
     }
 
-    public function admin()
+    public function admin(): BelongsTo
     {
         return $this->belongsTo(Admin::class);
     }
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function bids()
+    public function bids(): HasMany
     {
         return $this->hasMany(Bid::class);
     }
 
-    public function reviews()
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    public function winner()
+    public function winner(): HasOne
     {
         return $this->hasOne(Winner::class);
     }
 
-
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Wishlist::class);
+    }
 }

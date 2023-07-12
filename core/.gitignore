@@ -14,5 +14,4 @@ yarn-error.log
 /.idea/laravel-idea.xml
 /.idea/php.xml
 /.idea/phpunit.xml
-/resources/views/livewire/product-list.blade.php
-/app/Http/Livewire/ProductList.php
+/.idea/inspectionProfiles/Project_Default.xml
