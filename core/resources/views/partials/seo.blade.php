@@ -33,7 +33,7 @@
     <meta property="og:title" content="{{ $seoContents->social_title }}">
     <meta property="og:description" content="{{ $seoContents->social_description }}">
     <meta property="og:image" content="{{ $seoContents->image }}"/>
-    <meta property="og:image:type" content="{{ pathinfo($seoContents->image)['extension'] }}"/>
+    <meta property="og:image:type" content="{{ pathinfo($seoContents->image)['extension'] ?? '' }}"/>
     <meta property="og:image:width" content="{{ $socialImageSize[0] }}" />
     <meta property="og:image:height" content="{{ $socialImageSize[1] }}" />
     <meta property="og:url" content="{{ url()->current() }}">
