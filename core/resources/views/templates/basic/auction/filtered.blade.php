@@ -1,51 +1,17 @@
-<div id="overlay">
+<div wire:loading.block>
     <div class="cv-spinner">
         <span class="spinner"></span>
     </div>
 </div>
-<div class="overlay-2" id="overlay2"></div>
-<div class="d-flex flex-wrap justify-content-sm-between justify-content-end mb-4" style="gap:15px 30px;background: transparent !important;">
-    <p class="mb-0">
 
-    </p>
-    <p class="mb-0">@lang('Results Found'): <span>{{ $auctions->total() }}</span></p>
+<div class="d-flex justify-content-end my-4">
+    <div>@lang('Results Found'): <span>{{ $auctions->total() }}</span></div>
 </div>
 <div class="row g-4" style="background: transparent;">
     @forelse ($auctions as $auction)
         <div class="col-sm-6 col-xl-4">
             <div class="auction__item bg--body">
                 <div class="auction__item-thumb">
-                    <a href="{{ route('auction.details', [$auction->id, slug($auction->name)]) }}" style="position: relative;">
-                        @if($auction->auctionwinner)
-                            <div class="soldactive">
-                                <div>
-                                    @lang('SOLD')
-                                </div>
-                            </div>
-                        @endif
-                        <div class="item-image-tags{{ $auction->id }}" style="height: 250px;">
-                            <img style="max-width: 100%; height: auto; padding: 0.25rem;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$auction->image,imagePath()['product']['thumb'])}}" alt="auction">
-                        </div>
-                        <div class="item-block-tags item-block-tags{{ $auction->id }}">
-                            <table>
-                                @if($auction->specification)
-                                    @foreach ($auction->specification as $spec)
-                                        @if($loop->index < 5)
-                                            @if($spec['value'] != null && $spec['name'] != null)
-                                                <tr>
-                                                    <th>{{ __($spec['name']) }} :</th>
-                                                    <td>{{ __($spec['value']) }}</td>
-                                                </tr>
-                                            @endif
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </table>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="auction__item-content">
                     <button class="item_shift_icon item_shift_icon{{ $auction->id }}" type="button" data-auctionid="{{ $auction->id }}">
                         &nbsp;
                     </button>
@@ -55,6 +21,42 @@
                     <button class="item_shift_icon_condition" type="button">
                         &nbsp;
                     </button>
+
+                    @if($auction->auctionwinner)
+                        <div class="soldactive">
+                            <div>
+                                @lang('SOLD')
+                            </div>
+                        </div>
+                    @endif
+                    <div class="item-image-tags{{ $auction->id }}" style="height: 250px; display: flex;">
+                        <img style="max-width: 100%; height: auto; padding: 0.25rem;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$auction->image,imagePath()['product']['thumb'])}}" alt="auction">
+                    </div>
+                    <div class="item-block-tags item-block-tags{{ $auction->id }}">
+                        <table>
+                            @if($auction->specification)
+                                @php
+                                    $specCount = 1
+                                @endphp
+                                @foreach ($auction->specification as $spec)
+                                    @if($specCount <= 8 && !in_array($spec['name'], ['ExcellentCondition','Certificated','Literature','Edition','Provenance']))
+                                        @if($spec['value'] != null && $spec['name'] != null)
+                                            <tr>
+                                                <th>{{ __($spec['name']) }} :</th>
+                                                <td>{{ __($spec['value']) }}</td>
+                                            </tr>
+                                            @php
+                                                $specCount++;
+                                            @endphp
+                                        @endif
+                                    @endif
+                                @endforeach
+                            @endif
+                        </table>
+                    </div>
+
+                </div>
+                <div class="auction__item-content">
                     <div class="item_provenance_icon">
                         @if (count($auction->auctionWishlists) > 0)
                             <a style="cursor: pointer" class="item_heart_icon_red" wire:click.prevent="removeFromWishList({{ $auction->auctionWishlists[0] }})" title="@lang('Add to wish list')">
@@ -222,7 +224,7 @@
                     </h6>
                     <div class="auction__item-countdown">
                         <div class="inner__grp">
-                            <ul class="countdown" data-date="{{ showDateTime($auction->expired_at, 'm/d/Y H:i:s') }}">
+                            <ul class="countdown" data-date="{{ showDateTime($auction->expired_at, 'm/d/Y H:i:s') }}" wire:ignore.self>
                                 @if($auction->auctionwinner)
                                     <li>
                                         <span class="days">&nbsp;</span>
@@ -318,10 +320,10 @@
         .item_shift_icon_replace {
             display: none;
             position: absolute;
-            right: 0px;
-            top: 0px;
+            right: 0;
+            top: 0;
             width: 100%;
-            height: 100%;
+            height: 250px;
             background-color: transparent;
             align-items: center;
             color: #fff;
@@ -343,10 +345,10 @@
 
         .item_shift_icon {
             position: absolute;
-            right: 0px;
-            top: 0px;
+            right: 0;
+            top: 0;
             width: 100%;
-            height: 100%;
+            height: 250px;
             background-color: transparent;
             display: flex;
             align-items: center;
@@ -372,7 +374,6 @@
             display: flex;
             align-items: center;
             color: #fff;
-            z-index: 10;
         }
 
         .item_heart_icon_red > span > i {
@@ -388,7 +389,6 @@
             display: flex;
             align-items: center;
             color: #fff;
-            z-index: 10;
         }
 
         .item_heart_icon > span {
@@ -466,7 +466,7 @@
             background: red !important;
             color: #fff !important;
             padding: 0 12px;
-            border-radius: 0px 3px 3px 0px;
+            border-radius: 0 3px 3px 0;
             font-weight: bold;
         }
 
@@ -530,6 +530,8 @@
             $('.' + blocktags).css("display", 'none');
             $('.' + imagetags).css('display', 'flex');
         });
+
+
     })(jQuery);
 </script>
 @endpush

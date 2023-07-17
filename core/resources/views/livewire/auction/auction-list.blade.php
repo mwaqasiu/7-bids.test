@@ -22,21 +22,21 @@
                     @endforeach
                 </div>
 
-                <div class="filter-widget">
-                    <span class="delete-filter-list delete-filter-time-list float-right" wire:click="resetPriceFilers">
-                        <i class="las la-trash"></i>
-                    </span>
-                    <h6 class="sub-title">@lang('by Price')</h6>
-                    <div class="widget">
-                        <div id="slider-range" wire:ignore></div>
-                        <div class="price-range">
-                            <label for="amount">@lang('Price') :</label>
-                            <input type="text" id="amount" value="{{"€" . $minPrice . " - €" .$maxPrice}}" readonly>
-                            <input type="hidden" name="min_price" wire:model="minPrice">
-                            <input type="hidden" name="max_price" wire:model="maxPrice">
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="filter-widget">--}}
+{{--                    <span class="delete-filter-list delete-filter-time-list float-right" wire:click="resetPriceFilers">--}}
+{{--                        <i class="las la-trash"></i>--}}
+{{--                    </span>--}}
+{{--                    <h6 class="sub-title">@lang('by Price')</h6>--}}
+{{--                    <div class="widget">--}}
+{{--                        <div id="slider-range" wire:ignore></div>--}}
+{{--                        <div class="price-range">--}}
+{{--                            <label for="amount">@lang('Price') :</label>--}}
+{{--                            <input type="text" id="amount" value="{{"€" . $minPrice . " - €" .$maxPrice}}" readonly>--}}
+{{--                            <input type="hidden" name="min_price" wire:model="minPrice">--}}
+{{--                            <input type="hidden" name="max_price" wire:model="maxPrice">--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="filter-widget">
                     <h6 class="sub-title">@lang('by Feature')</h6>
@@ -63,17 +63,14 @@
                 </div>
 
                 <div class="filter-widget">
-                    <span class="delete-filter-list delete-filter-time-list float-right" wire:click="resetTimingFilers">
-                        <i class="las la-trash"></i>
-                    </span>
                     <h6 class="sub-title">@lang('by Time')</h6>
                     <div class="form-check form--check">
-                        <input class="form-check-input timing" wire:model="searchByStatus" value="newArrivals" type="radio">
-                        <label for="radio3">@lang('New Arrivals')</label>
+                        <input class="form-check-input timing" wire:model="searchByNewArrivals" value="newArrivals" type="checkbox">
+                        <label for="radio3">@lang('Upcoming Lots')</label>
                     </div>
                     <div class="form-check form--check">
-                        <input class="form-check-input timing" wire:model="searchByStatus" value="sold" type="radio">
-                        <label  for="radio9">@lang('Sold Items')</label>
+                        <input class="form-check-input timing" wire:model="searchBySold" value="sold" type="checkbox">
+                        <label  for="radio9">@lang('Sold Lots')</label>
                     </div>
                 </div>
             </div>
@@ -103,28 +100,27 @@
                 }
             }
         </style>
-        <div class="sort-fields row">
-            <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
+        <div class="sort-fields d-md-flex" style="gap: 1.25rem;">
+            <div class="ps-0 form-check form--check mb-2 mb-md-0" style="display: flex;">
                 <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">
-                <label style="margin-right: 10px;">@lang('Date')</label>
-                <div style="display: flex; flex-direction: row;">
-                    <select class="date-select-sort form-select">
-                        <option value="asc">@lang('ascending')</option>
-                        <option value="desc">@lang('descending')</option>
+                <label style="width:5rem">@lang('Date')</label>
+                <div style="width: 100%;">
+                    <select class="date-select-sort form-select" wire:model="sortByDate">
+                        <option value="">...</option>
+                        <option value="created_at_asc">@lang('ascending')</option>
+                        <option value="created_at_desc">@lang('descending')</option>
                     </select>
                 </div>
-                <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">
             </div>
-            <div class="col-md-3 col-6 form-check form--check" style="display: flex;">
-                <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">
-                <label style="margin-right: 10px; margin-left: -1.5rem;">@lang('Price')</label>
-                <div style="display: flex; flex-direction: row;">
-                    <select class="price-select-sort form-select">
-                        <option value="asc">@lang('ascending')</option>
-                        <option value="desc">@lang('descending')</option>
+            <div class="ps-0 form-check form--check" style="display: flex;">
+                <label style="width:5rem">@lang('Price')</label>
+                <div style="width: 100%;">
+                    <select class="price-select-sort form-select" wire:model="sortByPrice">
+                        <option value="">...</option>
+                        <option value="price_asc">@lang('ascending')</option>
+                        <option value="price_desc">@lang('descending')</option>
                     </select>
                 </div>
-                <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">
             </div>
         </div>
         <div class="search-result" style="background: transparent;">
@@ -140,8 +136,6 @@
 
             let minPrice = parseInt('{{$minPrice}}');
             let maxPrice = parseInt('{{$maxPrice}}');
-
-            console.log(minPrice, maxPrice);
 
             $( "#slider-range" ).slider({
                 range: true,
@@ -161,8 +155,26 @@
                     $( "#slider-range" ).slider("option", "max", maxPrice).slider("option", "min", minPrice);
                 }
             });
+            // Livewire component JavaScript code
+            document.addEventListener("livewire:load", function () {
+                Livewire.hook('message.processed', function (el, component) {
+                    runCountDown();
+
+                });
+            });
+
+            function runCountDown() {
+                $('.countdown').each(function(){
+                    const date = $(this).data('date');
+                    $(this).countdown({
+                        date: date,
+                        day: 'Day',
+                        days: 'Days'
+                    });
+                });
+            }
         })(jQuery);
 
-
     </script>
+
 @endpush

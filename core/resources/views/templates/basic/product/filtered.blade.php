@@ -3,52 +3,15 @@
         <span class="spinner"></span>
     </div>
 </div>
-<div class="overlay-2" id="overlay2"></div>
-<div class="d-flex flex-wrap justify-content-sm-between justify-content-end mb-4" style="gap:15px 30px;background: transparent !important;">
-    <p class="mb-0">
 
-    </p>
-    <p class="mb-0">@lang('Results Found'): <span>{{ $products->total() }}</span></p>
+<div class="d-flex justify-content-end my-4">
+    <div>@lang('Results Found'): <span>{{ $products->total() }}</span></div>
 </div>
 <div class="row g-4" style="background: transparent !important;">
     @forelse ($products as $product)
         <div class="col-sm-6 col-xl-4">
             <div class="auction__item bg--body">
                 <div class="auction__item-thumb">
-                    <a href="{{ route('product.details', [$product->id, slug($product->name)]) }}" style="position: relative;">
-                        @if(isset($product->winner))
-                            <div class="soldactive">
-                                <div>@lang('SOLD')</div>
-                            </div>
-                        @endif
-                        <div class="item-image-tags{{ $product->id }}" style="height: 250px;">
-                            <div class="newpricecalc newpricecalc{{ $product->id }}">
-                                @if($product->newprice != 0)
-                                    - {{ number_format(100 - ($product->price / $product->newprice) * 100, 2) }}%
-                                @endif
-                            </div>
-                            <img style="max-width: 100%; height: auto; padding: 0.25rem;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$product->image,imagePath()['product']['thumb'])}}" alt="auction">
-                        </div>
-                        <div class="item-block-tags item-block-tags{{ $product->id }}">
-                            <table class="item-block-tables">
-                                @if($product->specification)
-                                    @foreach ($product->specification as $spec)
-                                        @if($loop->index > 5)
-                                            @if($spec['value'] != null && $spec['name'] != null)
-                                                <tr>
-                                                    <th>{{ __($spec['name']) }} :</th>
-                                                    <td>{{ __($spec['value']) }}</td>
-                                                </tr>
-                                            @endif
-                                        @endif
-                                    @endforeach
-                                @endif
-                            </table>
-                        </div>
-                    </a>
-
-                </div>
-                <div class="auction__item-content">
                     <button class="item_shift_icon item_shift_icon{{ $product->id }}" type="button" data-productid="{{ $product->id }}">
                         &nbsp;
                     </button>
@@ -58,6 +21,45 @@
                     <button class="item_shift_icon_condition" type="button">
                         &nbsp;
                     </button>
+
+                    @if(isset($product->winner))
+                        <div class="soldactive">
+                            <div>@lang('SOLD')</div>
+                        </div>
+                    @endif
+                    <div class="item-image-tags{{ $product->id }}" style="height: 250px; display: flex;">
+                        <div class="newpricecalc newpricecalc{{ $product->id }}">
+                            @if($product->newprice != 0)
+                                - {{ number_format(100 - ($product->price / $product->newprice) * 100) }}%
+                            @endif
+                        </div>
+                        <img style="max-width: 100%; height: auto; padding: 0.25rem;" src="{{getImage(imagePath()['product']['path'].'/thumb_'.$product->image,imagePath()['product']['thumb'])}}" alt="auction">
+                    </div>
+                    <div class="item-block-tags item-block-tags{{ $product->id }}">
+                        <table class="item-block-tables">
+                            @if($product->specification)
+                                @php
+                                    $specCount = 1
+                                @endphp
+                                @foreach ($product->specification as $spec)
+                                    @if($specCount <= 8 && !in_array($spec['name'], ['ExcellentCondition','Certificated','Literature','Edition','Provenance']))
+                                        @if($spec['value'] != null && $spec['name'] != null)
+                                            <tr>
+                                                <th>{{ __($spec['name']) }} :</th>
+                                                <td>{{ __($spec['value']) }}</td>
+                                            </tr>
+                                            @php
+                                                $specCount++;
+                                            @endphp
+                                        @endif
+                                    @endif
+                                @endforeach
+                            @endif
+                        </table>
+                    </div>
+
+                </div>
+                <div class="auction__item-content">
                     <div class="item_provenance_icon">
                         @if (count($product->wishlists) > 0)
                             <a style="cursor: pointer" class="item_heart_icon_red" wire:click.prevent="removeFromWishList({{ $product->wishlists[0] }})" title="@lang('Add to wish list')">
@@ -319,10 +321,10 @@
         .item_shift_icon_replace {
             display: none;
             position: absolute;
-            right: 0px;
-            top: 0px;
+            right: 0;
+            top: 0;
             width: 100%;
-            height: 100%;
+            height: 250px;
             background-color: transparent;
             align-items: center;
             color: #fff;
@@ -344,10 +346,10 @@
 
         .item_shift_icon {
             position: absolute;
-            right: 0px;
-            top: 0px;
+            right: 0;
+            top: 0;
             width: 100%;
-            height: 100%;
+            height: 250px;
             background-color: transparent;
             display: flex;
             align-items: center;
@@ -373,7 +375,6 @@
             display: flex;
             align-items: center;
             color: #fff;
-            z-index: 10;
         }
 
         .item_heart_icon_red > span > i {
@@ -389,7 +390,6 @@
             display: flex;
             align-items: center;
             color: #fff;
-            z-index: 10;
         }
 
         .item_heart_icon > span {

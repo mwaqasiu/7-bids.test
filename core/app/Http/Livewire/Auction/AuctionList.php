@@ -22,7 +22,9 @@ class AuctionList extends Component
 
     public $sortByPrice = '';
 
-    public $searchByStatus = '';
+    public $searchByNewArrivals = [];
+
+    public $searchBySold = [];
 
     public $minPrice;
     public $maxPrice;
@@ -59,9 +61,16 @@ class AuctionList extends Component
         $this->setPriceRangeValues();
     }
 
-    public function updatedSearchByStatus($value): void
+    public function updatedSearchByNewArrivals($value): void
     {
-        $this->searchByStatus = $value;
+        $this->searchByNewArrivals = $value;
+        $this->auctions = $this->implementQuery();
+        $this->setPriceRangeValues();
+    }
+
+    public function updatedSearchBySold($value): void
+    {
+        $this->searchBySold = $value;
         $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -69,6 +78,7 @@ class AuctionList extends Component
     public function updatedSortByDate($value)
     {
         $this->sortByDate = $value;
+        $this->sortByPrice = '';
         $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -76,6 +86,7 @@ class AuctionList extends Component
     public function updatedSortByPrice($value)
     {
         $this->sortByPrice = $value;
+        $this->sortByDate = '';
         $this->auctions = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -119,31 +130,31 @@ class AuctionList extends Component
                     $query->where('specification', 'not like', '%"name":"' . $value . '","value":null%');
                 }
             })
-            ->when(!empty($this->searchByStatus) && $this->searchByStatus === 'newArrivals', function($query){
+            ->when(count($this->searchByNewArrivals) > 0 && in_array('newArrivals',$this->searchByNewArrivals), function($query){
                 $query->whereDate('created_at', '>=', Carbon::now()->subDays(2));
             })
-            ->when(!empty($this->searchByStatus) && $this->searchByStatus === 'sold', function($query){
+            ->when(count($this->searchBySold) > 0 && in_array('sold',$this->searchBySold), function($query){
                 $query->whereHas('auctionwinner');
             })
-            ->when(isset($this->minPrice) && $this->minPrice !=0 && isset($this->maxPrice) && $this->maxPrice != 0, function($query){
-                $query->whereBetween('price', [$this->minPrice, $this->maxPrice]);
+            ->when(count($this->searchBySold) === 0, function($query){
+                $query->doesnthave('auctionwinner');
             })
-            ->when(!empty($this->sortByDate), function ($query) {
-                if ($this->sortByDate === 'created_at_asc') {
-                    $query->orderBy('created_at', 'ASC');
+            ->when(!empty($this->sortByDate) && $this->sortByDate != '', function ($query) {
+                if ($this->sortByDate == 'created_at_asc') {
+                    $query->orderBy('expired_at', 'ASC');
                 } else {
-                    $query->orderBy('created_at', 'DESC');
+                    $query->orderBy('expired_at', 'DESC');
                 }
             })
-            ->when(!empty($this->sortByPrice), function ($query) {
+            ->when(!empty($this->sortByPrice) && $this->sortByPrice != '', function ($query) {
                 if ($this->sortByPrice === 'price_asc') {
                     $query->orderBy('price', 'ASC');
                 } else {
                     $query->orderBy('price', 'DESC');
                 }
             })
-            ->when(empty($this->searchByStatus), function($query){
-                $query->doesnthave('auctionwinner');
+            ->when(empty($this->sortByDate), function ($query) {
+                $query->oldest('expired_at');
             })
             ->paginate(18);
     }
@@ -152,13 +163,6 @@ class AuctionList extends Component
     {
         $this->minPrice = (int)$this->auctions->min('price');
         $this->maxPrice = (int)$this->auctions->max('price');
-    }
-
-    public function resetTimingFilers()
-    {
-        $this->searchByStatus = '';
-        $this->auctions = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function resetPriceFilers()
@@ -171,10 +175,53 @@ class AuctionList extends Component
 
     public function render()
     {
-        $emptyMessage = "No Product Found";
+        $emptyMessage = "No Auction Found";
         $categories = Category::withCount(['auctions' => function ($query) {
-            $query->live()->with('auctionwinner')->doesntHave('auctionwinner');
-        }])->whereStatus(true)->having('auctions_count', '>', 0)->get();
+            $query->live()->with('auctionwinner.auctionbid')
+                ->with('auctionWishlists', function ($wishLists) {
+                    $user = auth()->user();
+                    $ipAddress = getenv('REMOTE_ADDR');
+                    $wishLists->where(function ($query) use ($user, $ipAddress) {
+                        $query->when(isset($user), function ($query) use ($user) {
+                            $query->orWhere('user_id', $user->id);
+                        })->orWhere('ip_address', $ipAddress);
+                    });
+                })
+                ->when(count($this->searchByCategories) > 0, function ($query) {
+                    $query->whereIn('category_id', $this->searchByCategories);
+                })
+                ->when(count($this->searchByFeature) > 0, function ($query) {
+                    foreach ($this->searchByFeature as $value) {
+                        $query->where('specification', 'not like', '%"name":"' . $value . '","value":null%');
+                    }
+                })
+                ->when(count($this->searchByNewArrivals) > 0 && in_array('newArrivals',$this->searchByNewArrivals), function($query){
+                    $query->whereDate('started_at', '>', Carbon::now());
+                })
+                ->when(count($this->searchByNewArrivals) === 0, function($query){
+                    $query->whereDate('started_at', '<', Carbon::now());
+                })
+                ->when(count($this->searchBySold) > 0 && in_array('sold',$this->searchBySold), function($query){
+                    $query->whereHas('auctionwinner');
+                })
+                ->when(!empty($this->sortByDate) && $this->sortByDate != '', function ($query) {
+                    if ($this->sortByDate === 'created_at_asc') {
+                        $query->orderBy('expired_at', 'ASC');
+                    } else {
+                        $query->orderBy('expired_at', 'DESC');
+                    }
+                })
+                ->when(!empty($this->sortByPrice) && $this->sortByPrice != '', function ($query) {
+                    if ($this->sortByPrice === 'price_asc') {
+                        $query->orderBy('price', 'ASC');
+                    } else {
+                        $query->orderBy('price', 'DESC');
+                    }
+                })
+                ->when(count($this->searchBySold) === 0, function($query){
+                    $query->doesnthave('auctionwinner');
+                });
+        }])->whereStatus(true)->get();
 
         return view('livewire.auction.auction-list')
             ->with('auctions', $this->auctions)

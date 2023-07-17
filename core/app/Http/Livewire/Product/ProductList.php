@@ -20,7 +20,9 @@ class ProductList extends Component
 
     public $sortByPrice = '';
 
-    public $searchByStatus = '';
+    public $searchByNewArrivals = [];
+
+    public $searchBySold = [];
 
     public $minPrice;
     public $maxPrice;
@@ -57,9 +59,16 @@ class ProductList extends Component
         $this->setPriceRangeValues();
     }
 
-    public function updatedSearchByStatus($value): void
+    public function updatedSearchByNewArrivals($value): void
     {
-        $this->searchByStatus = $value;
+        $this->searchByNewArrivals = $value;
+        $this->products = $this->implementQuery();
+        $this->setPriceRangeValues();
+    }
+
+    public function updatedSearchBySold($value): void
+    {
+        $this->searchBySold = $value;
         $this->products = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -67,6 +76,7 @@ class ProductList extends Component
     public function updatedSortByDate($value)
     {
         $this->sortByDate = $value;
+        $this->sortByPrice = '';
         $this->products = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -74,6 +84,7 @@ class ProductList extends Component
     public function updatedSortByPrice($value)
     {
         $this->sortByPrice = $value;
+        $this->sortByDate = '';
         $this->products = $this->implementQuery();
         $this->setPriceRangeValues();
     }
@@ -113,15 +124,14 @@ class ProductList extends Component
                 $query->whereIn('category_id', $this->searchByCategories);
             })
             ->when(count($this->searchByFeature) > 0, function ($query) {
-                $query->where('specification', 'not like', '%"name":"ExcellentCondition","value":null%');
                 foreach ($this->searchByFeature as $value) {
                     $query->where('specification', 'not like', '%"name":"' . $value . '","value":null%');
                 }
             })
-            ->when(!empty($this->searchByStatus) && $this->searchByStatus === 'newArrivals', function($query){
+            ->when(count($this->searchByNewArrivals) > 0 && in_array('newArrivals',$this->searchByNewArrivals), function($query){
                 $query->whereDate('created_at', '>=', Carbon::now()->subDays(2));
             })
-            ->when(!empty($this->searchByStatus) && $this->searchByStatus === 'sold', function($query){
+            ->when(count($this->searchBySold) > 0 && in_array('sold',$this->searchBySold), function($query){
                 $query->whereHas('winner');
             })
             ->when(isset($this->minPrice) && $this->minPrice !=0 && isset($this->maxPrice) && $this->maxPrice != 0, function($query){
@@ -141,9 +151,10 @@ class ProductList extends Component
                     $query->orderBy('price', 'DESC');
                 }
             })
-            ->when(empty($this->searchByStatus), function($query){
+            ->when(count($this->searchBySold) === 0, function($query){
                 $query->doesnthave('winner');
             })
+            ->latest('created_at')
             ->paginate(18);
     }
 
@@ -151,13 +162,6 @@ class ProductList extends Component
     {
         $this->minPrice = (int)$this->products->min('price');
         $this->maxPrice = (int)$this->products->max('price');
-    }
-
-    public function resetTimingFilers()
-    {
-        $this->searchByStatus = '';
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function resetPriceFilers()
@@ -172,8 +176,51 @@ class ProductList extends Component
     {
         $emptyMessage = "No Product Found";
         $categories = Category::withCount(['products' => function ($query) {
-            $query->live()->with('winner')->doesntHave('winner');
-        }])->whereStatus(true)->having('products_count', '>', 0)->get();
+            $query->live()->with('winner.bid')
+                ->with('wishlists', function ($wishLists) {
+                    $user = auth()->user();
+                    $ipAddress = getenv('REMOTE_ADDR');
+                    $wishLists->where(function ($query) use ($user, $ipAddress) {
+                        $query->when(isset($user), function ($query) use ($user) {
+                            $query->orWhere('user_id', $user->id);
+                        })->orWhere('ip_address', $ipAddress);
+                    });
+                })
+                ->when(count($this->searchByCategories) > 0, function ($query) {
+                    $query->whereIn('category_id', $this->searchByCategories);
+                })
+                ->when(count($this->searchByFeature) > 0, function ($query) {
+                    foreach ($this->searchByFeature as $value) {
+                        $query->where('specification', 'not like', '%"name":"' . $value . '","value":null%');
+                    }
+                })
+                ->when(count($this->searchByNewArrivals) > 0 && in_array('newArrivals',$this->searchByNewArrivals), function($query){
+                    $query->whereDate('created_at', '>=', Carbon::now()->subDays(2));
+                })
+                ->when(count($this->searchBySold) > 0 && in_array('sold',$this->searchBySold), function($query){
+                    $query->whereHas('winner');
+                })
+                ->when(isset($this->minPrice) && $this->minPrice !=0 && isset($this->maxPrice) && $this->maxPrice != 0, function($query){
+                    $query->whereBetween('price', [$this->minPrice, $this->maxPrice]);
+                })
+                ->when(!empty($this->sortByDate), function ($query) {
+                    if ($this->sortByDate === 'created_at_asc') {
+                        $query->orderBy('created_at', 'ASC');
+                    } else {
+                        $query->orderBy('created_at', 'DESC');
+                    }
+                })
+                ->when(!empty($this->sortByPrice), function ($query) {
+                    if ($this->sortByPrice === 'price_asc') {
+                        $query->orderBy('price', 'ASC');
+                    } else {
+                        $query->orderBy('price', 'DESC');
+                    }
+                })
+                ->when(count($this->searchBySold) === 0, function($query){
+                    $query->doesnthave('winner');
+                });
+        }])->whereStatus(true)->get();
 
         return view('livewire.product.product-list')
             ->with('products', $this->products)

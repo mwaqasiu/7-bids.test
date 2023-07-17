@@ -88,7 +88,6 @@
             border-radius: 50%;
             display: block;
             border: none;
-            border-radius: 50%;
             background-color: $base-color !important;
             box-shadow: 0 9px 20px 0 rgba(22, 26, 57, 0.36);
             outline: none;
