@@ -253,7 +253,7 @@
                             <div class="total-price">
                                 @if($auction->auctionwinner)
                                     <span class="productcost">
-                                        @lang('Sold for'): {{ $general->cur_sym }} {{ showAmount($auction->auctionwinnerprice->auctionbid->amount, 0) }} (@lang('excl'). @lang('fees'))
+                                        @lang('Sold for'): {{ $general->cur_sym }} {{ showAmount($auction->auctionwinner->auctionbid->amount, 0) }} (@lang('excl'). @lang('fees'))
                                     </span>
                                 @else
                                     <span class="productcost">

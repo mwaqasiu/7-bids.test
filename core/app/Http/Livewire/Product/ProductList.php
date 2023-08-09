@@ -24,69 +24,36 @@ class ProductList extends Component
 
     public $searchBySold = [];
 
-    public $minPrice;
-    public $maxPrice;
-
-    protected $listeners = [
-        'updatedSlideRange'
-    ];
-
-    public function mount()
-    {
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
-    }
-
-    public function updatedSlideRange($value)
-    {
-        $this->minPrice = (int)$value[0];
-        $this->maxPrice = (int)$value[1];
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
-    }
-
     public function updatedSearchByCategories($value): void
     {
         $this->searchByCategories = $value;
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function updatedSearchByFeature($value): void
     {
         $this->searchByFeature = $value;
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function updatedSearchByNewArrivals($value): void
     {
         $this->searchByNewArrivals = $value;
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function updatedSearchBySold($value): void
     {
         $this->searchBySold = $value;
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function updatedSortByDate($value)
     {
         $this->sortByDate = $value;
         $this->sortByPrice = '';
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function updatedSortByPrice($value)
     {
         $this->sortByPrice = $value;
         $this->sortByDate = '';
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function addToWishList(Product $product)
@@ -96,21 +63,18 @@ class ProductList extends Component
         $wishlist->product_id = $product->id;
         $wishlist->ip_address = getenv('REMOTE_ADDR');
         $wishlist->save();
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
     public function removeFromWishList(Wishlist $wishlist)
     {
         $wishlist->delete();
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
     }
 
-    public function implementQuery()
+    public function render()
     {
-        return Product::live()
-            ->with('winner.bid')
+        $emptyMessage = "No Product Found";
+
+        $products = Product::with('winner.bid')
             ->with('wishlists', function ($wishLists) {
                 $user = auth()->user();
                 $ipAddress = getenv('REMOTE_ADDR');
@@ -152,31 +116,13 @@ class ProductList extends Component
                 }
             })
             ->when(count($this->searchBySold) === 0, function($query){
-                $query->doesnthave('winner');
+                $query->live()->doesnthave('winner');
             })
             ->latest('created_at')
             ->paginate(18);
-    }
 
-    public function setPriceRangeValues()
-    {
-        $this->minPrice = (int)$this->products->min('price');
-        $this->maxPrice = (int)$this->products->max('price');
-    }
-
-    public function resetPriceFilers()
-    {
-        $this->minPrice = 0;
-        $this->maxPrice = 0;
-        $this->products = $this->implementQuery();
-        $this->setPriceRangeValues();
-    }
-
-    public function render()
-    {
-        $emptyMessage = "No Product Found";
         $categories = Category::withCount(['products' => function ($query) {
-            $query->live()->with('winner.bid')
+            $query->with('winner.bid')
                 ->with('wishlists', function ($wishLists) {
                     $user = auth()->user();
                     $ipAddress = getenv('REMOTE_ADDR');
@@ -218,15 +164,13 @@ class ProductList extends Component
                     }
                 })
                 ->when(count($this->searchBySold) === 0, function($query){
-                    $query->doesnthave('winner');
+                    $query->live()->doesnthave('winner');
                 });
         }])->whereStatus(true)->get();
 
         return view('livewire.product.product-list')
-            ->with('products', $this->products)
+            ->with('products', $products)
             ->with('categories', $categories)
-            ->with('emptyMessage', $emptyMessage)
-            ->with('minPrice', $this->minPrice)
-            ->with('maxPrice', $this->maxPrice);
+            ->with('emptyMessage', $emptyMessage);
     }
 }
