@@ -39,7 +39,7 @@
         @include($activeTemplate.'partials.preloader')
 
         <div class="overlay"></div>
-        <a href="#0" class="scrollToTop"><i class="las la-angle-up"></i></a>
+        <a href="#" class="scrollToTop"><i class="las la-angle-up"></i></a>
 
         @if (!request()->routeIs('user.login') && !request()->routeIs('user.register') && !request()->routeIs('user.authorization') && !request()->routeIs('user.password.request') && !request()->routeIs('user.password.code.verify') && !request()->routeIs('user.password.reset'))
             @include($activeTemplate.'partials.header')

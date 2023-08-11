@@ -103,6 +103,53 @@ p a:hover {
     color: #c151cc;
 }
 
+.checkbox {
+    opacity: 0;
+    position: absolute;
+}
+
+.checkbox-label {
+    background-color: #111;
+    width: 50px;
+    height: 26px;
+    border-radius: 50px;
+    position: relative;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.fa-sun {color: #f39c12;}
+.fa-moon {color: #f1c40f;}
+
+.checkbox-label .ball {
+    background-color: #fff;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .checkbox-label .ball {
+    transform: translateX(24px);
+}
+
+.banner-slider .carousel-indicators [data-bs-target] {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+}
+
+.banner-slider .carousel-indicators{
+    bottom: -5.5rem !important;
+}
+
 @media (max-width: 575px) {
     p {
         font-size: 16px;

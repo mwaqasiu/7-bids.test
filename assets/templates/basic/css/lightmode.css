@@ -4,7 +4,7 @@ a {
 
 * {
     color: black;
-	background: #fff;
+	/*background: #fff;*/
 }
 
 .auction__item-countdown .inner__grp .total-price {
@@ -67,11 +67,11 @@ input.form-control::placeholder {
 }
 
 .banner-section .banner__inner {
-    background-color: #fff;
+    background-color: #ebf8ff;
 }
 
 .banner-section .banner__inner .container {
-    background-color: #fff;
+    background-color: #ebf8ff;
 }
 
 .banner-section .banner__inner .container .banner__content {
