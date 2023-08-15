@@ -7,12 +7,46 @@ a {
 	/*background: #fff;*/
 }
 
+body{
+    background-color: #fff !important;
+}
+
+body::before,
+.bg--body::before {
+    background-color: #fff !important;
+}
+
 .auction__item-countdown .inner__grp .total-price {
     color: #000;
 }
 
+.header-bg{
+    background-color: #f1d7c8;
+}
+
 .header-bottom {
-	background: #fff;
+	background-color: #fff;
+}
+
+.header-bottom .menu{
+    background-color: #fff;
+}
+
+.banner-slider-line{
+    height: 0.5rem;
+    width: 5rem;
+    background-color: black;
+}
+
+.banner-main-txt{
+    color: black;
+}
+
+.banner-slider .carousel-indicators [data-bs-target] {
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
 }
 
 .change-language a:not(:last-child)::after {
@@ -44,6 +78,10 @@ a {
 	background-color: #fff !important;
 }
 
+.footer-middle{
+    background-color: #fff;
+}
+
 .account__section-content.bg--section {
     box-shadow: none !important;
 }
@@ -66,12 +104,24 @@ input.form-control::placeholder {
     border-color: #000;
 }
 
+.slider--btn{
+    color: #fff !important;
+    line-height: 24px;
+    font-weight: 700;
+    padding: 12px 36px;
+    letter-spacing: 1px;
+    background: #000000;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: "Jost", sans-serif;
+}
+
 .banner-section .banner__inner {
-    background-color: #ebf8ff;
+    background-color: #f1d7c8;
 }
 
 .banner-section .banner__inner .container {
-    background-color: #ebf8ff;
+    background-color: #f1d7c8;
 }
 
 .banner-section .banner__inner .container .banner__content {
@@ -554,9 +604,9 @@ textarea.form--control-2:focus {
     }
 }
 
-div.change-language {
-    background: transparent;
-}
+/*div.change-language {*/
+/*    background: transparent;*/
+/*}*/
 
 div.change-language > .sign-in-up {
     background: transparent;

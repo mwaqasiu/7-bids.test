@@ -143,7 +143,7 @@ p a:hover {
     border-radius: 50%;
     width: 8px;
     height: 8px;
-    background-color: #000;
+    background-color: #21a0d9;
 }
 
 .banner-slider .carousel-indicators{
@@ -778,6 +778,10 @@ body.bg--section {
     margin-bottom: -40px;
 }
 
+.footer-middle{
+    background-color: #0a0e26;
+}
+
 .footer-wrapper .footer-widget {
     width: 100%;
     max-width: 240px;
@@ -936,7 +940,7 @@ body.bg--section {
     padding-left: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
-    margin-left: 15px;
+    /*margin-left: 15px;*/
     outline: none;
     background: transparent;
     color: #fff;
@@ -1075,6 +1079,28 @@ body.bg--section {
     }
 }
 
+.banner-slider-line{
+    height: 0.5rem;
+    width: 5rem;
+    background-color: #e0e0e0;
+}
+
+.banner-main-txt{
+    color: #e0e0e0;
+}
+
+.slider--btn{
+    color: #fff !important;
+    line-height: 24px;
+    font-weight: 700;
+    padding: 12px 36px;
+    letter-spacing: 1px;
+    background: #0E86D4;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-family: "Jost", sans-serif;
+}
+
 .header-bottom {
     position: sticky;
     top: 0;
@@ -1140,8 +1166,33 @@ body.bg--section {
 
 .menu-area .menu li a {
     color: #fff;
-    text-transform: capitalize;
+    /*text-transform: capitalize;*/
     font-family: "Jost", sans-serif;
+}
+
+.menu-underline a{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    color: #000;
+    /*font-size: 1.5rem;*/
+}
+
+.menu-underline a::before {
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s ease-in-out;
+}
+
+.menu-underline a:hover::before {
+    transform: scaleX(1);
 }
 
 @media (max-width: 991px) {
@@ -1308,7 +1359,7 @@ body.bg--section {
     }
 
     .menu-area .menu li a {
-        font-size: 14px;
+        font-size: 13px;
         padding: 5px;
         font-weight: 500;
         color: #dcf3ff;

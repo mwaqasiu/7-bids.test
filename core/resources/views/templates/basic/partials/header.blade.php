@@ -1,9 +1,11 @@
 @php
     $header = getContent('header.content', true);
     $news = getContent('news.data', true);
+	$banner = getContent('banner.content', true);
+    $features = getContent('feature.element');
 @endphp
     <!-- Header -->
-<div style="background-color: #ebf8ff;">
+<div class="header-bg pt-2">
     <div class="container">
         <div class="heaer-wrapper first-header-part-section">
             <div class="d-flex justify-content-between align-items-center">
@@ -128,7 +130,29 @@
                 </a>
             </div>
             <div class="fw-bold ">LOGO</div>
-            <div>
+            <div class="d-flex gap-2 align-items-center">
+                <div class="d-none d-md-block">
+                    <input type="checkbox" class="checkbox" checked id="formcheckinput" onchange="switchmode()">
+                    <label for="formcheckinput" class="checkbox-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="ball"></span>
+                    </label>
+                </div>
+                <div class="d-none d-md-block change-language">
+                    <select class="language langSel">
+                        <option value="en" @if(session('lang') == 'en') selected @endif>@lang('English')</option>
+                        <option value="de" @if(session('lang') == 'de') selected @endif>@lang('German')</option>
+                    </select>
+                </div>
+{{--                            <div class="change-language rounded-circle" style="padding: 15px 12px; background-color: #d1936f">--}}
+{{--                                <select class="language langSel">--}}
+{{--                                    @foreach($language as $item)--}}
+{{--                                        <option value="{{ $item->code }}"--}}
+{{--                                                @if(session('lang')==$item->code) selected @endif>{{ __($item->name) }}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
                 @if (auth()->check())
                     <span>
                             <a style="position: relative;"
@@ -181,64 +205,7 @@
                 @endauth
             </div>
         </div>
-        <div class="heaer-wrapper second-header-part-section">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div></div>
-                <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
-                    <div class="header-another-section">
-                        @if (auth()->check())
-                            <span>
-                                <a href="{{ route('user.wishlist', [auth()->user()->id, getenv('REMOTE_ADDR')]) }}">
-                                    @if($wishlist_count > 0)
-                                        <i class="fas la-heart" style="color: red !important;"></i>
-                                    @else
-                                        <i class="fas la-heart"></i>
-                                    @endif
-                                </a>
-                            </span>
-                            <span>
-                                <a style="position: relative;"
-                                   href="{{ route('user.shopping-cart', [auth()->user()->id, getenv('REMOTE_ADDR')]) }}">
-                                    <i class="fas la-shopping-cart"></i>
-                                    @if($shopping_count > 0)
-                                        <span
-                                            style="position: absolute; top: 0; right: 0; transform: translate(65%, -19%); padding: 0; margin: 0; color: #fff !important; width: 18px; height: 18px; border-radius: 50px; background-color: red; text-align: center; display: flex; justify-content: center; align-items: center; font-size: 10px;">{{ $shopping_count }}</span>
-                                    @endif
-                                </a>
-                            </span>
-                        @else
-                            <span>
-                                                            <a href="{{ route('user.wishlist', ['empty', getenv('REMOTE_ADDR')]) }}">
-                                                                @if($wishlist_count > 0)
-                                                                    <i class="fas la-heart"
-                                                                       style="color: red !important;"></i>
-                                                                @else
-                                                                    <i class="fas la-heart"></i>
-                                                                @endif
-                                                            </a>
-                                                        </span>
-                            <span>
-                                                            <a style="position: relative;"
-                                                               href="{{ route('user.shopping-cart', ['empty', getenv('REMOTE_ADDR')]) }}">
-                                                                <i class="fas la-shopping-cart"></i>
-                                                                @if($shopping_count > 0)
-                                                                    <span
-                                                                        style="position: absolute; top: 0; right: 0; transform: translate(65%, -19%); padding: 0; margin: 0; color: #fff !important; width: 18px; height: 18px; border-radius: 50px; background-color: red; text-align: center; display: flex; justify-content: center; align-items: center; font-size: 10px;">{{ $shopping_count }}</span>
-                                                                @endif
-                                                            </a>
-                                                        </span>
-                        @endif
-                        @auth
-                            <a href="{{ route('user.bonus') }}">
-                                <label class="bonus-text">
-                                    {{ $bonuscount }} pts
-                                </label>
-                            </a>
-                        @endauth
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="header-wrapper justify-content-center">
             <div class="menu-area">
                 <div class="menu-close">
@@ -253,55 +220,55 @@
                         @endforeach
                     </select>
                 </div>
-                <ul class="menu bg-white">
-                    <li>
-                        <a href="{{ route('home') }}">
+                <ul class="menu">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('home') }}">
                             <i class="fas la-home" style="margin-right: 5px;"></i>@lang('Home')</a>
                     </li>
-                    <li>
-                        <a href="{{ route('auction.all') }}">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('auction.all') }}">
                             <i class="fas la-gavel" style="margin-right: 5px;"></i>@lang('Auction')</a>
                     </li>
-                    <li>
-                        <a href="{{ route('product.all') }}">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('product.all') }}">
                             <i class="fas la-store" style="margin-right: 5px;"></i>@lang('Buy It Now')</a>
                     </li>
                     @if (auth()->check())
-                        <li>
-                            <a href="{{ route('user.bonus') }}">
+                        <li class="menu-underline">
+                            <a class="text-uppercase" href="{{ route('user.bonus') }}">
                                 <i class="fas la-gift" style="margin-right: 5px;"></i>@lang('Bonus Scheme')</a>
                         </li>
                     @else
-                        <li>
-                            <a href="{{ route('shopping-cart.unadd') }}">
+                        <li class="menu-underline">
+                            <a class="text-uppercase" href="{{ route('shopping-cart.unadd') }}">
                                 <i class="fas la-gift" style="margin-right: 5px;"></i>@lang('Bonus Scheme')</a>
                         </li>
                     @endif
                     @if($charitydata->data_values->pageflag == 1)
-                        <li>
-                            <a href="{{ route('charity') }}">
+                        <li class="menu-underline">
+                            <a class="text-uppercase" href="{{ route('charity') }}">
                                 <i class="fas la-hand-holding-heart"
                                    style="margin-right: 5px;"></i>@lang('Charity Project')</a>
                         </li>
                     @endif
-                    <li>
-                        <a href="{{ route('privatesales') }}">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('privatesales') }}">
                             <i class="fas la-binoculars" style="margin-right: 5px;"></i>
                             @lang('Private Sales')
                         </a>
                     </li>
                     @if($charitydata->data_values->blogpageflag == 1)
-                        <li>
-                            <a href="{{ route('blog') }}">
+                        <li class="menu-underline">
+                            <a class="text-uppercase" href="{{ route('blog') }}">
                                 <i class="fas la-comment-dots" style="margin-right: 5px;"></i>@lang('Blog')</a>
                         </li>
                     @endif
-                    <li>
-                        <a href="{{ route('contact') }}">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('contact') }}">
                             <i class="fas la-envelope" style="margin-right: 5px;"></i>@lang('Contact')</a>
                     </li>
-                    <li>
-                        <a href="{{ route('faq') }}">
+                    <li class="menu-underline">
+                        <a class="text-uppercase" href="{{ route('faq') }}">
                             <i class="fas fa-question-circle" style="margin-right: 5px;"></i>
                             @lang('FAQ')
                         </a>
@@ -337,29 +304,12 @@
                     </div>
                 @endauth
                 <div class="d-md-none lightmodeswitchresponsive">
-                    <div>
-                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="sun-bright" role="img"
-                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                             class="svg-inline--fa fa-sun-bright fa-fw fa-xl">
-                            <path fill="currentColor"
-                                  d="M256 0c-13.3 0-24 10.7-24 24V88c0 13.3 10.7 24 24 24s24-10.7 24-24V24c0-13.3-10.7-24-24-24zm0 400c-13.3 0-24 10.7-24 24v64c0 13.3 10.7 24 24 24s24-10.7 24-24V424c0-13.3-10.7-24-24-24zM488 280c13.3 0 24-10.7 24-24s-10.7-24-24-24H424c-13.3 0-24 10.7-24 24s10.7 24 24 24h64zM112 256c0-13.3-10.7-24-24-24H24c-13.3 0-24 10.7-24 24s10.7 24 24 24H88c13.3 0 24-10.7 24-24zM437 108.9c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-45.3 45.3c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0L437 108.9zM154.2 357.8c-9.4-9.4-24.6-9.4-33.9 0L75 403.1c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l45.3-45.3c9.4-9.4 9.4-24.6 0-33.9zM403.1 437c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-45.3-45.3c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9L403.1 437zM154.2 154.2c9.4-9.4 9.4-24.6 0-33.9L108.9 75c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l45.3 45.3c9.4 9.4 24.6 9.4 33.9 0zM256 368c61.9 0 112-50.1 112-112s-50.1-112-112-112s-112 50.1-112 112s50.1 112 112 112z"
-                                  class=""></path>
-                        </svg>
-                    </div>
-                    <div class="form-check form-switch" style="margin-bottom: 0;">
-                        <input id="formcheckinput2" class="form-check-input" type="checkbox" checked role="switch"
-                               onchange="switchmode2()"/>
-                        <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-                    </div>
-                    <div style="margin-left: 7px;">
-                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="moon" role="img"
-                             xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                             class="svg-inline--fa fa-moon fa-fw fa-xl">
-                            <path fill="currentColor"
-                                  d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"
-                                  class=""></path>
-                        </svg>
-                    </div>
+                    <input type="checkbox" class="checkbox" checked id="formcheckinput" onchange="switchmode()">
+                    <label for="formcheckinput" class="checkbox-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="ball"></span>
+                    </label>
                 </div>
             </div>
             <!--<div class="header-bar d-lg-none">-->
@@ -377,7 +327,7 @@
     <div class="container">
         <div>
             <div>
-                <a href="{{ route('home') }}" class="{{ menuActive('home') }}">
+                <a href="{{ route('home') }}" class="{{ menuActive('home') }} ">
                     <i class="fas la-home"></i>
                     <span>@lang('Home')</span>
                 </a>
@@ -511,6 +461,7 @@
 {{-- End Language modal --}}
 
 @push('script')
+
     <script>
         "use strict";
 

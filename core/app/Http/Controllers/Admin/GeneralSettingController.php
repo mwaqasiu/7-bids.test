@@ -60,7 +60,7 @@ class GeneralSettingController extends Controller
         return view('admin.setting.logo_icon', compact('pageTitle'));
     }
 
-    public function logoIconUpdate(Request $request) 
+    public function logoIconUpdate(Request $request)
     {
         $request->validate([
             'logo' => ['image',new FileTypeValidate(['jpg','jpeg','png'])],
@@ -119,13 +119,13 @@ class GeneralSettingController extends Controller
         $notify[] = ['success','Cache cleared successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function charity() {
         $pageTitle = "Charity Project";
         $charitydata = Frontend::where('data_keys','charity.data')->firstOrFail();
         return view('admin.charity.index', compact('pageTitle', 'charitydata'));
     }
-    
+
     public function charitySubmit(Request $request){
         $request->validate([
             'imageurl'=>'required',
@@ -148,21 +148,21 @@ class GeneralSettingController extends Controller
         $notify[] = ['success','Data updated successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function paymentmethod() {
         $pageTitle = "Payment Methods";
         $emptyMessage = "Empty Data";
         $paymentmethods = Paymentmethod::latest()->paginate(getPaginate());
         return view('admin.payment.method',compact('pageTitle', 'paymentmethods', 'emptyMessage'));
     }
-    
+
     public function paymentmethodstore(Request $request, $id=0) {
         $request->validate([
             'imageurl'=>'required',
             'name'=>'required',
             'imageiconname'=>'required',
         ]);
-        
+
         $paymentmethod = new Paymentmethod();
         $notification =  'Payment added successfully';
 
@@ -180,12 +180,12 @@ class GeneralSettingController extends Controller
         $notify[] = ['success', $notification];
         return back()->withNotify($notify);
     }
-    
+
     public function deletePaymentmethod(Request $request)
     {
         $paymentmethod = Paymentmethod::findOrFail($request->paymentmethod_id);
         $paymentmethod->delete();
-        
+
         $notify[] = ['success', 'Payment Deleted Successfully'];
         return back()->withNotify($notify);
     }
@@ -210,14 +210,14 @@ class GeneralSettingController extends Controller
         $notify[] = ['success','News updated successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function sliders() {
         $pageTitle = "Slider";
         $sliders = Slider::get();
         $emptyMessage = "No Data";
         return view('admin.sliders.index', compact('pageTitle', 'emptyMessage', 'sliders'));
     }
-    
+
     public function addSliders(Request $request) {
         $request->validate([
             'sellimagereplaceinputid' => 'required',
@@ -228,14 +228,14 @@ class GeneralSettingController extends Controller
         $notify[] = ['success','Add image success'];
         return back()->withNotify($notify);
     }
-    
+
     public function delSliders(Request $request) {
         $sliders = Slider::findOrFail($request->slider_id);
         $sliders->delete();
         $notify[] = ['success', 'Item Deleted Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function pendingSliders(Request $request) {
         $sliders = Slider::findOrFail($request->slider_id);
         $sliders->status = 0;
@@ -243,7 +243,7 @@ class GeneralSettingController extends Controller
         $notify[] = ['success', 'Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function liveSliders(Request $request) {
         $sliders = Slider::findOrFail($request->slider_id);
         $sliders->status = 1;
@@ -251,32 +251,38 @@ class GeneralSettingController extends Controller
         $notify[] = ['success', 'Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function frontsliders() {
         $pageTitle = "Front Slider";
         $sliders = Frontslider::get();
         $emptyMessage = "No Data";
         return view('admin.sliders.frontindex', compact('pageTitle', 'emptyMessage', 'sliders'));
     }
-    
+
     public function addFrontsliders(Request $request) {
         $request->validate([
             'sellimagereplaceinputid' => 'required',
+            'main_heading' => 'required',
+            'sub_text' => 'required',
+            'slider_link' => 'required'
         ]);
         $sliders = new Frontslider();
         $sliders->url = $request->sellimagereplaceinputid;
+        $sliders->main_heading = $request->main_heading;
+        $sliders->sub_text = $request->sub_text;
+        $sliders->slider_link = $request->slider_link;
         $sliders->save();
         $notify[] = ['success','Add image success'];
         return back()->withNotify($notify);
     }
-    
+
     public function delFrontsliders(Request $request) {
         $sliders = Frontslider::findOrFail($request->slider_id);
         $sliders->delete();
         $notify[] = ['success', 'Item Deleted Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function pendingFrontsliders(Request $request) {
         $sliders = Frontslider::findOrFail($request->slider_id);
         $sliders->status = 0;
@@ -284,7 +290,7 @@ class GeneralSettingController extends Controller
         $notify[] = ['success', 'Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function liveFrontsliders(Request $request) {
         $sliders = Frontslider::findOrFail($request->slider_id);
         $sliders->status = 1;
@@ -292,7 +298,7 @@ class GeneralSettingController extends Controller
         $notify[] = ['success', 'Successfully'];
         return back()->withNotify($notify);
     }
-    
+
     public function sliderCreate() {
         $pageTitle = "Add Slider Item";
         return view('admin.sliders.create', compact('pageTitle'));
@@ -324,7 +330,7 @@ class GeneralSettingController extends Controller
 
     public function merchantProfile(){
         $pageTitle = 'Merchant Profile for Admin';
-       
+
         return view('admin.setting.merchant_profile',compact('pageTitle'));
     }
 
@@ -365,7 +371,7 @@ class GeneralSettingController extends Controller
         }else{
             $merchantProfile['cover_image'] = @$general->merchant_profile->cover_image;
         }
-        
+
         $general->merchant_profile = $merchantProfile;
         $general->save();
 
