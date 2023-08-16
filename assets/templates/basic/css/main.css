@@ -864,9 +864,15 @@ body.bg--section {
     .footer-wrapper .footer-widget {
         max-width: 200px;
     }
+
+    .footer-middle-wrapper {
+        flex-direction: column;
+        padding-bottom: 19px !important;
+    }
 }
 
 .footer-middle-wrapper {
+    font-size: 16px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

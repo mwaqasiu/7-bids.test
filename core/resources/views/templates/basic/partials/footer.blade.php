@@ -57,21 +57,32 @@
     <div class="footer-middle">
         <div class="container">
             <div class="footer-middle-wrapper">
-                <div class="logo">
-                    <!--<a href="{{ route('home') }}">-->
-                    <!--    <img src="{{ getImage(imagePath()['logoIcon']['path'] .'/logo.png') }}" alt="logo">-->
-                    <!--</a>-->
+                <div>
+                    <div>&copy; {{ date('Y') }}
+                        <a href="{{ route('home') }}">{{ __($general->sitename ) }}</a>.</div>
                 </div>
-                <div class="cont">
-                    <p>&copy; {{ date('Y') }} 
-                        <a href="{{ route('home') }}">{{ __($general->sitename ) }}</a>. 
-                         @foreach ($policyPages as $policyPage)
-                            <a href="{{ route('policy', [$policyPage, slug($policyPage->data_values->title)]) }}">
-                            {{ __($policyPage->data_values->title) }}
-                            </a>
-                        @endforeach
-                    </p>
+                @foreach ($policyPages as $policyPage)
+                <div>
+                    <a href="{{ route('policy', [$policyPage, slug($policyPage->data_values->title)]) }}">
+                        {{ __($policyPage->data_values->title) }}
+                    </a>
                 </div>
+                @endforeach
+{{--                <div class="logo">--}}
+{{--                    <!--<a href="{{ route('home') }}">-->--}}
+{{--                    <!--    <img src="{{ getImage(imagePath()['logoIcon']['path'] .'/logo.png') }}" alt="logo">-->--}}
+{{--                    <!--</a>-->--}}
+{{--                </div>--}}
+{{--                <div class="cont">--}}
+{{--                    <p>&copy; {{ date('Y') }}--}}
+{{--                        <a href="{{ route('home') }}">{{ __($general->sitename ) }}</a>.--}}
+{{--                         @foreach ($policyPages as $policyPage)--}}
+{{--                            <a href="{{ route('policy', [$policyPage, slug($policyPage->data_values->title)]) }}">--}}
+{{--                            {{ __($policyPage->data_values->title) }}--}}
+{{--                            </a>--}}
+{{--                        @endforeach--}}
+{{--                    </p>--}}
+{{--                </div>--}}
             </div>
         </div>
     </div>
