@@ -5,7 +5,7 @@
     $features = getContent('feature.element');
 @endphp
     <!-- Header -->
-<div class="header-bg pt-2">
+<div class="header-bg py-1">
     <div class="container">
         <div class="heaer-wrapper first-header-part-section">
             <div class="d-flex justify-content-between align-items-center">
@@ -125,11 +125,10 @@
                 <a href="{{ $banner->data_values->link_url }}" >
                     <div style="font-size: 12px; line-height: 13px; font-weight: 600">
                         @lang($banner->data_values->link)
-                        <div>CHAT BOT</div>
                     </div>
                 </a>
             </div>
-            <div class="fw-bold ">LOGO</div>
+{{--            <div class="fw-bold ">LOGO</div>--}}
             <div class="d-flex gap-2 align-items-center">
                 <div class="d-none d-md-block">
                     <input type="checkbox" class="checkbox" checked id="formcheckinput" onchange="switchmode()">

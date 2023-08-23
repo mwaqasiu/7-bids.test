@@ -16,12 +16,16 @@ body::before,
     background-color: #fff !important;
 }
 
+.first-header-part-section div div b{
+    color: #fff !important;
+}
+
 .auction__item-countdown .inner__grp .total-price {
     color: #000;
 }
 
 .header-bg{
-    background-color: #f1d7c8;
+    background-color: #c09956;
 }
 
 .header-bottom {
@@ -50,7 +54,7 @@ body::before,
 }
 
 .change-language a:not(:last-child)::after {
-	color: black;
+	color: #fff;
 }
 
 .form--check label {
@@ -79,7 +83,16 @@ body::before,
 }
 
 .footer-middle{
-    background-color: #fff;
+    background-color: #c09956;
+}
+
+.footer-middle .footer-middle-wrapper div  {
+    color: #fff !important;
+}
+
+
+.footer-middle .footer-middle-wrapper div a{
+    color: #fff !important;
 }
 
 .account__section-content.bg--section {
@@ -634,7 +647,7 @@ div.change-language > .sign-in-up > a {
 }
 
 .sign-in-up.d-none.d-sm-block > span > i {
-    color: #000;
+    color: #fff;
 }
 
 .sign-in-up.d-none.d-sm-block > span > a > i {
@@ -642,7 +655,7 @@ div.change-language > .sign-in-up > a {
 }
 
 .sign-in-up.d-none.d-sm-block > a {
-    color: #000 !important;
+    color: #fff !important;
 }
 
 .dashboard__header__bar.d-lg-none {

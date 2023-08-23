@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="col-12 col-md-5 col-lg-6">
                                         <img src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}"
-                                             class="d-block w-100" style="height: 20rem; object-fit: contain;">
+                                             class="d-block w-100" style="height: 20rem; min-height: 25rem; object-fit: contain;">
                                     </div>
                                 </div>
                             </div>
