@@ -23,8 +23,8 @@
                                             class="d-flex px-4 px-lg-14 my-auto justify-content-center justify-content-md-start">
                                             <div>
                                                 <div class="mb-4 banner-slider-line"></div>
-                                                <h2 class="fw-semibold banner-main-txt">{{$slider->main_heading}}</h2>
-                                                <p class="mt-3 banner-subtxt">{{$slider->sub_text}}</p>
+                                                <h2 class="fw-semibold banner-main-txt">{{ session('lang') == "de" ? $slider->main_heading : $slider->eng_main_heading }}</h2>
+                                                <p class="mt-3 banner-subtxt">{{ session('lang') == "de" ? $slider->sub_text : $slider->eng_sub_text}}</p>
                                                 <div>
                                                     <a href="{{ $slider->slider_link }}"
                                                            class="slider--btn">@lang('Details')</a>
@@ -45,20 +45,23 @@
             </div>
         </div>
     </section>
-
-    <section class="feature-section pb-60 ">
-        <div class="container">
-            <div class="feature__wrapper">
-                <div class="row g-4">
+    
+    <section class="feature-section">
+        <div style="margin: 0px 3px;">
+            <div class="feature__wrapper" style="margin-top: 0px">
+                <div class="feature_high_section">
                     @foreach ($features as $feature)
-                        <div class="col-lg-3 col-sm-6">
-                            <div class="feature__item bg--section">
-                                <div class="feature__item-icon">
+                        <div class="feature_top_section">
+                            <div class="feature_section_item">
+                                <div class="feature_section_item-icon">
                                     @php
                                         echo $feature->data_values->feature_icon
                                     @endphp
                                 </div>
-                                <h6 class="feature__item-title">{{ __($feature->data_values->title) }}</h6>
+                                <div class="feature_section_item-text">
+                                    <h6 class="feature__item-title">{{ __($feature->data_values->title) }}</h6>
+                                    <div class="feature_item-sub-text">{{ __($feature->data_values->sub_text) }}</div>
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -89,6 +92,96 @@
 
             .carousel-indicators {
                 margin-bottom: 0px !important;
+            }
+        }
+        
+        .feature_high_section {
+            display: flex;
+            flex-direction: row;
+        }
+        
+        .feature_top_section {
+            flex: 1;
+            width: 100%;
+        }
+        
+        .feature_section_item {
+            display: flex;
+            flex-direction: row;
+            margin: 20px 15px 20px;
+            justify-content: flex-start;
+            align-items: center;
+            border-style: none solid none none !important; 
+            border-width: 1px !important; 
+            border-color: #0E86D4 !important;
+        }
+        
+        .feature_top_section:last-child > .feature_section_item {
+            border-style: none !important;
+        }
+        
+        .feature_section_item-icon {
+            margin: 0px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        
+        .feature_section_item-icon > i {
+            font-size: 32px;
+            color: #c09956;
+        }
+        
+        .feature_section_item-text {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .feature_section_item-text > .feature__item-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .feature_section_item-text > .feature_item-sub-text {
+            font-size: 15px;
+            line-height: 18px;
+        }
+        
+        @media (max-width: 1144px) {
+            .feature_high_section {
+                flex-direction: column;
+            }
+            
+            .feature_top_section > .feature_section_item {
+                border-style: none none none none !important;
+                margin: 15px;
+            }
+            
+            .feature_top_section:last-child > .feature_section_item {
+                border-style: none !important;
+            }
+            
+            .feature_top_section {
+                border-style: none none solid none !important;
+                border-color: #0E86D4 !important;
+                border-width: 1px;
+            }
+            
+            .feature_top_section:last-child {
+                border-style: none !important;
+            }
+            
+            .feature_section_item-icon {
+                height: 40px;
+            }
+            
+            .feature_section_item-icon > i {
+                font-size: 30px;
             }
         }
     </style>

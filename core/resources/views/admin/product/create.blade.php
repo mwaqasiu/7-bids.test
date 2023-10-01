@@ -626,7 +626,7 @@
                           data: formData,
                           enctype: 'multipart/form-data',
                           url: url,
-                          success: function (responseURL) {console.log("ml", responseURL);
+                          success: function (responseURL) {
                             if(document.getElementById("btn-check-outlined-other-ml").checked) {
                                 $('#other_ml').val(responseURL);
                                 document.getElementById("btn-check-outlined-other-ml").checked = true;
@@ -1119,6 +1119,11 @@
 
             $(document).on('click', '.img_item_remove', function () {
                 $(this).closest('.image_data_item').remove();
+                $('.replace-image').each(function() {
+                    if($.trim($(this).attr("src")) != "") {
+                        $('.profilePicPreview').css('background-image', 'url(' + $.trim($(this).attr("src")) + ')');
+                    }
+                });
             });
 
             @if(old('currency'))

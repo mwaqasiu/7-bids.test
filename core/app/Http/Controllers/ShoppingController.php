@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Shopping;
 use App\Models\Paymentmethod;
 use App\Models\Wishlist;
+use App\Models\Auctionwishlist;
 use App\Models\Winner;
 use App\Models\Product;
 use App\Models\Bid;
+use App\Models\GeneralSetting;
 use App\Models\User;
+use App\Models\Shipping;
 use App\Models\Transaction;
 use App\Models\Checkout;
 use Illuminate\Http\Request;
@@ -22,8 +25,9 @@ class ShoppingController extends Controller
     }
 
     public function index($uid, $cip) {
-        $pageTitle = "Shopping Cart";
+        $pageTitle = "SHOPPING BAG";
         $paymentmethods = Paymentmethod::where('status', 1)->orderBy('id', 'DESC')->get();
+        $shippings = Shipping::get();
         $checkoutprofile = [];
         $checkexist = '';
         if($uid == 'empty') {
@@ -39,9 +43,9 @@ class ShoppingController extends Controller
                 $checkoutprofile = Checkout::where('user_id', Auth::user()->id)->get();
             }
         }
-        $emptyMessage   = 'Your shopping cart is empty.';
+        $emptyMessage   = 'Your shopping bag is empty.';
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        return view($this->activeTemplate.'shopping.index', compact('pageTitle', 'shoppings', 'paymentmethods', 'checkoutprofile', 'checkexist', 'groupshoppings', 'emptyMessage', 'countries'));
+        return view($this->activeTemplate.'shopping.index', compact('pageTitle', 'shippings', 'shoppings', 'paymentmethods', 'checkoutprofile', 'checkexist', 'groupshoppings', 'emptyMessage', 'countries'));
     }
     
     public function savewinner(Request $request) {
@@ -53,6 +57,7 @@ class ShoppingController extends Controller
             Shopping::where('product_id', $product_id)->delete();
             return "exist";
         }
+        $general = GeneralSetting::first();
         $user = auth()->user();
         $product = Product::with('merchant', 'admin')->findOrFail($request->pid);
         
@@ -84,6 +89,7 @@ class ShoppingController extends Controller
         $winner->user_id = $user->id;
         $winner->product_id = $request->pid;
         $winner->bid_id = $bid->id;
+        $winner->product_delivered = 5;
         $winner->save();
         
         $trx = getTrx();
@@ -121,6 +127,35 @@ class ShoppingController extends Controller
         $product_id = $shopping->product_id;
         $shopping->delete();
         Shopping::where('product_id', $product_id)->delete();
+        
+        $wishlists = Wishlist::where('ip_address', $request->ipaddress)->where('product_id', $request->pid)->get();
+        if(count($wishlists) > 0)
+        {
+            foreach($wishlists as $wishlist) {
+                $wishs = Wishlist::findOrFail($wishlist->id);
+                $wishs->delete();
+            }
+        }
+        
+        shoppingBagAdminSendEmail("info@7-bids.com", 'ITEM_SOLD_INFOADMIN', [
+            'product' => $product->name,
+            'product_price' => showAmount($request->product_price, 0),
+            'currency' => $general->cur_text,
+            'amount' => showAmount($bid->amount, 0),
+            'username' => $user->firstname." ".$user->lastname,
+            'shippingcosts' => $request->shippingcosts,
+            'paymentmethod' => $request->paymentmethod,
+            'shippingaddress' => $request->address,
+        ]);
+        
+        
+        shoppingBagSendEmail($user, 'BID_SHOPPING_WINNER', [
+            'product' => $product->name,
+            'product_price' => showAmount($request->totalprice, 0),
+            'currency' => $general->cur_text,
+            'amount' => showAmount($bid->amount, 0),
+        ]);
+        
         return "success";
     }
     
@@ -130,7 +165,7 @@ class ShoppingController extends Controller
     }
     
     public function unadd() {
-        $notify[] = ['warning', 'Please Login in!'];
+        $notify[] = ['warning', 'You must logged in.'];
         return back()->withNotify($notify);
     }
     
@@ -139,7 +174,7 @@ class ShoppingController extends Controller
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -148,14 +183,14 @@ class ShoppingController extends Controller
                 $shopping->product_id = $pid;
                 $shopping->save();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return back()->withNotify($notify);
             }
         } else {
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -165,7 +200,7 @@ class ShoppingController extends Controller
                 $shopping->product_id = $pid;
                 $shopping->save();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return back()->withNotify($notify);
             }
         }
@@ -176,7 +211,7 @@ class ShoppingController extends Controller
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -185,14 +220,14 @@ class ShoppingController extends Controller
                 $shopping->product_id = $pid;
                 $shopping->save();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return redirect()->route('user.shopping-cart', [$uid, $cip])->withNotify($notify);
             }
         } else {
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -202,7 +237,7 @@ class ShoppingController extends Controller
                 $shopping->product_id = $pid;
                 $shopping->save();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return redirect()->route('user.shopping-cart', [$uid, $cip])->withNotify($notify);
             }
         }
@@ -213,7 +248,7 @@ class ShoppingController extends Controller
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -225,14 +260,14 @@ class ShoppingController extends Controller
                 $wishlist = Wishlist::findOrFail($wid);
                 $wishlist->delete();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return back()->withNotify($notify);
             }
         } else {
             $shoppings = Shopping::query()->where('ip_address', $cip)->where('product_id', $pid)->get();
             if(count($shoppings) > 0)
             {
-                $notify[] = ['warning', 'The item already exists.'];
+                $notify[] = ['warning', 'The item is already in your shopping bag.'];
                 return back()->withNotify($notify);
             }
             else {
@@ -245,7 +280,7 @@ class ShoppingController extends Controller
                 $wishlist = Wishlist::findOrFail($wid);
                 $wishlist->delete();
                 
-                $notify[] = ['success', 'Item successfully moved to the shopping cart.'];
+                $notify[] = ['success', 'Item successfully moved to the shopping bag.'];
                 return back()->withNotify($notify);
             }
         }

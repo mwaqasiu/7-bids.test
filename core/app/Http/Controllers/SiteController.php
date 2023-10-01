@@ -69,7 +69,7 @@ class SiteController extends Controller
     
     public function faq() {
         $pageTitle = "";
-        return view($this->activeTemplate . 'faq',compact('pageTitle'));
+        return view($this->activeTemplate . 'faq', compact('pageTitle'));
     }
 
     public function contactSubmit(Request $request)
@@ -219,7 +219,8 @@ class SiteController extends Controller
         $page = Frontend::where('id', $id)->where('data_keys', 'policy_pages.element')->firstOrFail();
         $pageTitle = $page->data_values->title;
         $description = $page->data_values->details;
-        return view($this->activeTemplate . 'policy', compact('pageTitle', 'description'));
+        $pdf_url = $page->data_values->pdf;
+        return view($this->activeTemplate . 'policy', compact('pageTitle', 'description', 'pdf_url'));
     }
 
     public function merchants()
@@ -334,11 +335,13 @@ class SiteController extends Controller
             'name' => 'required',
             'subject' => 'required',
             'message' => 'required',
+            'ipaddress' => 'required',
         ]);
         $name = $request->name;
         $email = $request->email;
         $subject = $request->subject;
         $msg = $request->message;
+        $ipaddress = $request->ipaddress;
         
         $general = GeneralSetting::first();
         
@@ -347,8 +350,8 @@ class SiteController extends Controller
             return;
         }
         
-        
         $message = shortCodeReplacer("{{name}}", $name, $emailTemplate->email_body);
+        $message = shortCodeReplacer("{{ipaddress}}", $ipaddress, $message);
         $message = shortCodeReplacer("{{email}}", $email, $message);
         $message = shortCodeReplacer("{{subject}}", $subject, $message);
         $message = shortCodeReplacer("{{message}}", $msg, $message);
@@ -364,7 +367,7 @@ class SiteController extends Controller
             return back()->withNotify($notify);
         }
         
-        $notify[] = ['success', 'Thank you for contacting us, you hear from us soon.'];
+        $notify[] = ['success', 'Thank you for contacting 7-BIDS, you will hear from us soon.'];
         return back()->withNotify($notify);
     }
     
@@ -402,20 +405,20 @@ class SiteController extends Controller
         $message = shortCodeReplacer("{{artist}}", $artist, $message);
         $message = shortCodeReplacer("{{measure}}", $measure, $message);
         $message = shortCodeReplacer("{{addinfo}}", $addinfo, $message);
-        $message = shortCodeReplacer("{{usernames}}", $sex." ".$username, $message);
+        $message = shortCodeReplacer("{{usernames}}", $username, $message);
         
         // admin
         $adminmail = $general->email_from;
         $receive_mail = explode('@', $email)[0];
         
-        $subject = 'No-reply';
+        $subject = 'private sales';
 
         $totalimg= "";
         
         if(!empty($request->sellimagereplaceinput1id)) {
             foreach ($request->sellimagereplaceinput1id as $key => $value) {
                 foreach($value as $item) {
-                    $totalimg = $totalimg.'<a href="https://1400g.de/assets/images/product/'.$item.'" download rel="nofollow" target="_blank" title="Download image" style="margin: 2px;"><img src="https://1400g.de/assets/images/product/'.$item.'" style="width: 40px; height: 26px;" /></a>';
+                    $totalimg = $totalimg.'<a href="https://7-bids.com/assets/images/product/'.$item.'" download rel="nofollow" target="_blank" title="Download image" style="margin: 2px;"><img src="https://7-bids.com/assets/images/product/'.$item.'" style="width: 40px; height: 26px;" /></a>';
                 }
             }
         }
@@ -429,7 +432,7 @@ class SiteController extends Controller
             return back()->withNotify($notify);
         }
         
-        $notify[] = ['success', 'Thank you for contacting us, you hear from us soon.'];
+        $notify[] = ['success', 'Thank you for contacting 7-BIDS, you will hear from us soon.'];
         return back()->withNotify($notify);
     }
     
@@ -440,7 +443,8 @@ class SiteController extends Controller
             'addinfo' => 'required',
             'measure' => 'required',
             'damagestatus' => 'required',
-            'sex' => 'required',
+            'ipaddress' => 'required',
+            //'sex' => 'required',
             'username' => 'required',
             'sellimagereplaceinput1id' => 'nullable|array',
             'sellimagereplaceinput2id' => 'nullable|array',
@@ -451,6 +455,7 @@ class SiteController extends Controller
         $artist = $request->artist;
         $measure = $request->measure;
         $addinfo = $request->addinfo;
+        $ipaddress = $request->ipaddress;
         if($request->damagestatus == 1) {
             $damagestatus = "Yes";
         } else if($request->damagestatus == 2) {
@@ -458,11 +463,12 @@ class SiteController extends Controller
         } else {
             $damagestatus = "I don't know";
         }
-        if($request->sex == 0) {
+        $sex = '';
+        /*if($request->sex == 0) {
             $sex = "Madam";
         } else {
             $sex = "Mister";
-        }
+        }*/
         $username = $request->username;
         $email = $request->email;
         
@@ -476,23 +482,24 @@ class SiteController extends Controller
         $message = shortCodeReplacer("{{username}}", $username, $emailTemplate->email_body);
         $message = shortCodeReplacer("{{email}}", $email, $message);
         $message = shortCodeReplacer("{{artist}}", $artist, $message);
+        $message = shortCodeReplacer("{{ipaddress}}", $ipaddress, $message);
         $message = shortCodeReplacer("{{measure}}", $measure, $message);
         $message = shortCodeReplacer("{{addinfo}}", $addinfo, $message);
         $message = shortCodeReplacer("{{damagestatus}}", $damagestatus, $message);
-        $message = shortCodeReplacer("{{usernames}}", $sex." ".$username, $message);
+        $message = shortCodeReplacer("{{usernames}}", $username, $message);
         
         // admin
         $adminmail = $general->email_from;
         $receive_mail = explode('@', $email)[0];
         
-        $subject = 'No-reply';
+        $subject = 'sell with us';
 
         $totalimg= "";
         
         if(!empty($request->sellimagereplaceinput1id)) {
             foreach ($request->sellimagereplaceinput1id as $key => $value) {
                 foreach($value as $item) {
-                    $totalimg = $totalimg.'<a href="https://1400g.de/assets/images/product/'.$item.'" download rel="nofollow" target="_blank" title="Download image" style="margin: 2px;"><img src="https://1400g.de/assets/images/product/'.$item.'" style="width: 40px; height: 26px;" /></a>';
+                    $totalimg = $totalimg.'<a href="https://7-bids.com/assets/images/product/'.$item.'" download rel="nofollow" target="_blank" title="Download image" style="margin: 2px;"><img src="https://7-bids.com/assets/images/product/'.$item.'" style="width: 40px; height: 26px;" /></a>';
                 }
             }
         }
@@ -506,7 +513,7 @@ class SiteController extends Controller
             return back()->withNotify($notify);
         }
         
-        $notify[] = ['success', 'Success!'];
+        $notify[] = ['success', 'Thank you for contacting 7-BIDS, you will hear from us soon.'];
         return back()->withNotify($notify);
     }
     

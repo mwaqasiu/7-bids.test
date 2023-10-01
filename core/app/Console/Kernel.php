@@ -11,6 +11,9 @@ use App\Models\Auctionwinner;
 use App\Models\User;
 use App\Models\UserNotification;
 use App\Models\Transaction;
+use App\Models\Auctionwishlist;
+use App\Models\EmailTemplate;
+use App\Models\GeneralSetting;
 
 class Kernel extends ConsoleKernel
 {
@@ -84,6 +87,25 @@ class Kernel extends ConsoleKernel
                         $users = User::findOrFail($auctionbid[0]->user_id);
                         $users->bonuspoint += 100;
                         $users->save();
+                        
+                        $general = GeneralSetting::first();
+                        $notifyuser = User::findOrFail($auctionbid[0]->user_id);
+                        
+                        $wishlists = Auctionwishlist::where('ip_address', getenv('REMOTE_ADDR'))->where('auction_id', $auctionbid[0]->auction_id)->get();
+                        if(count($wishlists) > 0)
+                        {
+                            foreach($wishlists as $wishlist) {
+                                $wishs = Auctionwishlist::findOrFail($wishlist->id);
+                                $wishs->delete();
+                            }
+                        }
+                        
+                        notify($notifyuser, 'BID_WINNER', [
+                            'product' => $product->name,
+                            'product_price' => showAmount($auction->price, 0),
+                            'currency' => $general->cur_text,
+                            'amount' => showAmount($auctionbid[0]->amount, 0),
+                        ]);
                     }
                 }
             }

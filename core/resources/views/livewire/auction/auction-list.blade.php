@@ -111,8 +111,10 @@
                         <option value="created_at_desc">@lang('descending')</option>
                     </select>
                 </div>
+                <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">
             </div>
             <div class="ps-0 form-check form--check" style="display: flex;">
+                <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">
                 <label style="width:5rem">@lang('Price')</label>
                 <div style="width: 100%;">
                     <select class="price-select-sort form-select" wire:model="sortByPrice">
@@ -121,10 +123,11 @@
                         <option value="price_desc">@lang('descending')</option>
                     </select>
                 </div>
+                <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">
             </div>
         </div>
         <div class="search-result" style="background: transparent;">
-            @include($activeTemplate.'auction.filtered', ['auctions'=> $auctions])
+            @include($activeTemplate.'auction.filtered', ['auctions'=> $auctions, 'wishlists'=>$wishlists])
         </div>
     </div>
 </div>
@@ -155,11 +158,11 @@
                     $( "#slider-range" ).slider("option", "max", maxPrice).slider("option", "min", minPrice);
                 }
             });
+            
             // Livewire component JavaScript code
             document.addEventListener("livewire:load", function () {
                 Livewire.hook('message.processed', function (el, component) {
                     runCountDown();
-
                 });
             });
 
@@ -168,6 +171,7 @@
                     const date = $(this).data('date');
                     $(this).countdown({
                         date: date,
+                        offset: +6,
                         day: 'Day',
                         days: 'Days'
                     });

@@ -137,6 +137,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         Route::get('products/add', 'ProductController@create')->name('product.create');
         Route::post('store-product', 'ProductController@store')->name('product.store');
         Route::post('store-product-one-image', 'ProductController@storeoneimg')->name('product.oneimage');
+        Route::post('store-product-one-pdf', 'ProductController@storeonepdf')->name('product.onepdf');
         Route::post('store-product-onestatus-image', 'ProductController@storestatusimg')->name('product.onestatusimage');
         Route::get('product/edit/{id}', 'ProductController@edit')->name('product.edit');
         Route::get('product/startagain/{id}', 'ProductController@startagain')->name('product.startagain');
@@ -377,10 +378,16 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         //Front Sliders
         Route::get('frontsliders', 'GeneralSettingController@frontsliders')->name('frontsliders');
         Route::post('frontsliders', 'GeneralSettingController@addFrontsliders')->name('add.frontsliders');
-        Route::post('frontsliders/update/{id}', 'GeneralSettingController@updateFrontSlider')->name('update.frontsliders');
+        Route::post('frontsliders/edit', 'GeneralSettingController@editFrontsliders')->name('edit.frontsliders');
         Route::post('frontsliders/delete', 'GeneralSettingController@delFrontsliders')->name('delete.frontsliders');
         Route::post('frontsliders/pending', 'GeneralSettingController@pendingFrontsliders')->name('pending.frontsliders');
         Route::post('frontsliders/live', 'GeneralSettingController@liveFrontsliders')->name('live.frontsliders');
+        
+        // shipping cost
+        Route::get('shipping-cost', 'GeneralSettingController@shippingcost')->name('shipping-cost');
+        Route::post('shipping-cost/add', 'GeneralSettingController@addShippingcost')->name('add.shipping-cost');
+        Route::post('shipping-cost/edit', 'GeneralSettingController@editShippingcost')->name('edit.shipping-cost');
+        Route::post('shipping-cost/delete', 'GeneralSettingController@deleteShippingcost')->name('delete.shipping-cost');
 
         //Charity Project
         Route::get('charity', 'GeneralSettingController@charity')->name('charity');
@@ -429,6 +436,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
 
             Route::get('frontend-sections/{key}', 'FrontendController@frontendSections')->name('sections');
             Route::post('frontend-content/{key}', 'FrontendController@frontendContent')->name('sections.content');
+            Route::post('frontend-contentorder/{key}', 'FrontendController@frontendFaqOrder')->name('sections.contentorder');
             Route::get('frontend-element/{key}/{id?}', 'FrontendController@frontendElement')->name('sections.element');
             Route::post('remove', 'FrontendController@remove')->name('remove');
 

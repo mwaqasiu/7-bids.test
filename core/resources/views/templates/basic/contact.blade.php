@@ -4,11 +4,11 @@
 @endphp
 @section('content')
     <!-- Contact -->
-    <section class="contact-section pt-120 pb-120 pb-lg-0">
+    <section class="contact-section pt-60 pb-120 pb-lg-0">
         <div class="container">
-            <div class="contact-area">
+            <div class="contact-area" style="align-items: flex-start;">
                 <div class="contact-content">
-                    <div class="contact-content-top">
+                    <div class="contact-content-top" style="margin-top: 30px;">
                         <h3 class="title">{{ __($contact->data_values->title) }}</h3>
                         <p>{{ __($contact->data_values->short_details) }}</p>
                     </div>
@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="cont">
                                     <h6 class="name">@lang('Email')</h6>
-                                    <span class="info"><a href="mailto:{{ $contact->data_values->email_address }}">{{ __($contact->data_values->email_address) }}</a></span>
+                                    <span class="info">{{ __($contact->data_values->email_address) }}</span>
                                 </div>
                             </li>
                             <li>
@@ -39,9 +39,7 @@
                                 </div>
                                 <div class="cont">
                                     <h6 class="name">@lang('Phone')</h6>
-                                    <a href="tel:{{ $contact->data_values->contact_number }}">
-                                        <span class="info">{{ __($contact->data_values->contact_number) }}</span>
-                                    </a>
+                                    <span class="info">{{ __($contact->data_values->contact_number) }}</span>
                                 </div>
                             </li>
                         </ul>
@@ -50,10 +48,10 @@
                 <div class="contact-wrapper bg--section">
                     <div class="section__header text-start icon__contain">
                         <h3 class="section__title">
-                            <div class="contact-icon">
-                                <i class="las la-place-of-worship"></i>
-                            </div>
-                            <div class="cont">
+                            <!--<div class="contact-icon">-->
+                            <!--    <i class="las la-place-of-worship"></i>-->
+                            <!--</div>-->
+                            <div class="cont" style="padding-left: 0;">
                                 @lang('Send Message')
                             </div>
                         </h3>
@@ -90,9 +88,11 @@
                                     class="form-control form--control" required>{{ old('message') }}</textarea>
                             </div>
                         </div>
+                        <input type="hidden" value="{{ getenv('REMOTE_ADDR') }}" name="ipaddress" id="ipaddress" required />
                         <div class="col-sm-12">
                             <div class="form-group mb-0">
-                                <button type="submit" class="cmn--btn w-100">@lang('SUBMIT')</button>
+                                <button type="submit" class="cmn--btn w-100 contactsubmitbtn" style="display: none;">@lang('SUBMIT YOUR INQUIRY')</button>
+                                <button type="button" class="cmn--btn w-100 contactclickbtn">@lang('SUBMIT YOUR INQUIRY')</button>
                             </div>
                         </div>
                     </form>
@@ -114,6 +114,51 @@
 <style>
     .form-control {
         background-color: #336699;
+        color: #fff;
     }
 </style>
+@endpush
+
+@push('script')
+<script>
+    (function ($) {
+        "use strict";
+        
+        var warningmsg = "@lang('Please fill in all the blanks.')";
+        
+        $('.contactclickbtn').on('click', function() {
+            if($('#name').val().trim() == "") {
+                iziToast['warning']({
+                    message: warningmsg,
+                    position: "topRight"
+                });
+                $('#name').focus();
+                return;
+            } else if($('#email').val().trim() == "") {
+                iziToast['warning']({
+                    message: warningmsg,
+                    position: "topRight"
+                });
+                $('#email').focus();
+                return;
+            } else if($('#subject').val().trim() == "") {
+                iziToast['warning']({
+                    message: warningmsg,
+                    position: "topRight"
+                });
+                $('#subject').focus();
+                return;
+            } else if($('#message').val().trim() == "") {
+                iziToast['warning']({
+                    message: warningmsg,
+                    position: "topRight"
+                });
+                $('#message').focus();
+                return;
+            } else {
+                $('.contactsubmitbtn').click();
+            }
+        });
+    })(jQuery);
+</script>
 @endpush

@@ -174,7 +174,7 @@
                                         <i class="las la-trash text--shadow"></i>
                                     </button>
                                 @else
-                                    <button class="icon-btn btn--danger deleteOneBid" style="margin-left: 5px;" data-id="{{ $bid->auction->id }}">
+                                    <button class="icon-btn btn--danger deleteOneBid" style="margin-left: 5px;" data-id="{{ $bid->id }}">
                                         <i class="la la-trash text--shadow"></i>
                                     </button>
                                 @endif
@@ -293,11 +293,10 @@
                         <td style="width: 65%; text-align: right; padding: 8px 0 8px 15px;">
                             <select class="bidcalc_select bid_calc_shipping_select">
                                 <option value="0">@lang('Select')</option>
-                                <option value="10">up to 10 kg within Germany - 10 Euro</option>
-                                <option value="20">up to 10 kg within the EU - 20 Euro</option>
-                                <option value="30">up to 2 kg outside the EU - 30 Euro</option>
-                                <option value="50">up to 5 kg outside the EU - 50 Euro</option>
-                                <option value="70">up to 10 kg outside the EU - 70 Euro</option>
+                                @foreach($shippings as $shipping)
+                                    <option value="{{ $shipping->shipping_amount }}">{{ $shipping->shipping_text }} - {{ $shipping->shipping_amount }} Euro</option>
+                                @endforeach
+                                <option value="0">collection by the buyer</option>
                             </select>
                         </td>
                     </tr>

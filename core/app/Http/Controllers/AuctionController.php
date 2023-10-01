@@ -13,6 +13,7 @@ use App\Models\Auction;
 use App\Models\Auctionquestion;
 use App\Models\Product;
 use App\Models\Answer;
+use App\Models\Shipping;
 use App\Models\Category;
 use App\Models\Merchant;
 use App\Models\Auctionreview;
@@ -182,7 +183,7 @@ class AuctionController extends Controller
         }
 
         $auctions = $auctions->paginate(getPaginate(18));
-
+        
         return view($this->activeTemplate . 'auction.filtered',
             compact('pageTitle',
                 'allAuctions',
@@ -208,6 +209,8 @@ class AuctionController extends Controller
         $relatedAuctionbids = Auctionbid::where('auction_id', $id)->with('user')->orderBy('amount', 'DESC')->orderBy('created_at', 'ASC')->get();
 
         $relatedAuctionbidary = Auctionbid::where('auction_id', $id)->with('user')->groupBy('user_id')->select(DB::raw("*, MIN(created_at) AS maxcreated_at"))->orderBy('maxcreated_at', 'ASC')->get();
+        
+        $shippings = Shipping::get();
 
         $empty = "No bidders";
 
@@ -243,7 +246,7 @@ class AuctionController extends Controller
 
         $wishlist = Auctionwishlist::where('auction_id', $auction->id)->where('ip_address', getenv('REMOTE_ADDR'))->get();
 
-        return view($this->activeTemplate . 'auction.details', compact('pageTitle', 'auctionanswers', 'auctionquestions', 'auctionquestions_count', 'auction_count', 'product_count', 'wishlist', 'maxbidamount', 'maxuserbidamount', 'auction', 'relatedAuctions', 'relatedAuctionbids', 'relatedAuctionbidary', 'seoContents', 'winnerflag', 'winnerdatas', 'empty'));
+        return view($this->activeTemplate . 'auction.details', compact('pageTitle', 'shippings', 'auctionanswers', 'auctionquestions', 'auctionquestions_count', 'auction_count', 'product_count', 'wishlist', 'maxbidamount', 'maxuserbidamount', 'auction', 'relatedAuctions', 'relatedAuctionbids', 'relatedAuctionbidary', 'seoContents', 'winnerflag', 'winnerdatas', 'empty'));
     }
 
     public function auctionQuestionSave(Request $request)
@@ -282,7 +285,7 @@ class AuctionController extends Controller
         $sellernotification->question = $request->question;
         $sellernotification->save();
 
-        $notify[] = ['success', 'Question successfully sent.'];
+        $notify[] = ['success', 'Thank you for contacting 7-BIDS, you will hear from us soon.'];
         return back()->withNotify($notify);
     }
 

@@ -93,9 +93,9 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('templates.basic.userpartials.usersidenav', function ($view) {
             $view->with([
-                'leading_bid_count' => Auctionbid::where('user_id', auth()->id())->whereNotIn('auction_id', Auctionwinner::where('user_id', auth()->id())->select('auction_id')->get())->whereNotIn('auction_id', Auction::expired()->select('id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->latest()->paginate(getPaginate())->count(),
-                'winning_bid_count' => Auctionwinner::where('user_id', auth()->id())->with('user','auction', 'auctionbid')->latest()->paginate(getPaginate())->count(),
-                'winning_history_count' => Winner::where('user_id', auth()->id())->with('user','product', 'bid')->latest()->paginate(getPaginate())->count(),
+                'leading_bid_count' => Auctionbid::where('user_id', auth()->id())->where('delete_status', 0)->whereNotIn('auction_id', Auctionwinner::where('user_id', auth()->id())->select('auction_id')->get())->whereNotIn('auction_id', Auction::expired()->select('id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->latest()->paginate(getPaginate())->count(),
+                'winning_bid_count' => Auctionwinner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user','auction', 'auctionbid')->latest()->paginate(getPaginate())->count(),
+                'winning_history_count' => Winner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user','product', 'bid')->latest()->paginate(getPaginate())->count(),
             ]);
         });
 

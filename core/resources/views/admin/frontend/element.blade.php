@@ -10,6 +10,10 @@
                         @if(@$data)
                             <input type="hidden" name="id" value="{{$data->id}}">
                         @endif
+                        
+                        <input type="hidden" id="pdfuploadurlhidden" value="{{ route("admin.product.onepdf") }}" />
+                        <input type="hidden" id="pdfuploadtokenhidden" value="{{ csrf_token() }}" />
+                        
                         <div class="form-row">
                             @php
                                 $imgCount = 0;
@@ -99,16 +103,23 @@
                                                     </select>
                                                 </div>
                                             </div>
-
                                     @else
-
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label>{{ __(inputTitle($k)) }}</label>
-                                                <input type="text" class="form-control" placeholder="{{ __(inputTitle($k)) }}" name="{{$k}}" value="{{ @$data->data_values->$k }}" required/>
+                                        @if($key == "policy_pages" && $k == "pdf")
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label style="cursor: pointer;" for="pdfuploadinput">@lang('PDF Upload') <i class="las la-upload" style="color: red;"></i></label>
+                                                    <input type="file" id="pdfuploadinput" accept=".pdf,.PDF" style="display: none;" />
+                                                    <input type="text" id="realpdfuploadinput" readonly class="form-control" placeholder="@lang('PDF Upload')" name="{{$k}}" value="{{ @$data->data_values->$k }}" required/>
+                                                </div>
                                             </div>
-                                        </div>
-
+                                        @else
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label>{{ __(inputTitle($k)) }}</label>
+                                                    <input type="text" class="form-control" placeholder="{{ __(inputTitle($k)) }}" name="{{$k}}" value="{{ @$data->data_values->$k }}" required/>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endif
                                 @endif
                             @endforeach
@@ -172,6 +183,44 @@
                     });
                 } else {
                     $('.createsubmitbutton').click();
+                }
+            });
+            
+            $('#pdfuploadinput').on('change', async function() {
+                if(this.files && this.files[0]) {
+                    if(Number(this.files[0].size / 1024 / 1024) <= 10) {
+                        var stoken = $('#pdfuploadtokenhidden').val();
+                        var surl = $('#pdfuploadurlhidden').val()
+                        
+                        var formData = new FormData();
+                        formData.append("pdffile", this.files[0]);
+                        formData.append("_token", stoken);
+                        
+                        await $.ajax({
+                          method: 'post',
+                          processData: false,
+                          contentType: false,
+                          cache: false,
+                          data: formData,
+                          enctype: 'multipart/form-data',
+                          url: surl,
+                          success: function (responseURL) {
+                            iziToast['success']({
+                                message: "PDF Upload Success!",
+                                position: "topRight"
+                            });
+                            $('#realpdfuploadinput').val(responseURL);
+                          },
+                          error: function(data){
+                            return;
+                          }
+                        });
+                    } else {
+                        iziToast['error']({
+                            message: "Size is larger than 10MB!",
+                            position: "topRight"
+                        });
+                    }
                 }
             });
         })(jQuery);

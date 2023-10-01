@@ -21,7 +21,6 @@
                             <tbody>
                             @forelse($login_logs as $log)
                                 <tr>
-
                                     <td data-label="@lang('User')">
                                         <span class="font-weight-bold">{{ @$log->user->fullname }}</span>
                                         <br>

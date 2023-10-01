@@ -43,11 +43,11 @@ class User extends Authenticatable
     ];
 
 
-
-
     public function login_logs()
     {
-        return $this->hasMany(UserLogin::class);
+        $sdate=date_create(now());
+        date_sub($sdate, date_interval_create_from_date_string("7days"));
+        return $this->hasMany(UserLogin::class)->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"));
     }
 
     public function transactions()

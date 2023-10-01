@@ -10,7 +10,7 @@
     <title> {{ $general->sitename(__($pageTitle)) }}</title>
 
     @include('partials.seo')
-
+    
 
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/animate.css') }}">
@@ -26,11 +26,10 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/color.php')}}?color={{ $general->base_color }}">
 
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] .'/favicon.png') }}" type="image/x-icon">
-
+   
     @stack('style-lib')
 
     @stack('style')
-
 
 </head>
 
@@ -42,8 +41,8 @@
 
         <div class="overlay"></div>
         <a href="#0" class="scrollToTop"><i class="las la-angle-up"></i></a>
-
-
+        
+        
         <main class="dashboard-section bg--section">
             @include($activeTemplate.'partials.sidenav')
             <article class="dashboard__article">
@@ -71,7 +70,7 @@
 
     @stack('modal')
 
-
+    <script src="https://cloud.ccm19.de/app.js?apiKey=00674c0f4d54871ba82fade7999d171432408559ad4c4507&amp;domain=6516a116857d65f1fc0314b5" referrerpolicy="origin"></script>
     <script src="{{asset('assets/global/js/jquery-3.6.0.min.js')}}"></script>
     <script src="{{asset('assets/global/js/bootstrap.min.js')}}"></script>
     <script src="{{ asset($activeTemplateTrue.'js/rafcounter.min.js') }}"></script>
@@ -89,7 +88,7 @@
     @include('partials.notify')
     @include('partials.plugins')
     @stack('script')
-
+    
     <script>
 
         (function ($) {
@@ -110,7 +109,7 @@
             }
             });
         })(jQuery);
-
+        
     </script>
 
 </body>

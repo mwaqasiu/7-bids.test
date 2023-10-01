@@ -4,7 +4,7 @@
 <!-- Product -->
 <section class="product-section pt-120 pb-120">
     <div class="container">
-        <div class="position-fixed position-absolute start-50 translate-middle-x d-lg-none" style="bottom: 63px; z-index: 10; background: none;">
+        <div class="position-fixed position-absolute start-50 translate-middle-x d-lg-none" style="bottom: 63px; z-index: 999; background: none;">
             <div style="background: transparent !important;">
                 <a href="#" class="cmn--btn filter-btn-sticky">Filter</a>
             </div>

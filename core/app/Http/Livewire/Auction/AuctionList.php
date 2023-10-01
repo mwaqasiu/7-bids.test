@@ -175,9 +175,12 @@ class AuctionList extends Component
                     $query->live()->doesnthave('auctionwinner');
                 });
         }])->whereStatus(true)->get();
+        
+        $wishlists = Auctionwishlist::all();
 
         return view('livewire.auction.auction-list')
             ->with('auctions', $auctions)
+            ->with('wishlists', $wishlists)
             ->with('categories', $categories)
             ->with('emptyMessage', $emptyMessage);
     }

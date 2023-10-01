@@ -16,6 +16,7 @@ use App\Models\SupportTicket;
 use App\Models\User;
 use App\Models\Searchlist;
 use App\Models\Transaction;
+use App\Models\Shipping;
 use App\Models\Paymentmethod;
 use App\Models\Auctionwinner;
 use App\Models\AdminNotification;
@@ -251,8 +252,10 @@ class UserController extends Controller
     }
     
     public function deleteleadingbidHistory(Request $request) {
-        $onebid = Auctionbid::where('auction_id', $request->delbid_id);
-        $onebid->delete();
+        $onebid = Auctionbid::findOrFail($request->delbid_id);
+        $onebid->delete_status = 1;
+        $onebid->save();
+        
         $notify[] = ['success', 'Bid Deleted successfully.'];
         return back()->withNotify($notify);
     }
@@ -260,45 +263,49 @@ class UserController extends Controller
     public function leadingbidHistory() {
         $pageTitle = 'Your bids';
         $emptyMessage = 'No bids found.';
+        $shippings = Shipping::get();
         $skey = "120";
         $outtenbids = Auctionbid::where('user_id', '!=', auth()->id())->get();
-        $leadingbids = Auctionbid::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->whereNotIn('auction_id', Auctionwinner::where('user_id', auth()->id())->select('auction_id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->with('user', 'auction')->get();
-        return view($this->activeTemplate.'user.leading_bid', compact('pageTitle', 'emptyMessage', 'leadingbids', 'skey', 'outtenbids'));
+        $leadingbids = Auctionbid::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->whereNotIn('auction_id', Auctionwinner::where('user_id', auth()->id())->select('auction_id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->with('user', 'auction')->get();
+        return view($this->activeTemplate.'user.leading_bid', compact('pageTitle', 'shippings', 'emptyMessage', 'leadingbids', 'skey', 'outtenbids'));
     }
     
     public function searchleadingbidHistory($searchkey) {
         $pageTitle = "My bids";
         $emptyMessage = "No bidding found";
         $skey = $searchkey;
+        $shippings = Shipping::get();
         $outtenbids = Auctionbid::where('user_id', '!=', auth()->id())->get();
-        $leadingbids = Auctionbid::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->whereNotIn('auction_id', Auctionwinner::query()->select('auction_id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->with('user', 'auction')->get();
-        return view($this->activeTemplate.'user.leading_bid', compact('pageTitle', 'emptyMessage', 'leadingbids', 'skey', 'outtenbids'));
+        $leadingbids = Auctionbid::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->whereNotIn('auction_id', Auctionwinner::query()->select('auction_id')->get())->select('*', DB::raw("MAX(amount) as maxamount"))->groupBy("auction_id")->with('user', 'auction')->get();
+        return view($this->activeTemplate.'user.leading_bid', compact('pageTitle', 'shippings', 'emptyMessage', 'leadingbids', 'skey', 'outtenbids'));
     }
     
     public function winningbidHistory() {
         $pageTitle = 'Your Winning Bids';
         $emptyMessage = 'No winning bids found.';
         $user = Auth::user();
+        $shippings = Shipping::get();
         $url = $user->shipping_url;
         $checkdata = Checkout::where('user_id', $user->id)->get();
         $paymentmethods = Paymentmethod::where('status', 1)->orderBy('id', 'DESC')->get();
         $skey = "120";
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        $winningbids = Auctionwinner::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user', 'checkout','auction', 'auctionbid')->orderBy('id', 'DESC')->get();
-        return view($this->activeTemplate.'user.winning_bid', compact('pageTitle', 'countries', 'emptyMessage', 'winningbids', 'skey', 'url', 'checkdata', 'paymentmethods'));
+        $winningbids = Auctionwinner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user', 'checkout','auction', 'auctionbid')->orderBy('id', 'DESC')->get();
+        return view($this->activeTemplate.'user.winning_bid', compact('pageTitle', 'shippings', 'countries', 'emptyMessage', 'winningbids', 'skey', 'url', 'checkdata', 'paymentmethods'));
     }
     
     public function searchwinningbidHistory($searchkey) {
         $pageTitle = 'Your Winning Bids';
         $emptyMessage = 'No winning bids found.';
         $user = Auth::user();
+        $shippings = Shipping::get();
         $url = $user->shipping_url;
         $skey = $searchkey;
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
         $checkdata = Checkout::where('user_id', $user->id)->get();
         $paymentmethods = Paymentmethod::where('status', 1)->orderBy('id', 'DESC')->get();
-        $winningbids = Auctionwinner::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->with('user','auction', 'auctionbid')->get();
-        return view($this->activeTemplate.'user.winning_bid', compact('pageTitle', 'countries', 'emptyMessage', 'winningbids', 'skey', 'url', 'checkdata', 'paymentmethods'));
+        $winningbids = Auctionwinner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->with('user','auction', 'auctionbid')->get();
+        return view($this->activeTemplate.'user.winning_bid', compact('pageTitle', 'shippings', 'countries', 'emptyMessage', 'winningbids', 'skey', 'url', 'checkdata', 'paymentmethods'));
     }
     
     public function addshippingnew(Request $request) {
@@ -452,25 +459,27 @@ class UserController extends Controller
         $emptyMessage = 'No buy it now orders found.';
         $user = Auth::user();
         $url = $user->shipping_url;
+        $shippings = Shipping::get();
         $skey = "120";
         $checkdata = Checkout::where('user_id', $user->id)->get();
         $paymentmethods = Paymentmethod::where('status', 1)->orderBy('id', 'DESC')->get();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        $winningHistories = Winner::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user','product', 'bid', 'checkout')->orderBy('id', "DESC")->get();
-        return view($this->activeTemplate.'user.winning_history', compact('pageTitle', 'countries', 'emptyMessage', 'winningHistories', 'url', 'skey', 'checkdata', 'paymentmethods'));
+        $winningHistories = Winner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL 120 DAY)'))->with('user','product', 'bid', 'checkout')->orderBy('id', "DESC")->get();
+        return view($this->activeTemplate.'user.winning_history', compact('pageTitle', 'shippings', 'countries', 'emptyMessage', 'winningHistories', 'url', 'skey', 'checkdata', 'paymentmethods'));
     }
     
     public function searchwinningHistory($searchkey) {
         $pageTitle = 'My Buy It Now Orders';
         $emptyMessage = 'No buy it now orders found.';
         $user = Auth::user();
+        $shippings = Shipping::get();
         $url = $user->shipping_url;
         $skey = $searchkey;
         $checkdata = Checkout::where('user_id', $user->id)->get();
         $paymentmethods = Paymentmethod::where('status', 1)->orderBy('id', 'DESC')->get();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        $winningHistories = Winner::where('user_id', auth()->id())->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->with('user','product', 'bid')->orderBy('id', "DESC")->get();
-        return view($this->activeTemplate.'user.winning_history', compact('pageTitle', 'countries', 'emptyMessage', 'winningHistories', 'url', 'skey', 'checkdata', 'paymentmethods'));
+        $winningHistories = Winner::where('user_id', auth()->id())->where('delete_status', 0)->where('created_at', '>=', DB::raw('DATE_SUB(NOW(), INTERVAL '.$searchkey.' DAY)'))->with('user','product', 'bid')->orderBy('id', "DESC")->get();
+        return view($this->activeTemplate.'user.winning_history', compact('pageTitle', 'shippings', 'countries', 'emptyMessage', 'winningHistories', 'url', 'skey', 'checkdata', 'paymentmethods'));
     }
     
     public function productupdatecombineshipping(Request $request) {
@@ -599,8 +608,9 @@ class UserController extends Controller
         $this->validate($request, [
             'delbid_id' => 'required',
         ]);
-        $winningbids = Auctionwinner::where('id', $request->delbid_id);
-        $winningbids->delete();
+        $winningbids = Auctionwinner::findOrFail($request->delbid_id);
+        $winningbids->delete_status = 1;
+        $winningbids->save();
         $notify[] = ['success', 'Item deleted successfully.'];
         return back()->withNotify($notify);
     }
@@ -624,8 +634,9 @@ class UserController extends Controller
         $this->validate($request, [
             'delbid_id' => 'required',
         ]);
-        $winningbids = Winner::where('id', $request->delbid_id);
-        $winningbids->delete();
+        $winningbids = Winner::findOrFail($request->delbid_id);
+        $winningbids->delete_status = 1;
+        $winningbids->save();
         $notify[] = ['success', 'Item deleted successfully.'];
         return back()->withNotify($notify);
     }

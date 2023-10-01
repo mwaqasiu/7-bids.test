@@ -38,22 +38,13 @@
                         </div>
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Name')
-                                <span class="font-weight-bold">{{ __($user->fullname) }}</span>
+                                @lang('Customer ID')
+                                <span class="font-weight-bold">{{ __($user->customerid) }}</span>
                             </li>
 
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 @lang('Username')
                                 <span class="font-weight-bold">{{ __($user->username) }}</span>
-                            </li>
-
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Email')
-                                <span class="font-weight-bold">{{ auth()->user()->email }}</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                @lang('Mobile')
-                                <span class="font-weight-bold">{{ auth()->user()->mobile }}</span>
                             </li>
                         </ul>
                     </div>

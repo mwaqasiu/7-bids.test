@@ -3,6 +3,7 @@
 @section('content')
 
 @php
+
     $paymentname = "";
     if($checkexist) {
         $paymentname = $checkoutprofile[0]->paymentname;
@@ -10,20 +11,22 @@
 @endphp
 <!-- Shopping -->
 <section class="pt-5 pb-120">
+    
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="step-main">
             <div class="step-method-div">
-                <div class="step-method1 step-method"></div>
-                <div class="step-method-text1">@lang('Shopping Cart')</div>
+                <div class="step-method1 step-method "></div>
+                <div class="step-method-text1 text--white">@lang('Shopping Bag')</div>
                 <div class="step-submethod1"></div>
                 <div class="step-method2"></div>
-                <div class="step-method-text2">@lang('Address')</div>
+                <div class="step-method-text2 text--white">@lang('Address')</div>
                 <div class="step-submethod2"></div>
                 <div class="step-method3"></div>
-                <div class="step-method-text3">@lang('Payment')</div>
+                <div class="step-method-text3 text--white">@lang('Payment')</div>
             </div>
+            
             <!--<div class="step-method-div-text">-->
             <!--    <div>@lang('Shopping Cart')</div>-->
             <!--    <div>@lang('Address')</div>-->
@@ -59,46 +62,66 @@
                 @lang('ADD ANOTHER ITEM')
             </a>
             <input type="hidden" class="nextstephidden" name="nextstephidden" value="1">
-            <button class="cmn--btn btn--sm nextStepBtn" style="margin: 0; font-weight: 100;">
-                @lang('NEXT STEP')
-            </button>
+            @if (auth()->check())
+                <button class="cmn--btn btn--sm nextStepBtn" style="margin: 0; font-weight: 100;">
+                    @lang('NEXT STEP')
+                </button>
+            @else
+                <button class="cmn--btn btn--sm unauthshippingbuybtn" style="margin: 0; font-weight: 100;">
+                    @lang('NEXT STEP')
+                </button>
+            @endif
         </div>
         <div class="summary-block">
             <div>
-                @lang('Your shopping cart contains:') <span style="font-weight: bold;">@php echo count($shoppings) @endphp</span> @lang('item')
+                @lang('Your shopping bag contains:') <span style="font-weight: bold;">@php echo count($shoppings) @endphp</span> @lang('item')
             </div>
             @php $totalprice = 0 @endphp
-            <table class="table cmn--table shopping-table">
+            <table class="shopping-table table cmn--table">
                 <thead>
                   <tr>
-                    <th scope="col">@lang('Ref')</th>
-                    <th scope="col">@lang('Item')</th>
-                    <th scope="col" style="width: 15%;">@lang('Weight')</th>
-                    <th scope="col" style="width: 15%;">@lang('Seller')</th>
-                    <th scope="col" style="width: 15%;">@lang('Price')</th>
-                    <th scope="col" style="width: 8%;">&nbsp;</th>
+                    <th scope="col" style="text-transform: none;">@lang('ref')</th>
+                    <th scope="col" style="text-transform: none;">@lang('item')</th>
+                    <th scope="col" style="width: 15%; text-transform: none;">@lang('weight')</th>
+                    <th scope="col" style="width: 15%; text-transform: none;">@lang('seller')</th>
+                    <th scope="col" style="width: 15%; text-transform: none;">@lang('price')</th>
+                    <th scope="col" style="width: 8%; text-transform: none;">&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
                     @if(count($shoppings) == 0)
                       <tr>
                          <td colspan="6" style="justify-content: center;">
-                            <p style="font-size: 24px; padding: 50px 0;">@lang($emptyMessage)</p>
+                            <p style="font-weight: 545; font-size: 19px; padding: 50px 0;">@lang($emptyMessage)</p>
                         </td>
                       </tr>
                     @else
                         @foreach ($shoppings as $shopping)
                           <tr>
-                            <td data-label="@lang('Ref')">{{ $loop->index + 1 }}</td>
-                            <td data-label="@lang('Item')" class="shoppingcartimagetd">
+                            <td data-label="@lang('ref')">{{ $loop->index + 1 }}</td>
+                            <td data-label="@lang('item')" class="shoppingcartimagetd">
                                 <div>
                                     <a href="{{ route('product.details', [$shopping->pid, slug($shopping->name)]) }}">
-                                        <img id="image__{{ $shopping->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$shopping->image,imagePath()['product']['size'])}}" alt="shopping" style="width: 75px; height: 75px; max-width: 150px !important;">
+                                        @php
+                                            $imagereplaceinputnumber = 0;
+                                        @endphp
+                                        @if($shopping->product->imagereplaceinput)
+                                            @foreach ($shopping->product->imagereplaceinput as $imgri)
+                                                @php
+                                                    $imagereplaceinputnumber = $imagereplaceinputnumber + 1;
+                                                @endphp
+                                                @if($imagereplaceinputnumber <= 1)
+                                                    <img id="image__{{ $shopping->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}" alt="shopping" style="width: 75px; height: 75px; max-width: 150px !important;">
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            <img id="image__{{ $shopping->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$shopping->image,imagePath()['product']['size'])}}" alt="shopping" style="width: 75px; height: 75px; max-width: 150px !important;">
+                                        @endif
                                     </a>
                                     <span>{{ $shopping->product->name }}</span>
                                 </div>
                             </td>
-                            <td data-label="@lang('Weight')">
+                            <td data-label="@lang('weight')">
                                 @if ($shopping->product->specification)
                                     @foreach ($shopping->product->specification as $spec)
                                         @if($spec['name'] == "Weight")
@@ -117,10 +140,11 @@
                                     @php echo "-"; @endphp
                                 @endif
                             </td>
-                            <td data-label="@lang('Seller')">
+                            <td data-label="@lang('seller')">
+                                
                                 @if($shopping->admin_id)
                                     @php
-                                        echo $shopping->admin->username;
+                                        echo ($shopping->admin->username === 'admin'?'7-BIDS':$shopping->admin->username);
                                     @endphp
                                 @endif
                                 @if($shopping->merchant_id)
@@ -129,9 +153,11 @@
                                     @endphp
                                 @endif
                             </td>
-                            <td data-label="@lang('Price')">{{ $general->cur_sym }} {{ number_format($shopping->price, 0) }}</td>
+                            <td data-label="@lang('price')">{{ $general->cur_sym }} {{ number_format($shopping->price, 0,'','.') }}</td>
                             <td data-label="&nbsp;">
-                              <button class="deleteShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-shopid="{{ $shopping->id }}"><i class="fa fa-trash"></i></button>
+                              <button class="deleteShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-shopid="{{ $shopping->id }}">
+                                  <i class="las la-trash-alt" style="font-size: 16px;"></i>
+                              </button>
                             </td>
                           </tr>
                           @php $totalprice += $shopping->price @endphp
@@ -145,7 +171,7 @@
                 <div style="display: flex; align-items: center;">
                   <div class="input-group input--group" style="display: flex; align-items: center;">
                     <span style="margin-right: 5px; background-color: transparent;">@lang('Voucher'): </span>
-                    <input type="text" class="form-control" value="" style="background-color: #001329;">
+                    <input type="text" class="form-control form--control form--control-2" value="">
                     <button type="submit" class="cmn--btn shoppingapplybtn" style="font-weight: 100; min-width: 100px; margin-left: 15px; border-radius: 5px;">@lang('APPLY')</button>
                   </div>
                 </div>
@@ -156,12 +182,10 @@
                         <span style="background-color: transparent !important; margin-right: 5px; width: 200px;">@lang('Shipping Costs'):</span>
                         <select class="form-control form--control-2 shippingselectbtn" style="height: 40px; -webkit-appearance: auto; appearance: auto; width: unset;">
                             <option value="0">@lang('Select')</option>
-                            <option value="10">up to 10 kg within Germany - 10 Euro</option>
-                            <option value="20">up to 10 kg within the EU - 20 Euro</option>
-                            <option value="30">up to 2 kg outside the EU - 30 Euro</option>
-                            <option value="50">up to 5 kg outside the EU - 50 Euro</option>
-                            <option value="70">up to 10 kg outside the EU - 70 Euro</option>
-                            <option value="100">pay with bonus points</option>
+                            @foreach($shippings as $shipping)
+                                <option value="{{ $shipping->shipping_amount }}">{{ $shipping->shipping_text }} - {{ $shipping->shipping_amount }} Euro</option>
+                            @endforeach
+                            <option value="0">@lang('collection by the buyer')</option>
                         </select>
                     </div>
                   @else
@@ -170,11 +194,14 @@
                         <span style="background-color: transparent !important; margin-right: 5px; width: 200px;">@lang('Shipping Costs Seller') {{ $loop->iteration }}:</span>
                         <select class="form-control form--control-2 shippingselectbtn" style="height: 40px; -webkit-appearance: auto; appearance: auto; width: unset;">
                             <option value="0">@lang('Select')</option>
-                            <option value="10">up to 10 kg within Germany - 10 Euro</option>
-                            <option value="20">up to 10 kg within the EU - 20 Euro</option>
-                            <option value="30">up to 2 kg outside the EU - 30 Euro</option>
-                            <option value="50">up to 5 kg outside the EU - 50 Euro</option>
-                            <option value="70">up to 10 kg outside the EU - 70 Euro</option>
+                            <option value="10">@lang('up to 20 kg within Germany - 10 Euro')</option>
+                            <option value="20">@lang('up to 10 kg within the EU - 20 Euro')</option>
+                            <option value="30">@lang('up to 20 kg within the EU - 30 Euro')</option>
+                            <option value="30">@lang('up to 2 kg outside the EU - 30 Euro')</option>
+                            <option value="50">@lang('up to 5 kg outside the EU - 50 Euro')</option>
+                            <option value="70">@lang('up to 10 kg outside the EU - 70 Euro')</option>
+                            <option value="120">@lang('up to 20 kg outside the EU - 120 Euro')</option>
+                            <option value="0">@lang('collection by the buyer')</option>
                         </select>
                       </div>
                     @endforeach
@@ -188,7 +215,7 @@
                 <span style="background-color: transparent !important;">
                     @lang('Total Amount'):
                 </span>
-                <input type="text" readonly value="{{ $general->cur_sym }} {{ number_format($totalprice, 2) }}" class="form-control form--control-2 totalpricespan" style="width: 318px; background: transparent !important; height: 40px; color: #a4bdce; border: unset;" />
+                <input type="text" readonly value="{{ $general->cur_sym }} {{ number_format($totalprice, 0,'','.') }}" class="form-control form--control-2 totalpricespan" style="width: 318px; background: transparent !important; height: 40px; color: #a4bdce; border: unset;" />
               </div>
             </div>
             @endif
@@ -200,9 +227,21 @@
                     @lang('ADD ANOTHER ITEM')
                 </a>
                 <input type="hidden" class="nextstephidden" name="nextstephidden" value="1">
-                <button class="cmn--btn btn--sm nextStepBtn" style="margin: 0; font-weight: 100;">
-                    @lang('NEXT STEP')
-                </button>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <button class="cmn--btn btn--sm nextStepBtn" style="margin: 0; margin-right: 10px; font-weight: 100;">
+                        @lang('GUEST ORDER')
+                    </button>
+                    <span>@lang('or')</span>
+                    @if (auth()->check())
+                        <button class="cmn--btn btn--sm nextStepBtn" style="margin: 0; margin-left: 10px; font-weight: 100;">
+                            @lang('NEXT STEP')
+                        </button>
+                    @else
+                        <button class="cmn--btn btn--sm unauthshippingbuybtn" style="margin: 0; margin-left: 10px; font-weight: 100;">
+                            @lang('NEXT STEP')
+                        </button>
+                    @endif
+                </div>
             </div>
             <div class="shopping-btn-div btn-div2">
               <span></span>
@@ -223,17 +262,17 @@
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="first-name">@lang('First Name') <span style="color: red;">*</span></label>
-                <input type="text" class="form-control form--control-2" name="firstname" id="first-name" value="" required>
+                <input type="text" class="form-control form--control-2" name="firstname" id="first-name" value="{{ auth()->check() ? auth()->user()->firstname : ''}}" required>
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="last-name">@lang('Last Name') <span style="color: red;">*</span></label>
-                <input type="text" class="form-control form--control-2" name="lastname" id="last-name" value="" required>
+                <input type="text" class="form-control form--control-2" name="lastname" id="last-name" value="{{ auth()->check() ? auth()->user()->lastname : ''}}" required>
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="address">@lang('Address') <span style="color: red;">*</span></label>
                 <div class="selectdivblock">
-                    <input type="text" class="form-control form--control-2" name="address" id="address" value="" required>
-                    <textarea class="form-control form--control-2" name="largeaddress" id="largeaddress"></textarea>
+                    <input type="text" class="form-control form--control-2" name="address" id="address" value="{{ auth()->check() ? auth()->user()->address->address : ''}}" required>
+                    <textarea class="form-control form--control-2" name="largeaddress" id="largeaddress">{{ auth()->check() ? auth()->user()->address->address : ''}}</textarea>
                     <label class="toggle-address-icon" style="border: 5px solid transparent; position: absolute; top: 0; right: 0; display: flex; justify-content: center; align-items: center; width: 40px; height: 50px; cursor: pointer;">
                         <i class="fa fa-angle-down" style="transition: 0.3s all ease-in-out;"></i>
                     </label>
@@ -241,11 +280,11 @@
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="last-name">@lang('City') <span style="color: red;">*</span></label>
-                <input type="text" class="form-control form--control-2" name="city" id="city" value="" required>
+                <input type="text" class="form-control form--control-2" name="city" id="city" value="{{ auth()->check() ? auth()->user()->address->city : ''}}" required>
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="postal-code">@lang('Postal Code') <span style="color: red;">*</span></label>
-                <input type="text" class="form-control form--control-2" name="postalcode" id="postal-code" value="" required>
+                <input type="text" class="form-control form--control-2" name="postalcode" id="postal-code" value="{{ auth()->check() ? auth()->user()->address->zip : ''}}" required>
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="country">@lang('Country') <span style="color: red;">*</span></label>
@@ -264,12 +303,12 @@
                 </div>
             </div>
             <div class="form--group col-md-6">
-                <label class="form--label-2" for="tel">@lang('Tel.')</label>
-                <input type="text" class="form-control form--control-2" name="tel" id="tel" value="">
+                <label class="form--label-2" for="tel">@lang('Telephone')</label>
+                <input type="text" class="form-control form--control-2" name="tel" id="tel" value="{{ auth()->check() ? auth()->user()->mobile : ''}}">
             </div>
             <div class="form--group col-md-6">
                 <label class="form--label-2" for="email">@lang('Email') <span style="color: red;">*</span></label>
-                <input type="text" class="form-control form--control-2" name="email" id="email" value="" required>
+                <input type="text" class="form-control form--control-2" name="email" id="email" value="{{ auth()->check() ? auth()->user()->email : ''}}" required>
             </div>
             <div class="form--group col-md-12">
                 <label class="form--label-2" for="specialinstruc" style="display: flex;">
@@ -351,21 +390,21 @@
         <div class="modal-content">
             <div class="modal-header" style="height: 100px; align-items: baseline;">
                 <h5 class="modal-title"></h5>
-                <button class="btn text--danger modal-close" data-bs-dismiss="modal" aria-label="Close">
+                <button class="btn text--danger modal-close closebuyconfirmbtnfunc" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="buy_con_section1">
-                    <div>
-                        <div>{{ $groupshoppings->count() }}</div>
-                    </div>
-                    <img src="https://eirefacadesystems.co.uk/wp-content/uploads/2020/11/message-icon-png-.png" width="150px" />
+                    <!--<div>-->
+                    <!--    <div>{{ $groupshoppings->count() }}</div>-->
+                    <!--</div>-->
+                    <img src="https://7-bids.com/assets/images/logoIcon/logo.png" width="150px" />
                 </div>
                 <div class="buy_con_section2">
                     <div>Thank You</div>
                     <div>for your purchase!</div>
-                    <div>Soon you will receive an e-mail with the summary of your order and the payment details.</div>
+                    <div>Soon you will receive an email with the summary of your order and the payment details.</div>
                 </div>
                 <div class="buy_con_section3">
                     <a href="{{ route('user.winning.history') }}" class="btn btn--success">CHECK ORDER STATUS</a>
@@ -934,6 +973,30 @@
     (function ($) {
         "use strict";
         
+        var authentificationFlag = "<?php echo auth()->check() ? 'exist' : 'empty'; ?>";
+        
+        $('.closebuyconfirmbtnfunc').on('click', function() {
+            location.href = "/";
+        });
+        
+        var shoppinguser = <?php echo auth()->check() ? auth()->user() : "{}" ?>;
+        console.log(shoppinguser.address.address);
+        $('#largeaddress').on('change', function() {
+            $('#address').val($(this).val());
+        });
+        
+        $('#address').on('change', function() {
+            $('#largeaddress').val($(this).val());
+        });
+        
+        $.get("https://ipinfo.io", function(response) {
+            const regionNames = new Intl.DisplayNames(
+              ['en'], {type: 'region'}
+            );
+            $('select[name=country]').val(response.country);
+        }, "json");
+        
+        var ipaddress = "{{ getenv('REMOTE_ADDR') }}";
         const shippings = <?php echo $shoppings; ?>;
         var savewinnerurl = "{{ route('user.shopping-cart.savewinner') }}";
         var savewinnertoken = "{{ csrf_token() }}";
@@ -952,7 +1015,7 @@
         $('.expressshippingbuybtn').on('click', async function() {
             if($('select.shippingselectbtn > option:first-child:selected').length > 0) {
                 iziToast['warning']({
-                    message: "Please select shipping costs.",
+                    message: "@lang('Please select shipping costs.')",
                     position: "topRight"
                 });
                 $('.shippingselectbtn').focus();
@@ -968,6 +1031,11 @@
                             formData.append("pid", shippings[i].product_id);
                             formData.append("id", shippings[i].id);
                             formData.append("paymentmethod", paymentname);
+                            formData.append("ipaddress", ipaddress);
+                            formData.append('shippingcosts', Number($('.shippingselectbtn').val()).toFixed(0));
+                            formData.append('product_price', Number(shippings[i].price).toFixed(0));
+                            formData.append('address', shoppinguser.address.address);
+                            formData.append('totalprice', Number(Number($('.shippingselectbtn').val()) + Number(shippings[i].price)).toFixed(0));
                             await $.ajax({
                               method: 'post',
                               processData: false,
@@ -1017,6 +1085,11 @@
                         formData.append("pid", shippings[i].product_id);
                         formData.append("id", shippings[i].id);
                         formData.append("paymentmethod", paymentmethodname);
+                        formData.append("ipaddress", ipaddress);
+                        formData.append('shippingcosts', Number($('.shippingselectbtn').val()).toFixed(0));
+                        formData.append('product_price', Number(shippings[i].price).toFixed(0));
+                        formData.append('address', shoppinguser.address.address);
+                        formData.append('totalprice', Number(Number($('.shippingselectbtn').val()) + Number(shippings[i].price)).toFixed(0));
                         await $.ajax({
                           method: 'post',
                           processData: false,
@@ -1058,7 +1131,7 @@
         $('.shippingselectbtn').on('change', function() {
             var totalprice = Number("{{$totalprice}}");
             $('.shippingselectbtn').each(function(){totalprice += Number($(this).val());});
-            $('.totalpricespan').val('{{ $general->cur_sym }} ' + Number(totalprice).toFixed(2));
+            $('.totalpricespan').val('{{ $general->cur_sym }} ' + Number(totalprice).toFixed(0));
         });
         
         $('.deleteShopBtn').on('click', function() {
@@ -1197,7 +1270,7 @@
                 $('.payment-block').css('display', 'none');
                 $('.nextstephidden').val(1);
                 iziToast['warning']({
-                    message: "Please select shipping costs.",
+                    message: "@lang('Please select shipping costs.')",
                     position: "topRight"
                 });
                 $('.shippingselectbtn').focus();
@@ -1240,7 +1313,7 @@
                 $('.payment-block').css('display', 'none');
                 $('.nextstephidden').val(1);
                 iziToast['warning']({
-                    message: "Please select shipping costs.",
+                    message: "@lang('Please select shipping costs.')",
                     position: "topRight"
                 });
                 $('.shippingselectbtn').focus();
@@ -1636,7 +1709,7 @@
                 } else if(Number(nextstep) == 1) {
                     if($('select.shippingselectbtn > option:first-child:selected').length > 0) {
                         iziToast['warning']({
-                            message: "Please select shipping costs.",
+                            message: "@lang('Please select shipping costs.')",
                             position: "topRight"
                         });
                         $('.shippingselectbtn').focus();

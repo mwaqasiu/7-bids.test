@@ -21,11 +21,15 @@
                     @foreach($sliders as $slider)
                         @if($loop->iteration - 1 == 0)
                             <div class="carousel-item active">
-                                <img src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}" alt="{{ $slider->url }}" class="d-block" style="width: 100%; height: calc(80vw * 0.32);">
+                                <div style="width: 25%; position: relative; margin: auto; padding-top: 25%;">
+                                    <img src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}" alt="{{ $slider->url }}" class="d-block" style="width: 100%; height: 100%; position: absolute; left: 0; right: 0; bottom: 0; top: 0; object-fit: fill;">
+                                </div>
                             </div>
                         @else
                             <div class="carousel-item">
-                                <img src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}" alt="{{ $slider->url }}" class="d-block" style="width: 100%; height: calc(80vw * 0.32);">
+                                <div style="width: 25%; position: relative; margin: auto; padding-top: 25%;">
+                                    <img src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}" alt="{{ $slider->url }}" class="d-block" style="width: 100%; height: 100%; position: absolute; left: 0; right: 0; bottom: 0; top: 0; object-fit: fill;">
+                                </div>
                             </div>
                         @endif
                     @endforeach
@@ -46,17 +50,18 @@
                                     <p class="mt-2" style="font-style: italic;">@lang('Give us as much informations as possible')</p>
                                 </div>
                                 <div class="form--group col-md-12 mt-4">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="artist" id="artist" placeholder="@lang('Artist or Maker')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="artist" id="artist" placeholder="@lang('Artist or Maker')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="measure" id="measure" placeholder="@lang('Measurements')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="measure" id="measure" placeholder="@lang('Measurements')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
                                     <textarea class="form-control form--control-2 selladdinfo inputsellwithus" name="addinfo" id="addinfo" placeholder="@lang('Additional informations')" required></textarea>
                                 </div>
+                                <input type="hidden" value="{{ getenv('REMOTE_ADDR') }}" name="ipaddress" id="ipaddress" required />
                                 <div class="form--group col-md-12">
                                     <div style="display: inline-block;">
-                                        @lang('Is the art object damaged or repaired?')
+                                        @lang('Is the art object damaged or restored?')
                                     </div>
                                     <div style="display: inline-block;">
                                         <input type="radio" value="1" name="damagestatus" id="damagestatus" class="checkinput" required /> @lang('Yes')
@@ -106,15 +111,15 @@
                                     <h5 class="sellwithush4">@lang('Personal informations')</h5>
                                     <p class="mt-1" style="font-style: italic;">@lang('Your data will remain confidential.')</p>
                                 </div>
-                                <div class="form--group col-md-12 mb-4 mt-4">
+                               {{-- <div class="form--group col-md-12 mb-4 mt-4">
                                     <input type="radio" name="sex" class="radioinput" value="0" required /> @lang('Madam')
                                     <input type="radio" name="sex" class="radioinput" value="1" required /> @lang('Mister')
+                                </div>  --}}
+                                <div class="form--group col-md-12">
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="username" id="username" placeholder="@lang('Name')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="username" id="username" placeholder="@lang('Name')" value="" required>
-                                </div>
-                                <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="email" id="email" placeholder="@lang('Email address')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="email" id="email" placeholder="@lang('Email address')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12" style="text-align: center; margin-top: 40px;">
                                     <div class="row justify-center">
@@ -274,6 +279,10 @@
         }
     }
     
+    .inputsellwithus:focus::placeholder {
+        color: transparent !important;
+    }
+    
 </style>
 @endpush
 
@@ -322,14 +331,14 @@
                     position: "topRight"
                 });
                 $('#damagestatus').focus();
-            } else if($('.radioinput').val().trim() == "") {
+            } /*else if($('.radioinput').val().trim() == "") {
                 iziToast['warning']({
                     message: warningmsg,
                     position: "topRight"
                 });
                 $('.radioinput').focus();
                 return;
-            } else if($('#username').val().trim() == "") {
+            }*/ else if($('#username').val().trim() == "") {
                 iziToast['warning']({
                     message: warningmsg,
                     position: "topRight"
@@ -345,7 +354,7 @@
                 return;
             } else if(sellimagecount1 == 0) {
                 iziToast['warning']({
-                    message: warningmsg,
+                    message: "@lang('Please upload minimum one photo.')",
                     position: "topRight"
                 });
                 $('.selluploadimageinput1').focus();
@@ -370,7 +379,7 @@
                             reader.onload = function (e) {
                                 $('.selluploadimage1').css('display', 'none');
                                 $('.selluploadimageview1').css('display', 'flex');
-                                $('.selluploadimageview1').append(`<div class="sellimage_data_item"><input name="sellimagereplaceinput1id[`+sellimagenum1+`][url]" id="sellimagereplaceinput1id`+sellimagenum1+`" type="hidden" required><img id="sellimagereplace1id` + sellimagenum1 +`" src="https://www.1400g.de/assets/images/loading.gif"/><div class="sellimg_item_remove1"><i class="fa fa-times"></i></div></div>`);
+                                $('.selluploadimageview1').append(`<div class="sellimage_data_item"><input name="sellimagereplaceinput1id[`+sellimagenum1+`][url]" id="sellimagereplaceinput1id`+sellimagenum1+`" type="hidden" required><img id="sellimagereplace1id` + sellimagenum1 +`" src="assets/images/loading.gif"/><div class="sellimg_item_remove1"><i class="fa fa-times"></i></div></div>`);
                             }
                             
                             reader.readAsDataURL(input.files[0]);
@@ -392,7 +401,7 @@
                               url: url,
                               success: function (responseURL) {
                                 document.getElementById("sellimagereplaceinput1id"+sellimagenum1).value = responseURL;
-                                document.getElementById("sellimagereplace1id"+sellimagenum1).src = "https://www.1400g.de/assets/images/product/" + responseURL;
+                                document.getElementById("sellimagereplace1id"+sellimagenum1).src = "assets/images/product/" + responseURL;
                                 sellimagenum1 ++;
                                 sellimagecount1 ++;
                               },

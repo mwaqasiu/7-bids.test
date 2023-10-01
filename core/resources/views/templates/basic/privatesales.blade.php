@@ -11,14 +11,14 @@
                         <div class="col-md-6">
                             <div class="row">
                                 <div class="form--group col-md-12">
-                                    <p class="mt-2" style="font-style: italic;">@lang('Are you looking for a specific art object? We can help you to find it.') </br> @lang('Free of charge, you only pay your self-chosen price offer.')</p>
+                                    <p class="mt-2" style="font-style: italic;">@lang('Are you looking for a specific art object? We can help you to find it.') </br> @lang('You only pay your self-chosen price offer.')</p>
                                     <h4 style="margin-bottom: -20px; margin-top: 0px;" class="sellwithush4">@lang('What are you looking for?')</h4>
                                 </div>
                                 <div class="form--group col-md-12 mt-4">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="artist" id="artist" placeholder="@lang('Artist or Maker')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="artist" id="artist" placeholder="@lang('Artist or Maker')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="measure" id="measure" placeholder="@lang('Price offer in €')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="measure" id="measure" placeholder="@lang('Price offer in €')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
                                     <textarea class="form-control form--control-2 selladdinfo inputsellwithus" name="addinfo" id="addinfo" placeholder="@lang('Additional informations')" required></textarea>
@@ -42,7 +42,8 @@
                                     <label for="uploadimage1" class="selluploadimage1">
                                         <div class="uploadbtnstyle">
                                             <i class="las la-upload"></i>
-                                            <span>@lang('JPEG, GIF and PNG formats up to 3 MB are supported. Please send also files of certifications, valuations and receipts if you have.')</span>
+                                            <span>@lang('JPEG, GIF and PNG formats up to 3 MB are supported.')</span>
+                                            <!--<span>@lang('JPEG, GIF and PNG formats up to 3 MB are supported. Please send also files of certifications, valuations and receipts if you have.')</span>-->
                                         </div>
                                     </label>
                                     <div class="selluploadimageview selluploadimageview1">
@@ -65,15 +66,16 @@
                                     <h5 class="sellwithush4">@lang('Personal informations')</h5>
                                     <p class="mt-1" style="font-style: italic;">@lang('Your data will remain confidential.')</p>
                                 </div>
-                                <div class="form--group col-md-12 mb-4 mt-4">
+                                <!--<div class="form--group col-md-12 mb-4 mt-4">
                                     <input type="radio" name="sex" class="radioinput" value="0" required /> @lang('Madam')
                                     <input type="radio" name="sex" class="radioinput" value="1" required /> @lang('Mister')
+                                </div>-->
+                                <input type="hidden" name="sex" class="radioinput" value="1" />
+                                <div class="form--group col-md-12">
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="username" id="username" placeholder="@lang('Name')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="username" id="username" placeholder="@lang('Name')" value="" required>
-                                </div>
-                                <div class="form--group col-md-12">
-                                    <input type="text" class="form-control form--control-2 inputsellwithus" name="email" id="email" placeholder="@lang('Email address')" value="" required>
+                                    <input type="text" class="form-control form--control form--control-2 inputsellwithus" name="email" id="email" placeholder="@lang('Email address')" value="" required>
                                 </div>
                                 <div class="form--group col-md-12" style="text-align: center; margin-top: 40px;">
                                     <div class="row justify-center">
@@ -233,6 +235,10 @@
         }
     }
     
+    .inputsellwithus:focus::placeholder {
+        color: transparent !important;
+    }
+    
 </style>
 @endpush
 
@@ -298,7 +304,7 @@
                 return;
             } else if(sellimagecount1 == 0) {
                 iziToast['warning']({
-                    message: warningmsg,
+                    message: "@lang('Please upload minimum one photo.')",
                     position: "topRight"
                 });
                 $('.selluploadimageinput1').focus();
@@ -323,7 +329,7 @@
                             reader.onload = function (e) {
                                 $('.selluploadimage1').css('display', 'none');
                                 $('.selluploadimageview1').css('display', 'flex');
-                                $('.selluploadimageview1').append(`<div class="sellimage_data_item"><input name="sellimagereplaceinput1id[`+sellimagenum1+`][url]" id="sellimagereplaceinput1id`+sellimagenum1+`" type="hidden" required><img id="sellimagereplace1id` + sellimagenum1 +`" src="https://www.1400g.de/assets/images/loading.gif"/><div class="sellimg_item_remove1"><i class="fa fa-times"></i></div></div>`);
+                                $('.selluploadimageview1').append(`<div class="sellimage_data_item"><input name="sellimagereplaceinput1id[`+sellimagenum1+`][url]" id="sellimagereplaceinput1id`+sellimagenum1+`" type="hidden" required><img id="sellimagereplace1id` + sellimagenum1 +`" src="https://7-bids.com/assets/images/loading.gif"/><div class="sellimg_item_remove1"><i class="fa fa-times"></i></div></div>`);
                             }
                             
                             reader.readAsDataURL(input.files[ii]);
@@ -345,7 +351,7 @@
                               url: url,
                               success: function (responseURL) {
                                 document.getElementById("sellimagereplaceinput1id"+sellimagenum1).value = responseURL;
-                                document.getElementById("sellimagereplace1id"+sellimagenum1).src = "https://www.1400g.de/assets/images/product/" + responseURL;
+                                document.getElementById("sellimagereplace1id"+sellimagenum1).src = "https://7-bids.com/assets/images/product/" + responseURL;
                                 sellimagenum1 ++;
                                 sellimagecount1 ++;
                               },

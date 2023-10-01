@@ -106,74 +106,78 @@
                                         @endif
                                     </div>
                                 @elseif($winner->product_delivered == 0)
-                                    @if($winner->pending_imageurl != "" || $winner->paid_imageurl != "" || $winner->picked_imageurl != "" || $winner->packed_imageurl != "")
-                                        <span class="text--small badge font-weight-normal badge--danger" title="@lang('Pending')">@lang('Waiting for Payment')</span>
-                                    @else
-                                        <div class="initial-status-main">
-                                            @if($winner->combine_shipping_flag == 0)
-                                                @if($winner->pickup_date == Null || $winner->pickup_date == "")
-                                                    @if($winner->checkout == null)
-                                                        <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
-                                                            <i class="fas fa-shipping-fast"></i>
-                                                        </span>
+                                    @if($winner->pending_imageurl != "")
+                                        @if($winner->pending_imageurl != "" || $winner->paid_imageurl != "" || $winner->picked_imageurl != "" || $winner->packed_imageurl != "")
+                                            <span class="text--small badge font-weight-normal badge--danger" title="@lang('Waiting for Payment')">@lang('Waiting for Payment')</span>
+                                        @else
+                                            <div class="initial-status-main">
+                                                @if($winner->combine_shipping_flag == 0)
+                                                    @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-shipping-fast"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="{{ $winner->checkout->paymentname }}" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-shipping-fast"></i>
+                                                            </span>
+                                                        @endif
                                                     @else
-                                                        <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="{{ $winner->checkout->paymentname }}" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
-                                                            <i class="fas fa-shipping-fast"></i>
-                                                        </span>
+                                                        <span title="@lang('Shipping')" class="unactive" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span>
                                                     @endif
                                                 @else
                                                     <span title="@lang('Shipping')" class="unactive" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
-                                                    <i class="fas fa-shipping-fast"></i>
-                                                </span>
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span>
                                                 @endif
-                                            @else
-                                                <span title="@lang('Shipping')" class="unactive" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
-                                                    <i class="fas fa-shipping-fast"></i>
-                                                </span>
-                                            @endif
-                                            @if($winner->pickup_date == Null || $winner->pickup_date == "")
-                                                @if($winner->combine_shipping_flag == 0)
-                                                    @if($winner->checkout == null)
-                                                        <span title="@lang('Pick-up')" class="fastpickupdatestatus" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
-                                                            <i class="fas fa-walking"></i>
-                                                        </span>
+                                                @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                    @if($winner->combine_shipping_flag == 0)
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Pick-up')" class="fastpickupdatestatus" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-walking"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Pick-up')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-walking"></i>
+                                                            </span>
+                                                        @endif
                                                     @else
                                                         <span title="@lang('Pick-up')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
                                                             <i class="fas fa-walking"></i>
                                                         </span>
                                                     @endif
                                                 @else
-                                                    <span title="@lang('Pick-up')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                    <span title="@lang('Pick-up')" class="fastpickupdatestatus active" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
                                                         <i class="fas fa-walking"></i>
                                                     </span>
                                                 @endif
-                                            @else
-                                                <span title="@lang('Pick-up')" class="fastpickupdatestatus active" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
-                                                    <i class="fas fa-walking"></i>
-                                                </span>
-                                            @endif
-                                            @if($winner->combine_shipping_flag == 0)
-                                                @if($winner->pickup_date == Null || $winner->pickup_date == "")
-                                                    @if($winner->checkout == null)
-                                                        <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
-                                                            <i class="las la-hourglass-half"></i>
-                                                        </span>
+                                                @if($winner->combine_shipping_flag == 0)
+                                                    @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="las la-hourglass-half"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Combined Shipping')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="las la-hourglass-half"></i>
+                                                            </span>
+                                                        @endif
                                                     @else
                                                         <span title="@lang('Combined Shipping')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
                                                             <i class="las la-hourglass-half"></i>
                                                         </span>
                                                     @endif
                                                 @else
-                                                    <span title="@lang('Combined Shipping')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                    <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus active" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
                                                         <i class="las la-hourglass-half"></i>
                                                     </span>
                                                 @endif
-                                            @else
-                                                <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus active" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
-                                                    <i class="las la-hourglass-half"></i>
-                                                </span>
-                                            @endif
-                                        </div>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <span class="text--small badge font-weight-normal badge--danger" title="@lang('Pending')">@lang('Pending')</span>
                                     @endif
                                 @elseif($winner->product_delivered == 1)
                                     <div class="status-main">
@@ -205,6 +209,80 @@
                                         <div class="status-stick"></div>
                                         <div class="transitstatusinactive" title="@lang('Track & Trace')">@lang('Shipped')</div>
                                     </div>
+                                @elseif($winner->product_delivered == 5)
+                                    @if($winner->pending_imageurl != "")
+                                        @if($winner->pending_imageurl != "" || $winner->paid_imageurl != "" || $winner->picked_imageurl != "" || $winner->packed_imageurl != "")
+                                            <span class="text--small badge font-weight-normal badge--danger" title="@lang('Waiting for Payment')">@lang('Waiting for Payment')</span>
+                                        @else
+                                            <div class="initial-status-main">
+                                                @if($winner->combine_shipping_flag == 0)
+                                                    @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-shipping-fast"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Shipping')" class="{{ $winner->checkout_id == 0 ? 'fastshippingstatus' : 'fastshippingstatus active' }}" data-paymentname="{{ $winner->checkout->paymentname }}" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-shipping-fast"></i>
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        <span title="@lang('Shipping')" class="unactive" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span>
+                                                    @endif
+                                                @else
+                                                    <span title="@lang('Shipping')" class="unactive" data-paymentname="" data-checkoutid="{{ $winner->checkout_id }}" data-winnerid="{{ $winner->id }}">
+                                                        <i class="fas fa-shipping-fast"></i>
+                                                    </span>
+                                                @endif
+                                                @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                    @if($winner->combine_shipping_flag == 0)
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Pick-up')" class="fastpickupdatestatus" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-walking"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Pick-up')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="fas fa-walking"></i>
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        <span title="@lang('Pick-up')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                            <i class="fas fa-walking"></i>
+                                                        </span>
+                                                    @endif
+                                                @else
+                                                    <span title="@lang('Pick-up')" class="fastpickupdatestatus active" data-pickupdate="{{ $winner->pickup_date }}" data-winnerid="{{ $winner->id }}">
+                                                        <i class="fas fa-walking"></i>
+                                                    </span>
+                                                @endif
+                                                @if($winner->combine_shipping_flag == 0)
+                                                    @if($winner->pickup_date == Null || $winner->pickup_date == "")
+                                                        @if($winner->checkout == null)
+                                                            <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="las la-hourglass-half"></i>
+                                                            </span>
+                                                        @else
+                                                            <span title="@lang('Combined Shipping')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                                <i class="las la-hourglass-half"></i>
+                                                            </span>
+                                                        @endif
+                                                    @else
+                                                        <span title="@lang('Combined Shipping')" class="unactive" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                            <i class="las la-hourglass-half"></i>
+                                                        </span>
+                                                    @endif
+                                                @else
+                                                    <span title="@lang('Combined Shipping')" class="fastcombinedshippingstatus active" data-pickupdate="{{ $winner->pickup_date }}" data-shippingflag="{{ $winner->combine_shipping_flag }}" data-winnerid="{{ $winner->id }}">
+                                                        <i class="las la-hourglass-half"></i>
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @else
+                                        <span class="text--small badge font-weight-normal badge--danger" title="@lang('Pending')">@lang('Pending')</span>
+                                    @endif
                                 @else
                                     <div class="status-main">
                                         <div class="paidstatus" title="@lang('View Invoice')" data-bidid="{{ $winner->id }}">@lang('Paid')</div>
@@ -246,7 +324,7 @@
                                             €
                                         </button>
                                     @else
-                                        <button style="width: 28px; margin-right: 5px;" data-existimage="exist" data-bidid="{{ $winner->id }}" class="icon-btn generalsysviewbtn" title="@lang('View Invoice')">
+                                        <button style="width: 28px; margin-right: 5px; background-color: #f3e03b !important; color: #646464 !important;" data-existimage="exist" data-bidid="{{ $winner->id }}" class="icon-btn generalsysviewbtn" title="@lang('View Invoice')">
                                             €
                                         </button>
                                     @endif
@@ -435,11 +513,11 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="input-group mb-4">
-                            <span title="Bid Calculator" class="input-group-text bg--base text-white currencyicon">
-                                <i class="fas fa-calculator"></i>
+                            <span title="@lang('Shipping Costs')" class="input-group-text bg--base text-white currencyicon">
+                                <i class="fas fa-shipping-fast"></i>
                             </span>
                             <select name="checkout_id" class="form-control" id="checkout_id" required>
-                                <option value="">@lang('Please choose or add the shipping address')</option>
+                                <option value="">@lang('Please choose or add new shipping address')</option>
                                 @foreach($checkdata as $data)
                                     <option value="{{ $data->id }}">{{ $data->firstname }} {{ $data->lastname }}, {{ $data->address }}</option>
                                 @endforeach
@@ -477,11 +555,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>@lang('up to 10 kg within Germany - 10 Euro')</p>
-                <p>@lang('up to 10 kg within the EU - 20 Euro')</p>
-                <p>@lang('up to 2 kg outside the EU - 30 Euro')</p>
-                <p>@lang('up to 5 kg outside the EU - 50 Euro')</p>
-                <p>@lang('up to 10 kg outside the EU - 70 Euro')</p>
+                @foreach($shippings as $shipping)
+                    <p>{{ $shipping->shipping_text }} - {{ $shipping->shipping_amount }} Euro</p>
+                @endforeach
             </div>
         </div>
     </div>
@@ -1541,10 +1617,10 @@
                     $('.generalsysviewlist').append(`<div style="display: inline-block; padding: 10px; background: transparent;">@lang('No Image Data')</div>`);
                 } else {
                     var subary1 = gryfindorFilter[0].pending_imageurl.split(",");
-                    firstgetimagesrc = "https://1400g.de/assets/images/product/" + subary1[0];
+                    firstgetimagesrc = "https://7-bids.com/assets/images/product/" + subary1[0];
                     subary1.forEach(function (item, index) {
                     	if(item != "") {
-                    	    var getimagesrc1 = "https://1400g.de/assets/images/product/" + item;
+                    	    var getimagesrc1 = "https://7-bids.com/assets/images/product/" + item;
                     	    $('.generalsysviewlist').append(`<div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;"><img id="image_replace_id" src="` + getimagesrc1 + `"  class="replace-modal-image" style="width: 60px; height: 45px; cursor: pointer;" ></div>`);
                     	}
                     });
@@ -1638,10 +1714,10 @@
                 $('.paidsubimagelist').append(`<div style="display: inline-block; padding: 10px; background: transparent;">@lang('No Image Data')</div>`);
             } else {
                 var subary = gryfindorFilter[0].paid_imageurl.split(",");
-                firstgetimagesrc = "https://1400g.de/assets/images/product/" + subary[0];
+                firstgetimagesrc = "https://7-bids.com/assets/images/product/" + subary[0];
                 subary.forEach(function (item, index) {
                 	if(item != "") {
-                	    var getimagesrc = "https://1400g.de/assets/images/product/" + item;
+                	    var getimagesrc = "https://7-bids.com/assets/images/product/" + item;
                 	    $('.paidsubimagelist').append(`<div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;"><img id="image_replace_id" src="` + getimagesrc + `"  class="replace-modal-image" style="width: 60px; height: 45px; cursor: pointer;" ></div>`);
                 	}
                 });
@@ -1734,10 +1810,10 @@
                 $('.pickedsubimagelist').append(`<div style="display: inline-block; padding: 10px; background: transparent;">@lang('No Image Data')</div>`);
             } else {
                 var subary = gryfindorFilter[0].picked_imageurl.split(",");
-                firstgetimagesrc = "https://1400g.de/assets/images/product/" + subary[0];
+                firstgetimagesrc = "https://7-bids.com/assets/images/product/" + subary[0];
                 subary.forEach(function (item, index) {
                 	if(item != "") {
-                	    var getimagesrc = "https://1400g.de/assets/images/product/" + item;
+                	    var getimagesrc = "https://7-bids.com/assets/images/product/" + item;
                 	    $('.pickedsubimagelist').append(`<div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;"><img id="image_replace_id" src="` + getimagesrc + `"  class="replace-modal-image" style="width: 60px; height: 45px; cursor: pointer;" ></div>`);
                 	}
                 });
@@ -1830,10 +1906,10 @@
                 $('.packedsubimagelist').append(`<div style="display: inline-block; padding: 10px; background: transparent;">@lang('No Image Data')</div>`);
             } else {
                 var subary = gryfindorFilter[0].packed_imageurl.split(",");
-                firstgetimagesrc = "https://1400g.de/assets/images/product/" + subary[0];
+                firstgetimagesrc = "https://7-bids.com/assets/images/product/" + subary[0];
                 subary.forEach(function (item, index) {
                 	if(item != "") {
-                	    var getimagesrc = "https://1400g.de/assets/images/product/" + item;
+                	    var getimagesrc = "https://7-bids.com/assets/images/product/" + item;
                 	    $('.packedsubimagelist').append(`<div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;"><img id="image_replace_id" src="` + getimagesrc + `"  class="replace-modal-image" style="width: 60px; height: 45px; cursor: pointer;" ></div>`);
                 	}
                 });

@@ -13,7 +13,17 @@
     </form>
     <div class="navbar__right">
         <ul class="navbar__action-list">
-            <li style="margin-right: 15px;">
+            <li style="margin-right: 30px;">
+                
+                    <a href="{{route('home')}}">
+                        <i class="las la-home homebutton"></i>
+                    </a>
+               
+                
+            </li>
+            
+            
+            <li style="margin-right: 25px;">
                 <a href="{{ route('user.bonus') }}">
                     <span style="border: 1px solid; padding: 4px 8px; color: #000;">
                         {{ $bonuscount }} pts

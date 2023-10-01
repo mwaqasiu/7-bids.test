@@ -13,37 +13,37 @@
             <table class="table cmn--table shopping-table">
                 <thead>
                   <tr>
-                    <th scope="col">@lang('Ref')</th>
-                    <th scope="col">@lang('Item')</th>
-                    <th scope="col" style="width: 10%;">@lang('Seller')</th>
-                    <th scope="col" style="width: 10%;">@lang('Price')</th>
-                    <th scope="col" style="width: 20%;">@lang('Add To Shopping Cart')</th>
-                    <th scope="col" style="width: 20%;">@lang("Remove From Wish List")</th>
+                    <th scope="col" style="text-transform: none;">@lang('ref')</th>
+                    <th scope="col" style="text-transform: none;">@lang('item')</th>
+                    <th scope="col" style="width: 10%; text-transform: none;">@lang('seller')</th>
+                    <th scope="col" style="width: 10%; text-transform: none;">@lang('price')</th>
+                    <th scope="col" style="width: 20%; text-transform: none;">@lang('add to shopping bag')</th>
+                    <th scope="col" style="width: 20%; text-transform: none;">@lang("remove from wish list")</th>
                   </tr>
                 </thead>
                 <tbody>
                     @if(count($wishlists) == 0 && count($auctionwishlists) == 0)
                       <tr>
                          <td colspan="6" style="justify-content: center;">
-                            <p style="font-size: 24px; padding: 50px 0;">@lang($emptyMessage)</p>
+                            <p style="font-size: 19px; padding: 50px 0;">@lang($emptyMessage)</p>
                         </td>
                       </tr>
                     @else
                         @foreach ($wishlists as $wishlist)
                           <tr>
-                            <td data-label="@lang('Ref')">{{ $loop->index + 1 }}</td>
-                            <td data-label="@lang('Item')" class="shoppingcartimagetd">
+                            <td data-label="@lang('ref')">{{ $loop->index + 1 }}</td>
+                            <td data-label="@lang('item')" class="shoppingcartimagetd">
                                 <div>
                                     <a href="{{ route('product.details', [$wishlist->pid, slug($wishlist->name)]) }}">
                                         <img id="image__{{ $wishlist->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$wishlist->image,imagePath()['product']['size'])}}" alt="wishlist" style="width: 75px; height: 75px; max-width: 150px !important;">
                                     </a>
-                                    <span>{{ $wishlist->product->name }}</span>
+                                    <span style="margin-left: 4px;">{{ $wishlist->product->name }}</span>
                                 </div>
                             </td>
-                            <td data-label="@lang('Seller')">
+                            <td data-label="@lang('seller')">
                                 @if($wishlist->admin_id)
                                     @php
-                                        echo $wishlist->admin->username;
+                                        echo "7-BIDS";
                                     @endphp
                                 @endif
                                 @if($wishlist->merchant_id)
@@ -52,41 +52,50 @@
                                     @endphp
                                 @endif
                             </td>
-                            <td data-label="@lang('Price')">
+                            <td data-label="@lang('price')">
                                 {{ $general->cur_sym }} {{ number_format($wishlist->price, 0) }}
                             </td>
-                            <td data-label="@lang('Add To Shopping Cart')">
+                            <td data-label="@lang('add to shopping bag')">
                                 @if (auth()->check())
-                                <a href="{{ route('user.shopping-cart.add', [$wishlist->product_id, auth()->user()->id, getenv('REMOTE_ADDR'), $wishlist->id]) }}">
-                                    <i class="fas la-shopping-cart"></i>
+                                <a href="{{ route('user.shopping-cart.add', [$wishlist->product_id, auth()->user()->id, getenv('REMOTE_ADDR'), $wishlist->id]) }}" style="color: #fff;">
+                                    <i class="las la-shopping-bag" style="font-size: 16px;"></i>
                                 </a>
                                 @else
-                                <a href="{{ route('user.shopping-cart.add', [$wishlist->product_id, 'empty', getenv('REMOTE_ADDR'), $wishlist->id]) }}">
-                                    <i class="fas la-shopping-cart"></i>
+                                <a href="{{ route('user.shopping-cart.add', [$wishlist->product_id, 'empty', getenv('REMOTE_ADDR'), $wishlist->id]) }}" style="color: #fff;">
+                                    <i class="las la-shopping-bag" style="font-size: 16px;"></i>
                                 </a>
                                 @endif
                             </td>
-                            <td data-label="@lang('Remove From Wish List')">
-                              <button class="deleteShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-wishid="{{ $wishlist->id }}"><i class="fa fa-trash"></i></button>
+                            <td data-label="@lang('remove from wish list')">
+                              <button class="deleteShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-wishid="{{ $wishlist->id }}">
+                                  <i class="las la-trash-alt" style="font-size: 16px;"></i>
+                              </button>
                             </td>
                           </tr>
                         @endforeach
                         @foreach ($auctionwishlists as $auctionwishlist)
                           <tr>
-                            <td data-label="@lang('Ref')">{{ $loop->index + count($wishlists) + 1 }}</td>
-                            <td data-label="@lang('Item')">
-                                <a href="{{ route('auction.details', [$auctionwishlist->aid, slug($auctionwishlist->name)]) }}">
-                                    <img id="image__{{ $auctionwishlist->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$auctionwishlist->image,imagePath()['product']['size'])}}" alt="auctionwishlist" style="width: 75px; height: 75px; max-width: 150px !important;">
-                                </a>
-                                <span>{{ $auctionwishlist->auction->name }}</span>
+                            <td data-label="@lang('ref')">{{ $loop->index + count($wishlists) + 1 }}</td>
+                            <td data-label="@lang('item')" class="shoppingcartimagetd">
+                                <div>
+                                    <a href="{{ route('auction.details', [$auctionwishlist->aid, slug($auctionwishlist->name)]) }}">
+                                        <img id="image__{{ $auctionwishlist->id }}" src="{{getImage(imagePath()['product']['path'].'/'.$auctionwishlist->image,imagePath()['product']['size'])}}" alt="auctionwishlist" style="width: 75px; height: 75px; max-width: 150px !important;">
+                                    </a>
+                                    <span style="margin-left: 4px;">{{ $auctionwishlist->auction->name }}</span>
+                                </div>
                             </td>
-                            <td data-label="@lang('Description')">{{ strlen($auctionwishlist->long_description) > 100 ? substr($auctionwishlist->long_description, 0, 100)."..." : $auctionwishlist->long_description }}</td>
-                            <td data-label="@lang('Current Price')">
+                            <td data-label="@lang('seller')">
+                                @lang("7-BIDS")
+                                <!--{{ strlen($auctionwishlist->long_description) > 100 ? substr($auctionwishlist->long_description, 0, 100)."..." : $auctionwishlist->long_description }}-->
+                            </td>
+                            <td data-label="@lang('current price')">
                                 {{ $general->cur_sym }} {{ number_format($auctionwishlist->price, 0) }}
                             </td>
-                            <td></td>
-                            <td data-label="@lang('Remove From Wish List')">
-                              <button class="deleteAShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-awishid="{{ $auctionwishlist->id }}"><i class="fa fa-trash"></i></button>
+                            <td>-</td>
+                            <td data-label="@lang('remove from wish list')">
+                              <button class="deleteAShopBtn" style="background: transparent !important; padding: 0; color: white; ouline: none; border: none;" data-awishid="{{ $auctionwishlist->id }}">
+                                  <i class="las la-trash-alt" style="font-size: 16px;"></i>
+                              </button>
                             </td>
                           </tr>
                         @endforeach

@@ -12,18 +12,18 @@
         @endforeach
         
         <section class="product-section pt-120 pb-120">
-            <div class="container">
+            <div class="container product-sections-block">
                 <div class="row gy-5 justify-content-between">
                     <div class="col-lg-8">
                         <div class="product__single-item">
                             <div class="product-thumb-area mb-5">
                                 <div class="product-thumb pe-md-4" style="position: relative;">
-                                    <div style="display: flex;">
+                                    <div style="display: flex; position: relative;">
                                         <div class="item_feature_icons">
                                             @if (auth()->check())
                                                 @if($wishlist->count() > 0)
                                                     <a class="item_heart_icon_red" href="{{ route('user.auctionwishlist.onedelete', [$wishlist[0]->id]) }}" title="@lang('Add to wish list')">
-                                                        <span><i class="fas la-heart"></i></span>
+                                                        <span><i class="far la-heart"></i></span>
                                                     </a>
                                                 @else
                                                     <a class="item_heart_icon" href="{{ route('user.auctionwishlist.add', [$auction->id, auth()->user()->id, getenv('REMOTE_ADDR')]) }}" title="@lang('Add to wish list')">
@@ -33,7 +33,7 @@
                                             @else
                                                 @if($wishlist->count() > 0)
                                                     <a class="item_heart_icon_red" href="{{ route('user.auctionwishlist.onedelete', [$wishlist[0]->id]) }}" title="@lang('Add to wish list')">
-                                                        <span><i class="fas la-heart"></i></span>
+                                                        <span><i class="far la-heart"></i></span>
                                                     </a>
                                                 @else
                                                     <a class="item_heart_icon" href="{{ route('user.auctionwishlist.add', [$auction->id, 'empty', getenv('REMOTE_ADDR')]) }}" title="@lang('Add to wish list')">
@@ -141,56 +141,56 @@
                                                         @else
                                                             <span title="Limited Edition" class="icon_select {{ auth()->check() ? 'attachiconpaper' : 'unattachiconpaper' }} cursorpointer" data-imgsrc="{{$spec['value']}}">
                                                                 <svg version="1.0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300.000000 300.000000" preserveAspectRatio="xMidYMid meet" title="Limited Edition">
-                                                                <g transform="translate(0.000000,300.000000) scale(0.050000,-0.050000)"
-                                                                fill="#000000" stroke="none">
-                                                                <path d="M2926 5380 c-24 -10 -89 -49 -145 -87 -143 -99 -223 -121 -369 -103
-                                                                -304 38 -352 30 -426 -70 -196 -267 -256 -309 -514 -361 -152 -30 -201 -79
-                                                                -231 -231 -50 -257 -92 -317 -361 -514 -75 -55 -91 -78 -96 -140 l-6 -74 198
-                                                                0 198 0 38 85 c654 1459 2922 1459 3576 0 l38 -85 197 0 197 0 0 51 c0 80 -32
-                                                                122 mo-157 207 -205 139 -253 213 -304 470 -30 152 -79 201 -231 231 -257 51
-                                                                -331 99 -470 304 -99 146 -134 165 -276 149 -372 -43 -390 -40 -592 99 -110
-                                                                75 -196 98 -264 69z"/>
-                                                                <path d="M2713 4780 c-429 -78 -846 -318 -1098 -634 -102 -127 -215 -302 -215
-                                                                -333 0 -7 720 -13 1600 -13 880 0 1600 6 1600 13 0 83 -288 441 -475 589 -384
-                                                                306 -961 460 -1412 378z"/>
-                                                                <path d="M431 3569 c-47 -48 -47 -1090 0 -1138 48 -48 5090 -48 5138 0 27 27
-                                                                31 107 31 569 0 462 -4 542 -31 569 -48 48 -5090 48 -5138 0z m332 -202 c32
-                                                                -29 37 -67 37 -300 l0 -267 169 0 c216 0 290 -61 198 -163 -46 -51 -486 -55
-                                                                -536 -6 -46 47 -46 691 0 738 41 40 86 39 132 -2z m1106 2 c71 -72 13 -169
-                                                                -100 -169 l-69 0 0 -200 0 -200 69 0 c113 0 171 -97 100 -169 -90 -89 -569
-                                                                -31 -569 69 0 57 56 100 131 100 l69 0 0 200 0 200 -69 0 c-75 0 -131 43 -131
-                                                                100 0 100 479 158 569 69z m298 2 c16 -17 49 -62 73 -101 53 -86 57 -85 144
-                                                                30 74 98 133 120 184 70 47 -48 48 -691 1 -739 -95 -94 -169 -13 -169 184 0
-                                                                145 -1 150 -37 118 -20 -18 -48 -33 -63 -33 -15 0 -43 15 -63 33 -36 32 -37
-                                                                27 -37 -118 0 -199 -65 -271 -163 -182 -52 47 -56 685 -6 736 40 39 97 40 136
-                                                                2z m1102 -2 c71 -72 13 -169 -100 -169 l-69 0 0 -200 0 -200 69 0 c113 0 171
-                                                                -97 100 -169 -90 -89 -569 -31 -569 69 0 57 56 100 131 100 l69 0 0 200 0 200
-                                                                -69 0 c-75 0 -131 43 -131 100 0 100 479 158 569 69z m694 -2 c77 -70 22 -167
-                                                                -94 -167 l-69 0 0 -263 c0 -279 -18 -337 -102 -337 -84 0 -98 49 -98 331 l0
-                                                                269 -69 0 c-75 0 -131 43 -131 100 0 102 464 157 563 67z m706 2 c97 -98 13
-                                                                -169 -200 -169 -167 0 -169 -1 -169 -50 0 -44 9 -50 69 -50 75 0 131 -43 131
-                                                                -100 0 -57 -56 -100 -131 -100 -60 0 -69 -6 -69 -50 0 -49 2 -50 169 -50 178
-                                                                0 231 -23 231 -100 0 -84 -49 -100 -300 -100 -317 0 -300 -23 -300 400 0 280
-                                                                5 342 31 369 46 45 492 45 538 0z m571 -6 c223 -119 223 -607 0 -726 -93 -50
-                                                                -350 -52 -403 -4 -53 48 -56 673 -4 730 47 53 309 52 407 0z"/>
-                                                                <path d="M5000 3000 l0 -200 69 0 c104 0 131 41 131 200 0 159 -27 200 -131
-                                                                200 l-69 0 0 -200z"/>
-                                                                <path d="M316 2135 c221 -361 215 -314 76 -545 l-109 -180 372 -5 c427 -7 398
-                                                                -16 367 122 -26 116 -61 159 -214 260 -142 94 -212 192 -223 312 l-10 101
-                                                                -149 0 -149 0 39 -65z"/>
-                                                                <path d="M780 2149 c0 -80 32 -122 157 -207 205 -139 253 -213 304 -470 30
-                                                                -152 79 -201 231 -231 257 -51 331 -99 470 -304 99 -146 134 -165 276 -149
-                                                                374 43 390 40 599 -104 143 -98 223 -98 366 0 209 144 225 147 599 104 142
-                                                                -16 177 3 276 149 139 205 213 253 470 304 152 30 201 79 231 231 51 257 99
-                                                                331 304 470 125 85 157 127 157 207 l0 51 -197 0 -197 0 -38 -85 c-654 -1457
-                                                                -2922 -1457 -3576 0 l-38 85 -197 0 -197 0 0 -51z"/>
-                                                                <path d="M1400 2187 c0 -31 113 -206 215 -333 688 -861 2082 -861 2770 0 102
-                                                                127 215 302 215 333 0 7 -720 13 -1600 13 -880 0 -1600 -6 -1600 -13z"/>
-                                                                <path d="M5416 2101 c-12 -124 -77 -213 -232 -318 -165 -113 -224 -201 -224
-                                                                -336 l0 -47 382 0 381 0 -39 65 c-141 230 -184 308 -184 335 0 27 43 105 184
-                                                                335 l39 65 -149 0 -149 0 -9 -99z"/>
-                                                                </g>
-                                                            </svg>
+                                                                    <g transform="translate(0.000000,300.000000) scale(0.050000,-0.050000)"
+                                                                    fill="#000000" stroke="none">
+                                                                    <path d="M2926 5380 c-24 -10 -89 -49 -145 -87 -143 -99 -223 -121 -369 -103
+                                                                    -304 38 -352 30 -426 -70 -196 -267 -256 -309 -514 -361 -152 -30 -201 -79
+                                                                    -231 -231 -50 -257 -92 -317 -361 -514 -75 -55 -91 -78 -96 -140 l-6 -74 198
+                                                                    0 198 0 38 85 c654 1459 2922 1459 3576 0 l38 -85 197 0 197 0 0 51 c0 80 -32
+                                                                    122 mo-157 207 -205 139 -253 213 -304 470 -30 152 -79 201 -231 231 -257 51
+                                                                    -331 99 -470 304 -99 146 -134 165 -276 149 -372 -43 -390 -40 -592 99 -110
+                                                                    75 -196 98 -264 69z"/>
+                                                                    <path d="M2713 4780 c-429 -78 -846 -318 -1098 -634 -102 -127 -215 -302 -215
+                                                                    -333 0 -7 720 -13 1600 -13 880 0 1600 6 1600 13 0 83 -288 441 -475 589 -384
+                                                                    306 -961 460 -1412 378z"/>
+                                                                    <path d="M431 3569 c-47 -48 -47 -1090 0 -1138 48 -48 5090 -48 5138 0 27 27
+                                                                    31 107 31 569 0 462 -4 542 -31 569 -48 48 -5090 48 -5138 0z m332 -202 c32
+                                                                    -29 37 -67 37 -300 l0 -267 169 0 c216 0 290 -61 198 -163 -46 -51 -486 -55
+                                                                    -536 -6 -46 47 -46 691 0 738 41 40 86 39 132 -2z m1106 2 c71 -72 13 -169
+                                                                    -100 -169 l-69 0 0 -200 0 -200 69 0 c113 0 171 -97 100 -169 -90 -89 -569
+                                                                    -31 -569 69 0 57 56 100 131 100 l69 0 0 200 0 200 -69 0 c-75 0 -131 43 -131
+                                                                    100 0 100 479 158 569 69z m298 2 c16 -17 49 -62 73 -101 53 -86 57 -85 144
+                                                                    30 74 98 133 120 184 70 47 -48 48 -691 1 -739 -95 -94 -169 -13 -169 184 0
+                                                                    145 -1 150 -37 118 -20 -18 -48 -33 -63 -33 -15 0 -43 15 -63 33 -36 32 -37
+                                                                    27 -37 -118 0 -199 -65 -271 -163 -182 -52 47 -56 685 -6 736 40 39 97 40 136
+                                                                    2z m1102 -2 c71 -72 13 -169 -100 -169 l-69 0 0 -200 0 -200 69 0 c113 0 171
+                                                                    -97 100 -169 -90 -89 -569 -31 -569 69 0 57 56 100 131 100 l69 0 0 200 0 200
+                                                                    -69 0 c-75 0 -131 43 -131 100 0 100 479 158 569 69z m694 -2 c77 -70 22 -167
+                                                                    -94 -167 l-69 0 0 -263 c0 -279 -18 -337 -102 -337 -84 0 -98 49 -98 331 l0
+                                                                    269 -69 0 c-75 0 -131 43 -131 100 0 102 464 157 563 67z m706 2 c97 -98 13
+                                                                    -169 -200 -169 -167 0 -169 -1 -169 -50 0 -44 9 -50 69 -50 75 0 131 -43 131
+                                                                    -100 0 -57 -56 -100 -131 -100 -60 0 -69 -6 -69 -50 0 -49 2 -50 169 -50 178
+                                                                    0 231 -23 231 -100 0 -84 -49 -100 -300 -100 -317 0 -300 -23 -300 400 0 280
+                                                                    5 342 31 369 46 45 492 45 538 0z m571 -6 c223 -119 223 -607 0 -726 -93 -50
+                                                                    -350 -52 -403 -4 -53 48 -56 673 -4 730 47 53 309 52 407 0z"/>
+                                                                    <path d="M5000 3000 l0 -200 69 0 c104 0 131 41 131 200 0 159 -27 200 -131
+                                                                    200 l-69 0 0 -200z"/>
+                                                                    <path d="M316 2135 c221 -361 215 -314 76 -545 l-109 -180 372 -5 c427 -7 398
+                                                                    -16 367 122 -26 116 -61 159 -214 260 -142 94 -212 192 -223 312 l-10 101
+                                                                    -149 0 -149 0 39 -65z"/>
+                                                                    <path d="M780 2149 c0 -80 32 -122 157 -207 205 -139 253 -213 304 -470 30
+                                                                    -152 79 -201 231 -231 257 -51 331 -99 470 -304 99 -146 134 -165 276 -149
+                                                                    374 43 390 40 599 -104 143 -98 223 -98 366 0 209 144 225 147 599 104 142
+                                                                    -16 177 3 276 149 139 205 213 253 470 304 152 30 201 79 231 231 51 257 99
+                                                                    331 304 470 125 85 157 127 157 207 l0 51 -197 0 -197 0 -38 -85 c-654 -1457
+                                                                    -2922 -1457 -3576 0 l-38 85 -197 0 -197 0 0 -51z"/>
+                                                                    <path d="M1400 2187 c0 -31 113 -206 215 -333 688 -861 2082 -861 2770 0 102
+                                                                    127 215 302 215 333 0 7 -720 13 -1600 13 -880 0 -1600 -6 -1600 -13z"/>
+                                                                    <path d="M5416 2101 c-12 -124 -77 -213 -232 -318 -165 -113 -224 -201 -224
+                                                                    -336 l0 -47 382 0 381 0 -39 65 c-141 230 -184 308 -184 335 0 27 43 105 184
+                                                                    335 l39 65 -149 0 -149 0 -9 -99z"/>
+                                                                    </g>
+                                                                </svg>
                                                             </span>
                                                         @endif
                                                     @elseif ($spec['name'] == "Provenance")
@@ -202,33 +202,50 @@
                                                 @endforeach
                                             @endif
                                         </div>
-                                        <div style="position: relative; margin-left: 10px; min-height: 250px; display: flex; justify-content: center; align-items: center;">
+                                        <div class="product_detail_image_section">
                                             @if($winnerflag > 0)
                                                 <div class="product_detail_sold_image_view">
                                                     <p>@lang('SOLD')</p>
                                                 </div>
                                             @endif
-                                            <img class="product_detail_image_view" title="@lang('click on to zoom')" src="{{getImage(imagePath()['product']['path'].'/'.$auction->image,imagePath()['product']['size'])}}" alt="auction">
-                                        </div>
-                                    </div>
-                                    <div class="meta-post mt-4">
-                                        @if($winnerflag <= 0)
-                                            @if ($auction->imagereplaceinput)
+                                            @php
+                                                $imagereplaceinputnumber = 0;
+                                            @endphp
+                                            @if($auction->imagereplaceinput)
                                                 @foreach ($auction->imagereplaceinput as $imgri)
-                                                    <div class="image_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;">
-                                                        <img id="image_replace_id{{ $loop->iteration }}" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}"  class="replace-image" style="width: 60px; height: 45px; cursor: pointer;" >
-                                                    </div>
+                                                    @php
+                                                        $imagereplaceinputnumber = $imagereplaceinputnumber + 1;
+                                                    @endphp
+                                                    @if($imagereplaceinputnumber <= 1)
+                                                        <img class="product_detail_image_view" style="position: absolute; width: 100%; top: 0; left:0; right: 0; bottom: 0; object-fit: cover;" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}" alt="product">
+                                                    @endif
                                                 @endforeach
+                                            @else
+                                                <img class="product_detail_image_view" style="position: absolute; width: 100%; top: 0; left:0; right: 0; bottom: 0; object-fit: cover;" title="@lang('click on to zoom')" src="{{getImage(imagePath()['product']['path'].'/'.$auction->image,imagePath()['product']['size'])}}" alt="auction">
                                             @endif
-                                        @endif
-                                    </div>
-                                    <div class="meta-post mt-4">
-                                        <div class="meta-item me-sm-auto">
                                         </div>
+                                    </div>
+                                    <div class="slidertopsection">
+                                        <div class="sliderleftbtn"></div>
+                                        <div class="meta-post sliderimagesection">
+                                            @if($winnerflag <= 0)
+                                                @if ($auction->imagereplaceinput)
+                                                    @foreach ($auction->imagereplaceinput as $imgri)
+                                                        <div class="image_data_item">
+                                                            <img id="image_replace_id{{ $loop->iteration }}" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}"  class="replace-image" style="width: 100%; height: 100%; cursor: pointer; position: absolute; top: 0; right: 0; bottom: 0; left: 0; object-fit: cover;" >
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            @endif
+                                        </div>
+                                        <div class="sliderrightbtn"></div>
+                                    </div>
+                                        
+                                    <div class="meta-post mt-4" style="margin-left: 40px;">
                                         <div class="meta-item me-0">
                                             <!--<span class="text--base"><i class="lar la-share-square"></i></span>-->
                                             <ul class="social-share">
-                                                <li>
+                                                <li style="margin: 0;">
                                                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" title="@lang('Facebook')" target="blank"><i class="fab fa-facebook"></i></a>
                                                 </li>
 
@@ -241,8 +258,10 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href="https://twitter.com/intent/tweet?text={{ __($auction->name) }}%0A{{ url()->current() }}" title="@lang('Twitter')" target="blank">
-                                                        <i class="fab fa-twitter"></i>
+                                                    <a class="twittersvg" href="https://twitter.com/intent/tweet?text={{ __($auction->name) }}%0A{{ url()->current() }}" title="@lang('Twitter')" target="blank">
+                                                        <svg style="width: 15px; height: 15px; margin-left: 1px; margin-bottom: 3px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" version="1.1">
+                                                            <path style="fill: #fff;" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                                        </svg>
                                                     </a>
                                                 </li>
                                             </ul>
@@ -251,13 +270,14 @@
                                 </div>
                                 <div class="product-content">
                                     <h5 class="title mt-0 mb-2 htitle5">{{ __($auction->name) }}</h5>
+                                    
                                     <p class="mb-4 mt-0 shortdes">
                                         {{ __(shortDescription($auction->short_description)) }}
                                     </p>
                                     @if($winnerflag > 0)
                                         <div class="product-price">
                                             <div class="productcost">
-                                                <span class="productcur">@lang('Sold for'): </span>{{ $general->cur_sym }}{{ showAmount($auction->price, 0) }}
+                                                <span class="productcur">@lang('Sold for'): </span>{{ $general->cur_sym }} {{ showAmount($auction->price, 0) }}
                                             </div>
                                         </div>
                                     @else
@@ -276,7 +296,7 @@
                                                 <div class="cart-plus-minus input-group w-auto topchooseamount">
                                                     <div class="currencylist">
                                                     </div>
-                                                    <span title="@lang('Bid Calculator')" class="input-group-text bg--base border-0 text-white currencyicon" style="width: 40px; border-top-left-radius: 5px; border-bottom-left-radius: 5px;">
+                                                    <span title="@lang('Bid Calculator')" class="input-group-text bg--base border-0 text-white currencyicon" style="width: 40px; border-top-left-radius: 5px; border-bottom-left-radius: 5px;display: flex; justify-content: center; align-items: center; padding-left: 17px;">
                                                         <i class="fas fa-calculator" style=""></i>
                                                     </span>
                                                     <select class="form-control chooseamountstyle" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px;width: 181px; background-color: transparent !important; color: transparent !important;" id="samount" step="any" min="0" placeholder="@lang('CHOOSE YOUR BID')">
@@ -348,8 +368,14 @@
                                                             @endfor
                                                         @else
                                                             @for($i = 100; $i <= 500; $i = $i + 50)
-                                                                @if($auction->price <= $i)
-                                                                    <option value={{$i}}>{{number_format($i, 0, ",", ".")}} Euro</option>
+                                                                @if($relatedAuctionbids->isEmpty())
+                                                                    @if($auction->price <= $i)
+                                                                        <option value={{$i}}>{{number_format($i, 0, ",", ".")}} Euro</option>
+                                                                    @endif
+                                                                @else
+                                                                    @if($auction->price < $i)
+                                                                        <option value={{$i}}>{{number_format($i, 0, ",", ".")}} Euro</option>
+                                                                    @endif
                                                                 @endif
                                                             @endfor
                                                             @for($i = 600; $i < 1000; $i = $i + 100)
@@ -434,10 +460,100 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="content">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <aside class="product-single-sidebar ms-xl-3 ms-xxl-5 countdownandbiddersection">
+                            <div class="countdown-area bg--section mb-4 timer-section">
+                                @if($winnerflag > 0)
+                                    <ul class="sidebar-countdown">
+                                        <li>
+                                            <span class="days">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="hours">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="minutes">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="seconds">@lang('00')</span>
+                                        </li>
+                                    </ul>
+                                @else
+                                    <ul class="countdown sidebar-countdown" data-date="{{ showDateTime($auction->expired_at, 'm/d/Y H:i:s') }}">
+                                        <li>
+                                            <span class="days">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="hours">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="minutes">@lang('00')</span>
+                                        </li>
+                                        <li>
+                                            <span class="seconds">@lang('00')</span>
+                                        </li>
+                                    </ul>
+                                @endif
+                            </div>
+                            <div class="seller-area bg--section mb-4 seller-section" style="height: 215px; overflow-y: auto; background: unset; background-color: #001635ee;">
+                                <h6 class="about-seller mb-3 bidders-title" style="font-weight: bolder;">
+                                    @lang('Bidders')
+                                </h6>
+                                <table class="bidderstable">
+                                    @forelse($relatedAuctionbids as $relatedbids)
+                                    <tr class="relatedabids-tr">
+                                        <td>
+                                            <img width="25px" height="16px" src="https://www.geonames.org/flags/x/{{strtolower($relatedbids->user->country_code)}}.gif" alt="flag" />
+                                        </td>
+                                        @if (auth()->check())
+                                        <td>
+                                            @if (auth()->user()->id == $relatedbids->user_id)
+                                                <span style="color: red;">@lang('Your bid')</span>
+                                            @else
+                                                <span>@lang('Bidder') {{ $data["$relatedbids->user_id"] }}</span>
+                                            @endif
+                                        </td>
+                                        @else
+                                        <td>
+                                            Bidder {{ $data["$relatedbids->user_id"] }}
+                                        </td>
+                                        @endif
+                                        <td>
+                                            {{ $relatedbids->created_at }}
+                                        </td>
+                                        @if (auth()->check())
+                                        <td>
+                                            @if (auth()->user()->id == $relatedbids->user_id)
+                                                {{ showAmount($relatedbids->amount, 0) }} {{ $general->cur_sym }}
+                                            @else
+                                                *******
+                                            @endif
+                                        </td>
+                                        @else
+                                        <td>
+                                            *******
+                                        </td>
+                                        @endif
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td rowspan="3"> @lang('No bids recorded yet.') </td>
+                                    </tr>
+                                    @endforelse
+                                </table>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+                <div class="row gy-5 justify-content-between">
+                    <div class="col-lg-8">
+                        <div class="product__single-item">
+                            <div class="content" style="padding-left: 40px;">
                                 <ul class="nav nav-tabs nav--tabs">
                                     <li>
-                                        <a href="#description" class="active" data-bs-toggle="tab">@lang('Description')</a>
+                                        <a style="border-bottom-width: 0px;" href="#description" class="active" data-bs-toggle="tab">@lang('Description')</a>
                                     </li>
                                     <!--<li>-->
                                     <!--    <a href="#specification" data-bs-toggle="tab">@lang('Specifications')</a>-->
@@ -450,7 +566,7 @@
                                     <!--</li>-->
                                     @if($winnerflag <= 0)
                                         <li>
-                                            <a href="#ask_question" data-bs-toggle="tab">@lang('Ask a question') ({{ $auctionquestions_count }})</a>
+                                            <a style="border-bottom-width: 0px;" href="#ask_question" data-bs-toggle="tab">@lang('Ask a question') ({{ $auctionquestions_count }})</a>
                                         </li>
                                     @endif
                                 </ul>
@@ -723,86 +839,157 @@
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <aside class="product-single-sidebar ms-xl-3 ms-xxl-5">
-                            <div class="countdown-area bg--section mb-4 timer-section">
-                                @if($winnerflag > 0)
-                                    <ul class="sidebar-countdown">
-                                        <li>
-                                            <span class="days">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="hours">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="minutes">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="seconds">@lang('00')</span>
-                                        </li>
-                                    </ul>
-                                @else
-                                    <ul class="countdown sidebar-countdown" data-date="{{ showDateTime($auction->expired_at, 'm/d/Y H:i:s') }}">
-                                        <li>
-                                            <span class="days">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="hours">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="minutes">@lang('00')</span>
-                                        </li>
-                                        <li>
-                                            <span class="seconds">@lang('00')</span>
-                                        </li>
-                                    </ul>
-                                @endif
+                        <aside class="product-single-sidebar ms-xl-3 ms-xxl-5" style="margin-top: 76px;">
+                            <div class="seller-area bg--section mb-4" style="border-style: solid; border-color: #0E86D4;">
+                                <h5 class="title" style="font-weight: 100; font-size: 22px; font-family: Arial;">@lang('Item Specifics')</h5>
+                                <div class="specifics-table">
+                                    @if ($auction->specification)
+                                        @foreach ($auction->specification as $spec)
+                                            @if($loop->index < 7)
+                                                @if($spec['value'] != null)
+                                                    <div class="specifics-subsection">
+                                                        <div class="specifics-subblock">
+                                                            <div class="specifics-th">{{ __($spec['name']) }}:</div>
+                                                            <div class="specifics-td">{{ __($spec['value']) }}</div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @elseif($loop->index == 7)
+                                                <div class="specifics-subsection">
+                                                    <div class="specifics-subblock">
+                                                        <div class="specifics-th">{{ __($spec['name']) }}:</div>
+                                                        <div class="specifics-td">
+                                                            <label style="padding: 0; margin: 0;" data-imgsrc="{{$spec['value']}}">
+                                                                <span style="margin-right: 5px;">{{$spec['value']}}</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @elseif($loop->index == 8)
+                                                @if($spec['value'] != null)
+                                                    <div class="specifics-subsection">
+                                                        <div class="specifics-subblock">
+                                                            <div class="specifics-th">{{ __($spec['name']) }}:</div>
+                                                            <div class="specifics-td">
+                                                                <label style="padding: 0; margin: 0;" data-imgsrc="{{$spec['value']}}">
+                                                                    <span style="margin-right: 5px;">{{$spec['value']}}</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @elseif($loop->index == 9)
+                                                @if($spec['name'] != null)
+                                                    <div class="specifics-subsection">
+                                                        <div class="specifics-subblock">
+                                                            <div class="specifics-th">{{ __($spec['name']) }}:</div>
+                                                            <div class="specifics-td">
+                                                                <label style="padding: 0; margin: 0;" data-imgsrc="{{$spec['value']}}">
+                                                                    <span style="margin-right: 5px;">{{$spec['value']}}</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @elseif($loop->index == 10)
+                                                @if($spec['name'] != null)
+                                                    <div class="specifics-subsection">
+                                                        <div class="specifics-subblock">
+                                                            <div class="specifics-th">{{ __($spec['name']) }}:</div>
+                                                            <div class="specifics-td">
+                                                                <label style="padding: 0; margin: 0;" data-imgsrc="{{$spec['value']}}">
+                                                                    <span style="margin-right: 5px;">{{$spec['value']}}</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
-                            <div class="seller-area bg--section mb-4 seller-section" style="height: 265px; overflow-y: auto; background: unset; background-color: #001635ee;">
-                                <h6 class="about-seller mb-4 bidders-title" style="font-weight: bolder;">
-                                    @lang('Bidders')
-                                </h6>
-                                <table class="bidderstable">
-                                    @forelse($relatedAuctionbids as $relatedbids)
-                                    <tr class="relatedabids-tr">
-                                        <td>
-                                            <img width="25px" height="16px" src="https://www.geonames.org/flags/x/{{strtolower($relatedbids->user->country_code)}}.gif" alt="flag" />
-                                        </td>
-                                        @if (auth()->check())
-                                        <td>
-                                            @if (auth()->user()->id == $relatedbids->user_id)
-                                                <span style="color: red;">@lang('Your bid')</span>
+                            <div class="countdownandbiddermobilesection">
+                                <div class="countdown-area bg--section mb-4 timer-section">
+                                    @if($winnerflag > 0)
+                                        <ul class="sidebar-countdown">
+                                            <li>
+                                                <span class="days">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="hours">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="minutes">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="seconds">@lang('00')</span>
+                                            </li>
+                                        </ul>
+                                    @else
+                                        <ul class="countdown sidebar-countdown" data-date="{{ showDateTime($auction->expired_at, 'm/d/Y H:i:s') }}">
+                                            <li>
+                                                <span class="days">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="hours">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="minutes">@lang('00')</span>
+                                            </li>
+                                            <li>
+                                                <span class="seconds">@lang('00')</span>
+                                            </li>
+                                        </ul>
+                                    @endif
+                                </div>
+                                <div class="seller-area bg--section mb-4 seller-section" style="height: 215px; overflow-y: auto; background: unset; background-color: #001635ee;">
+                                    <h6 class="about-seller mb-3 bidders-title" style="font-weight: bolder;">
+                                        @lang('Bidders')
+                                    </h6>
+                                    <table class="bidderstable">
+                                        @forelse($relatedAuctionbids as $relatedbids)
+                                        <tr class="relatedabids-tr">
+                                            <td>
+                                                <img width="25px" height="16px" src="https://www.geonames.org/flags/x/{{strtolower($relatedbids->user->country_code)}}.gif" alt="flag" />
+                                            </td>
+                                            @if (auth()->check())
+                                            <td>
+                                                @if (auth()->user()->id == $relatedbids->user_id)
+                                                    <span style="color: red;">@lang('Your bid')</span>
+                                                @else
+                                                    <span>@lang('Bidder') {{ $data["$relatedbids->user_id"] }}</span>
+                                                @endif
+                                            </td>
                                             @else
-                                                <span>@lang('Bidder') {{ $data["$relatedbids->user_id"] }}</span>
+                                            <td>
+                                                Bidder {{ $data["$relatedbids->user_id"] }}
+                                            </td>
                                             @endif
-                                        </td>
-                                        @else
-                                        <td>
-                                            Bidder {{ $data["$relatedbids->user_id"] }}
-                                        </td>
-                                        @endif
-                                        <td>
-                                            {{ $relatedbids->created_at }}
-                                        </td>
-                                        @if (auth()->check())
-                                        <td>
-                                            @if (auth()->user()->id == $relatedbids->user_id)
-                                                {{ showAmount($relatedbids->amount, 0) }} {{ $general->cur_sym }}
+                                            <td>
+                                                {{ $relatedbids->created_at }}
+                                            </td>
+                                            @if (auth()->check())
+                                            <td>
+                                                @if (auth()->user()->id == $relatedbids->user_id)
+                                                    {{ showAmount($relatedbids->amount, 0) }} {{ $general->cur_sym }}
+                                                @else
+                                                    *******
+                                                @endif
+                                            </td>
                                             @else
+                                            <td>
                                                 *******
+                                            </td>
                                             @endif
-                                        </td>
-                                        @else
-                                        <td>
-                                            *******
-                                        </td>
-                                        @endif
-                                    </tr>
-                                    @empty
-                                    <tr>
-                                        <td rowspan="3"> @lang('No bids recorded yet.') </td>
-                                    </tr>
-                                    @endforelse
-                                </table>
+                                        </tr>
+                                        @empty
+                                        <tr>
+                                            <td rowspan="3"> @lang('No bids recorded yet.') </td>
+                                        </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
                             </div>
                         </aside>
                     </div>
@@ -949,11 +1136,10 @@
                                 <td style="width: 65%; text-align: right; padding: 8px 0 8px 15px;">
                                     <select class="bidcalc_select bid_calc_shipping_select">
                                         <option value="0">@lang('Select')</option>
-                                        <option value="10">up to 10 kg within Germany - 10 Euro</option>
-                                        <option value="20">up to 10 kg within the EU - 20 Euro</option>
-                                        <option value="30">up to 2 kg outside the EU - 30 Euro</option>
-                                        <option value="50">up to 5 kg outside the EU - 50 Euro</option>
-                                        <option value="70">up to 10 kg outside the EU - 70 Euro</option>
+                                        @foreach($shippings as $shipping)
+                                            <option value="{{ $shipping->shipping_amount }}">{{ $shipping->shipping_text }} - {{ $shipping->shipping_amount }} Euro</option>
+                                        @endforeach
+                                        <option value="0">collection by the buyer</option>
                                     </select>
                                 </td>
                             </tr>
@@ -996,8 +1182,8 @@
                         </button>
                         @if ($auction->imagereplaceinput)
                             @foreach ($auction->imagereplaceinput as $imgri)
-                                <div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 45px; margin: 2px;display: inline-block;">
-                                    <img id="image_replace_id{{ $loop->iteration }}" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}"  class="replace-modal-image" style="width: 60px; height: 45px; cursor: pointer;" >
+                                <div class="modal_img_data_item" style="text-align: center;position: relative; width: 60px; height: 60px; margin: 2px;display: inline-block;">
+                                    <img id="image_replace_id{{ $loop->iteration }}" src="{{getImage(imagePath()['product']['path'].'/'.$imgri['url'],imagePath()['product']['size'])}}"  class="replace-modal-image" style="width: 100%; cursor: pointer; visibility: visible; position: absolute; top: 0; bottom: 0; left: 0; right: 0; border-radius: 6px;" >
                                 </div>
                             @endforeach
                         @endif
@@ -1068,13 +1254,13 @@
         
         .timer-section {
             border-style: solid solid solid solid;
-            border-color: rgba(255, 255, 255, 0.6);
+            border-color: #0E86D4;
             border-width: 1px;
         }
         
         .seller-section {
             border-style: solid solid solid solid;
-            border-color: rgba(255, 255, 255, 0.6);
+            border-color: #0E86D4;
             border-width: 1px;
         }
         
@@ -1100,6 +1286,8 @@
             align-items: center;
             background-color: transparent !important;
             border-radius: 5px;
+            top: 0;
+            z-index: 7;
         }
         
         .product_detail_sold_image_view > p {
@@ -1146,6 +1334,7 @@
             justify-content: center;
             align-items: center;
             color: #fff;
+            min-width: 30px;
         }
         
         .item_feature_icons > span {
@@ -1153,8 +1342,8 @@
         }
         
         .item_feature_icons > span > svg {
-            width: 30px;
-            height: 30px;
+            width: 20px;
+            height: 20px;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -1172,14 +1361,59 @@
         }
         
         .item_feature_icons > i {
-            font-size: 24px;
+            font-size: 18px;
             color: #fff !important;
             margin: 5px 0;
         }
         
         .item_feature_icons > i.icon_select {
             color: #e9ba17 !important;
+        }
+        
+        .product_detail_image_section {
+            position: relative; 
+            margin-left: 10px; 
+            min-height: 250px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding-top: 100%; 
+            width: 100%;
+        }
+        
+        .slidertopsection {
+            position: relative;
+            margin-left: 40px;
+        }
+        
+        .sliderimagesection {
+            scroll-behavior: smooth; 
+            margin-top: -20px; 
+            flex-wrap: unset !important; 
+            overflow: hidden; 
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .item_feature_icons {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 100;
+            }
             
+            .product_detail_image_section {
+                margin-left: 0px;
+            }
+            
+            .slidertopsection {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            
+            .sliderimagesection {
+                margin-top: 5px;
+            }
         }
 
         .item_heart_icon > span {
@@ -1188,7 +1422,7 @@
 
         .item_heart_icon > span > i {
             color: #e9ba17 !important;
-            font-size: 24px;
+            font-size: 18px;
             transition: 0.3s color ease-in-out;
         }
         
@@ -1458,6 +1692,8 @@
             position: absolute;
             top: 7px;
             left: 50px;
+            width: calc(100% - 50px);
+            text-align: center;
         }
         
         .bg--section {
@@ -1544,7 +1780,7 @@
         #lockslider {
             transition: width 0.3s, border-radius 0.3s, height 0.3s;
             position: absolute;
-            background-color: #336699;
+            background-color: #0E86D4;
             width: 38px;
             height: 38px;
             color: #fff;
@@ -1726,11 +1962,144 @@
         
         .item_heart_icon_red > span > i {
             color: red !important;
-            font-size: 24px;
+            font-size: 18px;
         }
 
         .item_heart_icon_red > span {
             background-color: transparent;
+        }
+        
+        .specifics-table {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding: 5px 0;
+            margin-top: 10px;
+        }
+        
+        .specifics-subsection {
+            width: 100%;
+        }
+        
+        .specifics-subblock {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            height: 30px;
+            align-items: center;
+        }
+        
+        .specifics-td {
+            width: 60%;
+            font-weight: bold;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .specifics-th {
+            width: 40%;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .nav--tabs li {
+            border: 1px solid #0E86D4;
+        }
+        
+        .nav--tabs li:first-child {
+            border-color: #0e86d4;
+        }
+        
+        .image_data_item {
+            margin-right: 16px; 
+            min-width: 60px; 
+            position: relative; 
+            width: 60px; 
+            height: 60px; 
+            display: block; 
+            overflow: hidden;
+        }
+        
+        .image_data_item:last-child {
+            margin-right: 0;
+        }
+        
+        .sliderleftbtn {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            margin-left: -25px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent #fff transparent transparent;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .sliderrightbtn {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            margin-right: -25px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #fff;
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .countdownandbiddermobilesection {
+            display: none;
+        }
+        
+        #description {
+            width: calc(50% + 219px - 1.5rem);
+        }
+        
+        .product-sections-block {
+            padding-right: calc(1.5rem * .5 + 40px) !important;
+        }
+        
+        @media (max-width: 768px) {
+            .product-content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .product-content > .btn__area {
+                flex-direction: column;
+            }
+            
+            .countdownandbiddersection {
+                display: none;
+            }
+            
+            .countdownandbiddermobilesection {
+                display: block;
+            }
+            
+            .product__single-item > .content {
+                padding-left: 0px !important;
+            }
+            
+            .meta-post {
+                margin-left: 0px !important;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .product-sections-block {
+                padding-right: calc(1.5rem * .5) !important;
+            }
+            
+            #description {
+                width: 100%;
+            }
         }
     </style>
 @endpush
@@ -1799,7 +2168,7 @@
         	} else {
         	    if(!amount) {
         	        iziToast['warning']({
-                        message: "You must choose your bid before swiping.",
+                        message: "@lang('You must choose your bid before swiping.')",
                         position: "topRight"
                     });
         	        $('.lockslide-text').fadeTo(300, 1);
@@ -1808,18 +2177,19 @@
             			left: "0px"
             		}, 300);
             		return;
-        	    } else if(Number(amount) == Number(auctionprice)) {
-        	        iziToast['warning']({
-                        message: "You must choose your bid before swiping.",
-                        position: "topRight"
-                    });
-        	        $('.lockslide-text').fadeTo(300, 1);
-            		$('.background-col').css('width', "0%");
-            		lockslider.animate({
-            			left: "0px"
-            		}, 300);
-            		return;
-        	    }
+        	    } 
+        	   // else if(Number(amount) == Number(auctionprice)) {
+        	   //     iziToast['warning']({
+            //             message: "You must choose your bid before swiping.",
+            //             position: "topRight"
+            //         });
+        	   //     $('.lockslide-text').fadeTo(300, 1);
+            // 		$('.background-col').css('width', "0%");
+            // 		lockslider.animate({
+            // 			left: "0px"
+            // 		}, 300);
+            // 		return;
+        	   // }
         	}
         	if(amount && Number(auctionprice) != Number(amount)) {
         	    lockslider.addClass('unlocked');
@@ -1831,14 +2201,14 @@
             modal.find('.message').html('@lang("Are you sure to bid on this product?")');
             if(!amount){
                 iziToast['error']({
-                    message: "You must choose your bid before swiping.",
+                    message: "@lang('You must choose your bid before swiping.')",
                     position: "topRight"
                 });
-            } else if(Number(amount) == Number(auctionprice)) {
-                iziToast['error']({
-                    message: "You must choose your bid before swiping.",
-                    position: "topRight"
-                });
+            // } else if(Number(amount) == Number(auctionprice)) {
+            //     iziToast['error']({
+            //         message: "You must choose your bid before swiping.",
+            //         position: "topRight"
+            //     });
             } else {
                 $('.empty-message').hide();
                 modal.find('.amount').val(amount);
@@ -1864,7 +2234,17 @@
         	var relativeMouse = currentMouse - initialMouse;
         	var slidePercent = 1 - (relativeMouse / slideMovementTotal);
         	
-        	if(amount && Number(auctionprice) != Number(amount)) {
+        // 	if(amount && Number(auctionprice) != Number(amount)) {
+        // 	    if((relativeMouse / slideMovementTotal) * 100 < 100)
+        //     	{
+        //     	    $('.background-col').css('width', (relativeMouse / slideMovementTotal) * 100 + "%");  
+        //     	}
+        //     	else {
+        //     	    $('.background-col').css('width', "100%");
+        //     	}
+        // 	}
+        
+            if(amount) {
         	    if((relativeMouse / slideMovementTotal) * 100 < 100)
             	{
             	    $('.background-col').css('width', (relativeMouse / slideMovementTotal) * 100 + "%");  
@@ -1881,7 +2261,11 @@
         		return;
         	}
         	if (relativeMouse >= slideMovementTotal + 0) {
-    	        if(amount && Number(auctionprice) != Number(amount)) {
+    	       // if(amount && Number(auctionprice) != Number(amount)) {
+            // 		lockslider.css({'left': slideMovementTotal + 'px'});
+            // 		return;
+    	       // }
+    	       if(amount) {
             		lockslider.css({'left': slideMovementTotal + 'px'});
             		return;
     	        }
@@ -1892,12 +2276,13 @@
             		lockslider.css({'left': (slideMovementTotal - 38) + 'px'});
             		return;
             	}
-        	} else if(Number(auctionprice) == Number(amount)) {
-        	    if (relativeMouse >= slideMovementTotal - 38) {
-            		lockslider.css({'left': (slideMovementTotal - 38) + 'px'});
-            		return;
-            	}
-        	}
+        	} 
+        // 	else if(Number(auctionprice) == Number(amount)) {
+        // 	    if (relativeMouse >= slideMovementTotal - 38) {
+        //     		lockslider.css({'left': (slideMovementTotal - 38) + 'px'});
+        //     		return;
+        //     	}
+        // 	}
         	
         	lockslider.css({'left': relativeMouse - 0});
         // }
@@ -2084,7 +2469,7 @@
         
         $('.chooseamountstyle').on('change', function() {
             if($(this).val() == "") {
-                $('.choosefirsttext').html("Choose your bid");
+                $('.choosefirsttext').html("@lang('Choose your bid')");
                 $('.choosesecondtext').html("");
                 $('.empty-message').show();
                 $('.perforatedstick').show();
@@ -2096,7 +2481,7 @@
                 } else if(Number(auctionprice) == $(this).val()){
                     $('.choosefirsttext').html(new Intl.NumberFormat("de-DE").format($(this).val()) + " Euro");
                     $('.empty-message').hide();
-                    $('.perforatedstick').show();
+                    $('.perforatedstick').hide();
                 } else {
                     $('.choosefirsttext').html(new Intl.NumberFormat("de-DE").format($(this).val()) + " Euro");
                     $('.empty-message').hide();
@@ -2168,7 +2553,7 @@
         
         $(".unattachiconpaper").on('click', function() {
             iziToast['warning']({
-                message: "@lang('You must log in to view photo.')",
+                message: "@lang('You must logged in.')",
                 position: "topRight"
             });
         });
@@ -2310,9 +2695,33 @@
             }
         });
         
+        var sliderValue = 0;
+        var sliderNums = {{ count($auction->imagereplaceinput) }};
+        
+        $('.sliderleftbtn').on('click', function() {
+            // alert("left");
+            const slidersubsection = document.querySelector('.sliderimagesection');
+            if(sliderValue < 76) {
+                sliderValue = 0;
+            } else {
+                sliderValue = sliderValue - 76;
+            }
+            slidersubsection.scrollLeft = sliderValue;
+        });
+        
+        $('.sliderrightbtn').on('click', function() {
+            const slidersubsection = document.querySelector('.sliderimagesection');
+            if(slidersubsection.offsetWidth + sliderValue >= sliderNums * 76 - 16) {
+                sliderValue = sliderNums * 76 - slidersubsection.offsetWidth - 16;
+            } else {
+                sliderValue = sliderValue + 76;
+            }
+            slidersubsection.scrollLeft = sliderValue;
+        });
+        
         $('.wronginputnotifycation').on('click', function() {
             iziToast['warning']({
-                message: "@lang('You must log in to ask a question.')",
+                message: "@lang('You must logged in.')",
                 position: "topRight"
             });
         });

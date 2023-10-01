@@ -4,28 +4,19 @@
 <!-- Product -->
 <section class="product-section pt-120 pb-120">
     <div class="container">
-        <div class="mb-4 d-lg-none">
-            <div class="filter-btn ms-auto">
-                <i class="las la-filter"></i>
+        <div class="position-fixed position-absolute start-50 translate-middle-x d-lg-none" style="bottom: 63px; z-index: 10; background: none;">
+            <div style="background: transparent !important;">
+                <a href="#" class="cmn--btn filter-btn-sticky">Filter</a>
             </div>
         </div>
         <div class="row flex-wrap-reverse">
             <div class="col-lg-4 col-xl-3">
                 <aside class="search-filter">
                     <div class="bg--section pb-5 pb-lg-0">
-                        <div class="filter-widget">
+                        <div class="filter-widget d-block d-lg-none">
                             <span class="close-filter-bar d-lg-none">
                                 <i class="las la-times"></i>
                             </span>
-                            <h6 class="sub-title">@lang('Sort by')</h6>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="created_at" type="radio" name="radio" id="radio1" checked>
-                                <label  for="radio1">@lang('Date')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="price" type="radio" name="radio" id="radio2">
-                                <label  for="radio2">@lang('Price')</label>
-                            </div>
                         </div>
                         
                         <div class="filter-widget pt-3 pb-2">
@@ -55,49 +46,37 @@
                                 @endforeach
                             </form>
                         </div>
-
-                        <div class="filter-widget">
-                            <h6 class="sub-title">@lang('by Price')</h6>
-
-                            <div class="widget">
-                                <div id="slider-range"></div>
-                                <div class="price-range">
-                                    <label for="amount">@lang('Price') :</label>
-                                    <input type="text" id="amount" readonly>
-                                    <input type="hidden" name="min_price" >
-                                    <input type="hidden" name="max_price">
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="filter-widget">
                             <h6 class="sub-title">@lang('by Feature')</h6>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="arrivals" type="radio" name="radio" id="radio3">
-                                <label  for="radio3">@lang('New Arrivals')</label>
-                            </div>
-                            <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="excellent" type="radio" name="radio" id="radio4">
+                                <input class="form-check-input sorting" name="searchsorting" value="ExcellentCondition" wire:model="searchByFeature" type="checkbox">
                                 <label  for="radio4">@lang('Excellent Condition')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="certificated" type="radio" name="radio" id="radio5">
+                                <input class="form-check-input sorting" name="searchsorting" value="Certificated" wire:model="searchByFeature" type="checkbox">
                                 <label  for="radio5">@lang('Certificated')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="mentioned" type="radio" name="radio" id="radio6">
+                                <input class="form-check-input sorting" name="searchsorting" value="Literature" wire:model="searchByFeature" type="checkbox">
                                 <label  for="radio6">@lang('Mentioned in Literature')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="limited" type="radio" name="radio" id="radio7">
+                                <input class="form-check-input sorting" name="searchsorting" value="Edition" wire:model="searchByFeature" type="checkbox">
                                 <label  for="radio7">@lang('Limited Edition')</label>
                             </div>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="noteworthy" type="radio" name="radio" id="radio8">
+                                <input class="form-check-input sorting" name="searchsorting" value="Provenance" wire:model="searchByFeature" type="checkbox">
                                 <label  for="radio8">@lang('Noteworthy Provenance')</label>
                             </div>
+                        </div>
+                        <div class="filter-widget">
+                            <h6 class="sub-title">@lang('by Time')</h6>
                             <div class="form-check form--check">
-                                <input class="form-check-input sorting" value="sold" type="radio" name="radio" id="radio9">
+                                <input class="form-check-input timing" wire:model="searchByNewArrivals" value="newArrivals" type="checkbox">
+                                <label for="radio3">@lang('New Arrivals')</label>
+                            </div>
+                            <div class="form-check form--check">
+                                <input class="form-check-input timing" wire:model="searchBySold" value="sold" type="checkbox">
                                 <label  for="radio9">@lang('Sold Items')</label>
                             </div>
                         </div>
@@ -117,6 +96,42 @@
                 </div>
             </div>
             <div class="col-lg-8 col-xl-9 search-result">
+                <style>
+                    .sort-fields {
+                        margin-bottom: 15px !important;
+                    }
+                    @media (min-width: 768px) {
+                        .sort-fields {
+                            margin-bottom: -15px !important;
+                        }
+                    }
+                </style>
+                <div class="sort-fields d-md-flex" style="gap: 1.25rem;">
+                    <div class="ps-0 form-check form--check mb-2 mb-md-0" style="display: flex;">
+                        <input class="form-check-input dateprice" style="display: none;" value="created_at" type="radio" name="dateprice" id="radio1">
+                        <label style="width:5rem">@lang('Date')</label>
+                        <div style="width: 100%;">
+                            <select class="date-select-sort form-select" wire:model="sortByDate">
+                                <option value="">...</option>
+                                <option value="created_at_asc">@lang('ascending')</option>
+                                <option value="created_at_desc">@lang('descending')</option>
+                            </select>
+                        </div>
+                        <input class="form-check-input dateprice" style="display: none;" value="created_at_asc" type="radio" name="dateprice" id="radio10">
+                    </div>
+                    <div class="ps-0 form-check form--check" style="display: flex;">
+                        <input class="form-check-input dateprice" style="display: none;" value="price" type="radio" name="dateprice" id="radio2">
+                        <label style="width:5rem">@lang('Price')</label>
+                        <div style="width: 100%;">
+                            <select class="price-select-sort form-select" wire:model="sortByPrice">
+                                <option value="">...</option>
+                                <option value="price_asc">@lang('ascending')</option>
+                                <option value="price_desc">@lang('descending')</option>
+                            </select>
+                        </div>
+                        <input class="form-check-input dateprice" style="display: none;" value="price_desc" type="radio" name="dateprice" id="radio11">
+                    </div>
+                </div>
                 @include($activeTemplate.'search.filtered', ['products'=> $products, 'auctions'=>$auctions])
             </div>
         </div>
@@ -246,7 +261,10 @@
         "use strict";
         var page = 1;
         var search_key = @json(request()->search_key);
-        var sorting = '';
+        var sorting = {"excellent":"false", "certificated":"false", "mentioned":"false", "limited":"false", "noteworthy":"false"};
+        var timing = '';
+        var date = '';
+        var price = '';
         var categories = [];
         var minPrice = parseInt(`{{ $allProducts->min('price') }}`) > parseInt(`{{ $allAuctions->min('price') }}`) ? parseInt(`{{ $allAuctions->min('price') }}`) : parseInt(`{{ $allProducts->min('price') }}`);
         var maxPrice = parseInt(`{{ $allProducts->max('price') }}`) > parseInt(`{{ $allAuctions->max('price') }}`) ? parseInt(`{{ $allProducts->max('price') }}`) : parseInt(`{{ $allAuctions->max('price') }}`);
@@ -257,9 +275,62 @@
           loadSearch();
           $('.close-filter-bar').click();
         });
+        
+        $('.date-select-sort').on('change', function(e) {
+            date = e.target.value;
+            loadSearch();
+            $('.close-filter-bar').click();
+        });
+        
+        $('.price-select-sort').on('change', function(e) {
+            price = e.target.value;
+            loadSearch();
+            $('.close-filter-bar').click();
+        });
+        
+        $('.timing').on('click', function(e) {
+            timing = e.target.value;
+            loadSearch();
+            $('.close-filter-bar').click();
+        });
 
         $('.sorting').on('click', function(e){
-            sorting = e.target.value;
+            if(e.target.value == "ExcellentCondition") {
+                if(e.target.checked == true) {
+                    sorting['excellent'] = "true";
+                } else {
+                    sorting['excellent'] = "false";
+                }
+            }
+            if(e.target.value == "Certificated") {
+                if(e.target.checked == true) {
+                    sorting['certificated'] = "true";
+                } else {
+                    sorting['certificated'] = "false";
+                }
+            }
+            if(e.target.value == "Literature") {
+                if(e.target.checked == true) {
+                    sorting['mentioned'] = "true";
+                } else {
+                    sorting['mentioned'] = "false";
+                }
+            }
+            if(e.target.value == "Edition") {
+                if(e.target.checked == true) {
+                    sorting['limited'] = "true";
+                } else {
+                    sorting['limited'] = "false";
+                }
+            }
+            if(e.target.value == "Provenance") {
+                if(e.target.checked == true) {
+                    sorting['noteworthy'] = "true";
+                } else {
+                    sorting['noteworthy'] = "false";
+                }
+            }
+            console.log(sorting);
             loadSearch();
             $('.close-filter-bar').click();
         });
@@ -287,6 +358,7 @@
                 $('.close-filter-bar').click();
             }
         });
+        
         $("#amount" ).val( "€" + $( "#slider-range" ).slider( "values", 0 ) + " - €" + $( "#slider-range" ).slider( "values", 1 ));
 
         $('.category-check').click(function(e){
@@ -316,7 +388,7 @@
             $('.preloader').fadeIn(300);
 
             var url = `{{ route('product.asearch.filter') }}`;
-            var data = {'sorting': sorting, 'minPrice': minPrice, 'maxPrice': maxPrice, 'search_key':search_key, 'categories': categories, 'page': page }
+            var data = {'sorting': sorting, 'timing': timing, 'date': date, 'price': price, 'minPrice': minPrice, 'maxPrice': maxPrice, 'search_key':search_key, 'categories': categories, 'page': page }
 
             $.ajax({
                 type: "GET",
@@ -333,6 +405,14 @@
                 }
             });
         }
+        
+        // Livewire component JavaScript code
+        document.addEventListener("livewire:load", function () {
+            Livewire.hook('message.processed', function (el, component) {
+                runCountDown();
+            });
+        });
+
 
         function runCountDown() { 
             $('.countdown').each(function(){

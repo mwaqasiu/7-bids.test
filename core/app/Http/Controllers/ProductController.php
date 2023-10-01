@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\GeneralSetting;
 use App\Models\Merchant;
 use App\Models\Question;
+use App\Models\EmailTemplate;
 use App\Models\Answer;
 use App\Models\Product;
 use App\Models\Review;
@@ -19,6 +20,7 @@ use App\Models\Wishlist;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class ProductController extends Controller
 {
@@ -30,8 +32,9 @@ class ProductController extends Controller
 
     public function products()
     {
-        $pageTitle      = request()->search_key?'Search Products':'Marketplace';
-
+        
+        $pageTitle      = request()->search_key?'Search Products':'BUY IT NOW';
+        
         return view($this->activeTemplate.'product.list', compact('pageTitle'));
     }
 
@@ -178,7 +181,7 @@ class ProductController extends Controller
         $maxPrice = $products->max('price');
         $priceProducts = clone $products->get();
         $products = $products->paginate(getPaginate(18));
-
+        
         return response()->json([
             'html' => view($this->activeTemplate.'product.filtered', compact('pageTitle', 'emptyMessage', 'allProducts', 'priceProducts', 'categories', 'products', 'wishlists', 'winnertext'))->render(),
             'minPrice' => $minPrice,
@@ -193,7 +196,9 @@ class ProductController extends Controller
         $user = auth()->user();
 
         $product = Product::with('reviews', 'merchant', 'reviews.user', 'admin')->where('status', '!=', 0)->findOrFail($id);
-
+        $productcount = Product::with('admin')->where('status', '!=', 0)->where('started_at', '<', Carbon::now())->where('expired_at', '>', Carbon::now())->live()->doesnthave('winner');
+       
+       
         $relatedProducts = Product::live()->where('category_id', $product->category_id)->where('id', '!=', $id)->limit(10)->get();
 
         $imageData      = imagePath()['product'];
@@ -210,7 +215,7 @@ class ProductController extends Controller
 
         $wishlist = Wishlist::where('product_id', $product->id)->where('ip_address', getenv('REMOTE_ADDR'))->get();
 
-        return view($this->activeTemplate.'product.details', compact('pageTitle', 'productanswers', 'productquestions', 'productquestions_count', 'product', 'relatedProducts', 'seoContents', 'winnerdatas', 'winnerflag', 'wishlist'));
+        return view($this->activeTemplate.'product.details', compact('pageTitle', 'productanswers', 'productquestions', 'productquestions_count', 'product', 'productcount','relatedProducts', 'seoContents', 'winnerdatas', 'winnerflag', 'wishlist'));
     }
 
     public function productQuestionSave(Request $request) {
@@ -248,7 +253,7 @@ class ProductController extends Controller
         $sellernotification->question = $request->question;
         $sellernotification->save();
 
-        $notify[] = ['success', 'Question successfully sent.'];
+        $notify[] = ['success', 'Thank you for contacting 7-BIDS, you will hear from us soon.'];
         return back()->withNotify($notify);
     }
 
@@ -298,15 +303,45 @@ class ProductController extends Controller
         $product->save();
 
         $general = GeneralSetting::first();
-
-
+        $admins = Admin::first();
+        
+        $emailTemplate = EmailTemplate::where('act', "BID_WINNER")->where('email_status', 1)->first();
+        if ($general->en != 1 || !$emailTemplate) {
+            return;
+        }
+        
+        $emailTemplateAdmin = EmailTemplate::where('act', "BID_WINNER_ADMIN")->where('email_status', 1)->first();
+        if ($general->en != 1 || !$emailTemplate) {
+            return;
+        }
+        
+        $message = shortCodeReplacer("{{username}}", $user->username, $emailTemplate->email_body);
+        $message = shortCodeReplacer("{{product}}", $product->name, $message);
+        $message = shortCodeReplacer("{{product_price}}", number_format($product->price, 0, '.', ''), $message);
+        $message = shortCodeReplacer("{{amount}}", $request->amount, $message);
+        $message = shortCodeReplacer("{{currency}}", $general->cur_text, $message);
+        
+        $messageAdmin = shortCodeReplacer("{{fullname}}", $user->firstname." ".$user->lastname, $emailTemplateAdmin->email_body);
+        $messageAdmin = shortCodeReplacer("{{country}}", $user->address->country, $messageAdmin);
+        $messageAdmin = shortCodeReplacer("{{product}}", $product->name, $messageAdmin);
+        $messageAdmin = shortCodeReplacer("{{product_price}}", number_format($product->price, 0, '.', ''), $messageAdmin);
+        $messageAdmin = shortCodeReplacer("{{amount}}", number_format($request->amount, 0, '.', ''), $messageAdmin);
+        $messageAdmin = shortCodeReplacer("{{currency}}", $general->cur_text, $messageAdmin);
+        
+        $subject = $user->username." offer ".$request->amount." Euro on ".$product->name;
+        $receive_mail = explode('@', $admins->email)[0];
+        
+        sendSellusEmail("offers@7-bids.com", $subject, $messageAdmin, $receive_mail);
+        
+        // sendSellusEmail($admins->email, $subject, $message, $receive_mail);
+        
         if($product->admin){
             $adminNotification = new AdminNotification();
             $adminNotification->user_id = auth()->user()->id;
             $adminNotification->title = 'A user has been bidden on your product';
             $adminNotification->click_url = urlPath('admin.product.bids',$product->id);
             $adminNotification->save();
-
+            
             $notify[] = ['success', 'Price offer successfully sent.'];
             return back()->withNotify($notify);
         }

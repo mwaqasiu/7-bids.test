@@ -11,7 +11,7 @@
                     <h3 class="section__title">{{ __($faq->data_values->heading) }}</h3>
                     <p class="section__txt">{{ __($faq->data_values->subheading) }}</p>
                     <div class="progress progress--bar">
-                        <div class="progress-bar bg--base progress-bar-striped progress-bar-animated"></div>
+                        <!--<div class="progress-bar bg--base progress-bar-striped progress-bar-animated"></div>-->
                     </div>
                 </div>
             </div>

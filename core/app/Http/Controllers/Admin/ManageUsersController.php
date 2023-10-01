@@ -161,6 +161,7 @@ class ManageUsersController extends Controller
             'country' => 'required',
         ]);
         $countryCode = $request->country;
+        $user->customerid = $request->customerid;
         $user->mobile = $request->mobile;
         $user->country_code = $countryCode;
         $user->firstname = $request->firstname;
@@ -322,7 +323,7 @@ class ManageUsersController extends Controller
         ]);
 
         $user = User::findOrFail($id);
-        sendGeneralEmail($user->email, $request->subject, $request->message, $user->username);
+        sendGeneralSingleEmail($user->email, $request->subject, $request->message, $user->firstname, $user->lastname);
         $notify[] = ['success', $user->username . ' will receive an email shortly.'];
         return back()->withNotify($notify);
     }

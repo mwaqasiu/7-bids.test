@@ -14,6 +14,8 @@ use App\Models\Searchlist;
 use App\Models\Product;
 use App\Models\Auction;
 use App\Models\Winner;
+use App\Models\Wishlist;
+use App\Models\Auctionwishlist;
 use App\Models\Transaction;
 use App\Models\Auctionwinner;
 use App\Models\UserNotification;
@@ -304,7 +306,7 @@ class AuctionController extends Controller
             'specification'         => 'nullable|array',
             'imagereplaceinput'     => 'nullable|array',
             // 'started_at'            => 'required_if:schedule,1|date|after:yesterday|before:expired_at',
-            'image'                 => [$imgValidation,'image', new FileTypeValidate(['jpeg', 'jpg', 'png', 'bmp'])]
+            'image'                 => [$imgValidation,'image', new FileTypeValidate(['jpeg', 'jpg', 'png', 'bmp', 'JPG', 'JPEG'])]
         ]);
     }
 
@@ -414,9 +416,9 @@ class AuctionController extends Controller
 
         notify($user, 'BID_WINNER', [
             'product' => $auction->name,
-            'product_price' => showAmount($auction->price),
+            'product_price' => showAmount($auction->price, 0),
             'currency' => $general->cur_text,
-            'amount' => showAmount($bid->amount),
+            'amount' => showAmount($bid->amount, 0),
         ]);
 
         $notify[] = ['success', 'Winner selected successfully'];
@@ -451,6 +453,13 @@ class AuctionController extends Controller
         
         unlink(imagePath()['product']['path']."/".$auction->image);
         unlink(imagePath()['product']['path']."/thumb_".$auction->image);
+        
+        $auctionwishlists = Auctionwishlist::where('auction_id', $request->auction_id)->get();
+        
+        foreach($auctionwishlists as $wishlist) {
+            $wishs = Auctionwishlist::findOrFail($wishlist->id);
+            $wishs->delete();
+        }
         
         foreach($auction->imagereplaceinput as $imgri) {
             unlink(imagePath()['product']['path']."/".$imgri['url']);

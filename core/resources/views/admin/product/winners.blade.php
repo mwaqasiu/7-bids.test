@@ -53,10 +53,27 @@
                                     <input type="hidden" value='{{ csrf_token() }}' id="status_token_hidden" >
                                     <input type="hidden" value='{{ route("admin.product.onestatusimage") }}' id="statusurl_hidden" >
                                     @if($winner->product_delivered == 0)
-                                        <input type="file" style="padding: 0; width: 0;" name="pendingimage{{$winner->id}}" class="pendingpicupload" data-winid="{{ $winner->id }}" id="pendingimage{{$winner->id}}" accept=".png, .jpg, .jpeg, .bmp" required/>
-                                        <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Upload Image')" for="pendingimage{{$winner->id}}">
-                                            <span class="text--small badge font-weight-normal badge--danger">@lang('Pending')</span>
-                                        </label>
+                                        @if($winner->pending_imageurl != "")
+                                            <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Waiting for Payment')">
+                                                <span class="text--small badge font-weight-normal badge--danger">@lang('Waiting for Payment')</span>
+                                            </label>
+                                        @else
+                                            <input type="file" style="padding: 0; width: 0;" name="pendingimage{{$winner->id}}" class="pendingpicupload" data-winid="{{ $winner->id }}" id="pendingimage{{$winner->id}}" accept=".png, .jpg, .jpeg, .bmp" required/>
+                                            <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Upload Image')" for="pendingimage{{$winner->id}}">
+                                                <span class="text--small badge font-weight-normal badge--danger">@lang('Pending')</span>
+                                            </label>
+                                        @endif
+                                    @elseif($winner->product_delivered == 5)
+                                        @if($winner->pending_imageurl != "")
+                                            <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Waiting for Payment')">
+                                                <span class="text--small badge font-weight-normal badge--danger">@lang('Waiting for Payment')</span>
+                                            </label>
+                                        @else
+                                            <input type="file" style="padding: 0; width: 0;" name="pendingimage{{$winner->id}}" class="pendingpicupload" data-winid="{{ $winner->id }}" id="pendingimage{{$winner->id}}" accept=".png, .jpg, .jpeg, .bmp" required/>
+                                            <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Upload Image')" for="pendingimage{{$winner->id}}">
+                                                <span class="text--small badge font-weight-normal badge--danger">@lang('Pending')</span>
+                                            </label>
+                                        @endif
                                     @elseif($winner->product_delivered == 1)
                                         <input type="file" style="padding: 0; width: 0;" name="paidimage{{$winner->id}}" class="paidpicupload" data-winid="{{ $winner->id }}" id="paidimage{{$winner->id}}" accept=".png, .jpg, .jpeg, .bmp" required/>
                                         <label class="labeluploadcursor" data-toggle="tooltip" data-original-title="@lang('Upload Image')" for="paidimage{{$winner->id}}">
@@ -103,6 +120,19 @@
                                         </button>
                                     @endif
                                     @if($winner->product_delivered == 0)
+                                        <button type="button" class="icon-btn btn--danger productPaidBtn productchangestatusbtn" data-toggle="tooltip" data-original-title="@lang('Paid')" data-id="{{ $winner->id }}">
+                                            <i class="las la-dollar-sign text--shadow"></i>
+                                        </button>
+                                        <button type="button" class="icon-btn btn--danger productPickedBtn productchangestatusbtn" data-toggle="tooltip" data-original-title="@lang('Picked')" data-id="{{ $winner->id }}">
+                                            <i class="las la-hand-paper text--shadow"></i>
+                                        </button>
+                                        <button type="button" class="icon-btn btn--danger productPackedBtn productchangestatusbtn" data-toggle="tooltip" data-original-title="@lang('Packed')" data-id="{{ $winner->id }}">
+                                            <i class="las la-box-open text--shadow"></i>
+                                        </button>
+                                        <button type="button" class="icon-btn btn--danger productTransitedBtn productchangestatusbtn" data-toggle="tooltip" data-original-title="@lang('Shipped')" data-id="{{ $winner->id }}">
+                                            <i class="las la-truck text--shadow"></i>
+                                        </button>
+                                    @elseif($winner->product_delivered == 5)
                                         <button type="button" class="icon-btn btn--danger productPaidBtn productchangestatusbtn" data-toggle="tooltip" data-original-title="@lang('Paid')" data-id="{{ $winner->id }}">
                                             <i class="las la-dollar-sign text--shadow"></i>
                                         </button>
@@ -172,7 +202,7 @@
                                             data-user="{{ $winner->user }}">
                                         <i class="las la-desktop text--shadow"></i>
                                     </button>
-                                    <button type="button" class="icon-btn btn--danger winner-del-btn" data-toggle="tooltip" data-original-title="@lang('Delete')" data-id="{{ $winner->id }}">
+                                    <button type="button" class="icon-btn btn--danger winner-del-btn" data-toggle="tooltip" data-original-title="@lang('Delete')" data-productid="{{ $winner->product->id }}" data-id="{{ $winner->id }}">
                                         <i class="las la-times text--shadow"></i>
                                     </button>
                                 </td>
@@ -367,6 +397,7 @@
                     <p>@lang('Are you sure to') <span class="font-weight-bold">@lang('delete')</span> @lang('this item') <span class="font-weight-bold withdraw-user"></span>?</p>
                 </div>
                 <input type="hidden" class="winner_item_id" id="winner_item_id" name="winner_item_id">
+                <input type="hidden" class="product_item_id" id="product_item_id" name="product_item_id">
                 <div class="modal-footer">
                     <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('No')</button>
                     <button type="submit" class="btn btn--primary">@lang('Yes')</button>
@@ -645,6 +676,7 @@
             $('.winner-del-btn').click(function() {
                 var modal = $('#winnerdeleteModal');
                 modal.find('.winner_item_id').val($(this).data('id'));
+                modal.find('.product_item_id').val($(this).data('productid'));
                 modal.modal('show');
             });
             

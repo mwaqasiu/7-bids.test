@@ -31,9 +31,15 @@
                                             <td data-label="@lang('Image')">
                                                 <img style="width: 50px;" src="{{ getImage(imagePath()['product']['path'].'/'.$slider->url) }}">
                                             </td>
-                                            <td>{{$slider->main_heading}}</td>
-                                            <td>{{$slider->sub_text}}</td>
-                                            <td>{{$slider->slider_link}}</td>
+                                            <td>
+                                               <i class="las la-pencil-alt text--shadow" data-toggle="tooltip" data-original-title="{{$slider->main_heading}}"></i>
+                                            </td>
+                                            <td>
+                                                <i class="las la-pencil-alt text--shadow" data-toggle="tooltip" data-original-title="{{$slider->sub_text}}"></i>
+                                            </td>
+                                            <td>
+                                                <i class="las la-edit" data-toggle="tooltip" data-original-title="{{$slider->slider_link}}"></i>
+                                            </td>
                                             <td data-label="@lang('Status')">
                                                 @if($slider->status == 0)
                                                     <span class="text--small badge font-weight-normal badge--danger">@lang('Pending')</span>
@@ -42,6 +48,9 @@
                                                 @endif
                                             </td>
                                             <td data-label="@lang('Action')">
+                                                <button type="button" class="icon-btn btn--success sliderEditBtn" data-toggle="tooltip" data-original-title="@lang('Edit')" data-url="{{ $slider->url }}" data-id="{{ $slider->id }}" data-mainheading="{{ $slider->main_heading }}" data-subtext="{{ $slider->sub_text }}" data-engmainheading="{{ $slider->eng_main_heading }}" data-engsubtext="{{ $slider->eng_sub_text }}" data-sliderlink="{{ $slider->slider_link }}">
+                                                    <i class="las la-edit text--shadow"></i>
+                                                </button>
                                                 @if($slider->status == 0)
                                                     <button type="button" class="icon-btn btn--success sliderliveBtn" data-toggle="tooltip" data-original-title="@lang('Live')" data-id="{{ $slider->id }}">
                                                         <i class="las la-check text--shadow"></i>
@@ -51,12 +60,6 @@
                                                         <i class="las la-check text--shadow"></i>
                                                     </button>
                                                 @endif
-                                                    <button class="btn btn--primary box--shadow1 text--small editSliderbtn" data-id="{{ $slider->id }}"
-                                                            data-main-heading="{{ $slider->main_heading }}"
-                                                            data-sub-text="{{ $slider->sub_text }}"
-                                                            data-slider-link="{{ $slider->slider_link }}">
-                                                        <i class="las la-pen text-shadow"></i>
-                                                    </button>
                                                 <button class="icon-btn btn--danger deleteOneSlider" data-id="{{ $slider->id }}">
                                                     <i class="la la-trash"></i>
                                                 </button>
@@ -95,12 +98,20 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Main Heading</label>
+                        <label class="form-label">Main Heading German</label>
                         <input type="text" class="form-control" name="main_heading" placeholder="Enter main heading">
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Sub Text</label>
+                        <label class="form-label">Sub Text German</label>
                         <textarea type="text" class="form-control resize--none" name="sub_text" placeholder="Enter sub text"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Main Heading English</label>
+                        <input type="text" class="form-control" name="eng_main_heading" placeholder="Enter main heading">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Sub Text English</label>
+                        <textarea type="text" class="form-control resize--none" name="eng_sub_text" placeholder="Enter sub text"></textarea>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Link</label>
@@ -115,45 +126,56 @@
             </div>
         </div>
     </div>
-
-    {{-- EDIT MODAL --}}
+    
+    {{-- Edit MODAL --}}
     <div id="editSliderModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">@lang('Edit Item')</h5>
+                    <h5 class="modal-title">@lang('Add Item')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="px-3" action="{{route('admin.update.frontsliders', ['id' => $slider->id] )}}" method="POST">
+                <form class="px-3" action="{{route('admin.edit.frontsliders')}}" method="POST">
                     @csrf
-{{--                    <div class="modal-body" style="display: flex; justify-content: center;">--}}
-{{--                        <input type="file" class="slideuploadimageinput" name="uploadimage" id="uploadimage" accept=".png, .jpg, .jpeg, .bmp" required />--}}
-{{--                        <div class="slideuploadimageview">--}}
-{{--                            <label for="uploadimage" class="uploadimagelabel" >--}}
-{{--                                <i class="las la-upload"></i>--}}
-{{--                            </label>--}}
-{{--                            <div class="slideitemview">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                    <div class="mb-2">
-                        <label class="form-label">Main Heading</label>
-                        <input type="text" class="form-control" name="main_heading" value="{{ old('main_heading', $slider->main_heading) }}" placeholder="Enter main heading">
+                    <div class="modal-body" style="display: flex; justify-content: center;">
+                        <div class="slideuploadimageview">
+                            <label for="uploadimage" class="edituploadimagelabel" >
+                                <i class="las la-upload"></i>
+                            </label>
+                            <div class="editslideitemview">
+                                <div class="slideitemimageview">
+                                    <input name="edit_url" id="edit_url" type="hidden" required>
+                                    <img src="https://7-bids.com/assets/images/loading.gif" id="editsliderimageitem" class="sliderimageitem" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-2">
-                        <label class="form-label">Sub Text</label>
-                        <textarea type="text" class="form-control resize--none" name="sub_text" placeholder="Enter sub text">{{ old('sub_text', $slider->sub_text) }}</textarea>
+                        <label class="form-label">Main Heading German</label>
+                        <input type="text" class="form-control" name="edit_main_heading" placeholder="Enter main heading">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Sub Text German</label>
+                        <textarea type="text" class="form-control resize--none" name="edit_sub_text" placeholder="Enter sub text"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Main Heading English</label>
+                        <input type="text" class="form-control" name="edit_eng_main_heading" placeholder="Enter main heading">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Sub Text English</label>
+                        <textarea type="text" class="form-control resize--none" name="edit_eng_sub_text" placeholder="Enter sub text"></textarea>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">Link</label>
-                        <input type="url" class="form-control" name="slider_link" value="{{ old('slider_link', $slider->slider_link) }}" placeholder="link">
+                        <input type="url" class="form-control" name="edit_slider_link" placeholder="link">
                     </div>
-                    <input type="hidden" name="slider_id">
+                    <input type="hidden" name="slider_edit_id" id="slider_edit_id">
                     <div class="modal-footer">
                         <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('No')</button>
-                        <button type="submit" class="btn btn--primary">@lang('Update')</button>
+                        <button type="submit" class="btn btn--primary">@lang('EDIT')</button>
                     </div>
                 </form>
             </div>
@@ -287,6 +309,12 @@
             height: 80px;
             position: relative;
         }
+        
+        .editslideitemview {
+            width: 120px;
+            height: 80px;
+            position: relative;
+        }
 
         .slideitemimageview {
             width: 120px;
@@ -313,6 +341,26 @@
             font-size: 10px;
             color: #fff;
         }
+        
+        .editslideitemremove {
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            transform: translate(50%,-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            background-color: #ea5455;
+            border-radius: 50%;
+        }
+
+        .editslideitemremove > i {
+            font-size: 10px;
+            color: #fff;
+        }
     </style>
 @endpush
 
@@ -329,7 +377,7 @@
                         reader.onload = function (e) {
                             $('.uploadimagelabel').css('display', 'none');
                             $('.slideitemview').css('display', 'block');
-                            $('.slideitemview').append(`<div class="slideitemimageview"><input name="sellimagereplaceinputid" id="sellimagereplaceinputid" type="hidden" required><img src="https://www.1400g.de/assets/images/loading.gif" id="sliderimageitem" class="sliderimageitem" /><div class="slideitemremove"><i class="fa fa-times"></i></div></div>`);
+                            $('.slideitemview').append(`<div class="slideitemimageview"><input name="sellimagereplaceinputid" id="sellimagereplaceinputid" type="hidden" required><img src="https://7-bids.com/assets/images/loading.gif" id="sliderimageitem" class="sliderimageitem" /><div class="slideitemremove"><i class="fa fa-times"></i></div></div>`);
                         }
 
                         reader.readAsDataURL(input.files[0]);
@@ -351,7 +399,7 @@
                           url: url,
                           success: function (responseURL) {
                             document.getElementById("sellimagereplaceinputid").value = responseURL;
-                            document.getElementById("sliderimageitem").src = "https://www.1400g.de/assets/images/product/" + responseURL;
+                            document.getElementById("sliderimageitem").src = "https://7-bids.com/assets/images/product/" + responseURL;
                           },
                           error: function(data){
                             return;
@@ -378,6 +426,23 @@
                 $('input[name="slider_id"]').val($(this).data('id'));
                 modal.modal('show');
             });
+            
+            $(document).on('click', '.sliderEditBtn', function(e) {
+                var modal = $('#editSliderModal');
+                $('input[name="slider_edit_id"]').val($(this).data('id'));
+                $('input[name="edit_main_heading"]').val($(this).data('mainheading'));
+                $('textarea[name="edit_sub_text"]').val($(this).data('subtext'));
+                $('input[name="edit_eng_main_heading"]').val($(this).data('engmainheading'));
+                $('textarea[name="edit_eng_sub_text"]').val($(this).data('engsubtext'));
+                $('input[name="edit_slider_link"]').val($(this).data('sliderlink'));
+                
+                $('.edituploadimagelabel').css('display', 'none');
+                $('.editslideitemview').css('display', 'block');
+                document.getElementById("edit_url").value = $(this).data('url');
+                document.getElementById("editsliderimageitem").src = "https://7-bids.com/assets/images/product/" + $(this).data('url');
+                            
+                modal.modal('show');
+            });
 
             $(document).on('click', '.sliderpendingBtn', function(e) {
                 var modal = $('#pendingModal');
@@ -390,28 +455,6 @@
                 modal.modal('show');
             });
 
-            // $(document).on('click', '.editSliderbtn', function(e) {
-            //     var modal = $('#editSliderModal');
-            //     $('input[name="slider_id"]').val($(this).data('id'));
-            //     modal.modal('show');
-            // });
-
-            $(document).on('click', '.editSliderbtn', function(e) {
-                var modal = $('#editSliderModal');
-                var sliderId = $(this).data('id');
-                var sliderMainHeading = $(this).data('main-heading');
-                var sliderSubText = $(this).data('sub-text');
-                var sliderLink = $(this).data('slider-link');
-
-                modal.find('input[name="slider_id"]').val(sliderId);
-                modal.find('input[name="main_heading"]').val(sliderMainHeading);
-                modal.find('textarea[name="sub_text"]').val(sliderSubText);
-                modal.find('input[name="slider_link"]').val(sliderLink);
-
-                modal.modal('show');
-            });
-
-
             $(".slideuploadimageinput").on('change', function() {
                 slideuploadimageURL(this);
             });
@@ -421,6 +464,7 @@
                 $('.uploadimagelabel').css('display', 'flex');
                 $('.slideitemview').css('display', 'none');
             });
+            
         })(jQuery)
     </script>
 @endpush

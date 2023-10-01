@@ -7,6 +7,7 @@ use App\Models\Frontend;
 use App\Models\GeneralSetting;
 use App\Models\Slider;
 use App\Models\Frontslider;
+use App\Models\Shipping;
 use App\Models\Paymentmethod;
 use App\Rules\FileTypeValidate;
 use Illuminate\Http\Request;
@@ -252,6 +253,51 @@ class GeneralSettingController extends Controller
         return back()->withNotify($notify);
     }
 
+    public function shippingcost() {
+        $pageTitle = "Shipping Cost";
+        $emptyMessage = "No Data";
+        $shippings = Shipping::get();
+        return view('admin.shipping.index', compact('pageTitle', 'emptyMessage', 'shippings'));
+    }
+    
+    public function addShippingcost(Request $request) {
+        $request->validate([
+            'shipping_text' => 'required',
+            'shipping_amount' => 'required',
+        ]);
+        
+        $shippings = new Shipping();
+        $shippings->shipping_text = $request->shipping_text;
+        $shippings->shipping_amount = $request->shipping_amount;
+        $shippings->save();
+        $notify[] = ['success','Add Item Success.'];
+        return back()->withNotify($notify);
+    }
+    
+    public function editShippingcost(Request $request) {
+        $request->validate([
+            'shipping_text' => 'required',
+            'shipping_amount' => 'required',
+            'shipping_update_id' => 'required',
+        ]);
+        
+        $shippings = Shipping::findOrFail($request->shipping_update_id);
+        $shippings->shipping_text = $request->shipping_text;
+        $shippings->shipping_amount = $request->shipping_amount;
+        $shippings->save();
+        
+        $notify[] = ['success', "Update Success."];
+        return back()->withNotify($notify);
+    }
+    
+    public function deleteShippingcost(Request $request) {
+        $shippings = Shipping::findOrFail($request->shipping_delete_id);
+        $shippings->delete();
+        
+        $notify[] = ['success', 'Item Deleted Successfully.'];
+        return back()->withNotify($notify);
+    }
+
     public function frontsliders() {
         $pageTitle = "Front Slider";
         $sliders = Frontslider::get();
@@ -264,30 +310,40 @@ class GeneralSettingController extends Controller
             'sellimagereplaceinputid' => 'required',
             'main_heading' => 'required',
             'sub_text' => 'required',
+            'eng_main_heading' => 'required',
+            'eng_sub_text' => 'required',
             'slider_link' => 'required'
         ]);
         $sliders = new Frontslider();
         $sliders->url = $request->sellimagereplaceinputid;
         $sliders->main_heading = $request->main_heading;
         $sliders->sub_text = $request->sub_text;
+        $sliders->eng_main_heading = $request->eng_main_heading;
+        $sliders->eng_sub_text = $request->eng_sub_text;
         $sliders->slider_link = $request->slider_link;
         $sliders->save();
         $notify[] = ['success','Add image success'];
         return back()->withNotify($notify);
     }
-
-    public function updateFrontSlider(Request $request, $id) {
-        $sliders = Frontslider::findOrFail($id);
+    
+    public function editFrontsliders(Request $request) {
         $request->validate([
-//            'sellimagereplaceinputid' => 'required',
-            'main_heading' => 'required',
-            'sub_text' => 'required',
-            'slider_link' => 'required'
+            'edit_main_heading' => 'required',
+            'edit_sub_text' => 'required',
+            'edit_slider_link' => 'required',
+            'edit_eng_main_heading' => 'required',
+            'edit_eng_sub_text' => 'required',
+            'slider_edit_id' => 'required',
         ]);
-
-        $sliders->update($request->all());
-
-        $notify = ['success', 'Update image success'];
+        
+        $sliders = Frontslider::findOrFail($request->slider_edit_id);
+        $sliders->main_heading = $request->edit_main_heading;
+        $sliders->sub_text = $request->edit_sub_text;
+        $sliders->eng_main_heading = $request->edit_eng_main_heading;
+        $sliders->eng_sub_text = $request->edit_eng_sub_text;
+        $sliders->slider_link = $request->edit_slider_link;
+        $sliders->save();
+        $notify[] = ['success', "Success"];
         return back()->withNotify($notify);
     }
 

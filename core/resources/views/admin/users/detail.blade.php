@@ -159,19 +159,25 @@
                 <div class="card-body">
                     <h5 class="card-title border-bottom pb-2">@lang('Information of') {{$user->fullname}}</h5>
 
-                    <form action="{{route('admin.users.update',[$user->id])}}" method="POST"
-                          enctype="multipart/form-data">
+                    <form action="{{route('admin.users.update',[$user->id])}}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group ">
+                                    <label class="form-control-label font-weight-bold">@lang('Customer ID')</label>
+                                    <input class="form-control" type="text" name="customerid" value="{{$user->customerid}}">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
                                 <div class="form-group ">
                                     <label class="form-control-label font-weight-bold">@lang('First Name')<span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="firstname" value="{{$user->firstname}}">
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="form-control-label  font-weight-bold">@lang('Last Name') <span class="text-danger">*</span></label>
                                     <input class="form-control" type="text" name="lastname" value="{{$user->lastname}}">

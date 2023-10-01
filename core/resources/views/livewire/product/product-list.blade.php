@@ -3,9 +3,9 @@
         <aside class="search-filter">
             <div class="bg--section pb-5 pb-lg-0">
                 <div class="filter-widget d-block d-lg-none">
-            <span class="close-filter-bar d-lg-none">
-                <i class="las la-times"></i>
-            </span>
+                    <span class="close-filter-bar d-lg-none">
+                        <i class="las la-times"></i>
+                    </span>
                 </div>
 
                 <div class="filter-widget pt-3 pb-2">
@@ -65,10 +65,6 @@
                 <div class="filter-widget">
                     <h6 class="sub-title">@lang('by Time')</h6>
                     <div class="form-check form--check">
-                        <input class="form-check-input timing" wire:model="searchByNewArrivals" value="newArrivals" type="checkbox">
-                        <label for="radio3">@lang('New Arrivals')</label>
-                    </div>
-                    <div class="form-check form--check">
                         <input class="form-check-input timing" wire:model="searchBySold" value="sold" type="checkbox">
                         <label  for="radio9">@lang('Sold Items')</label>
                     </div>
@@ -114,7 +110,7 @@
             </div>
         </div>
         <div class="search-result" style="background: transparent;">
-            @include($activeTemplate.'product.filtered', ['products'=> $products])
+            @include($activeTemplate.'product.filtered', ['products'=> $products, 'wishlists'=>$wishlists])
         </div>
     </div>
 </div>

@@ -1113,8 +1113,14 @@
                 $('.profilePicPreview').css('background-image', 'url(' + $(this).attr("src") + ')');
             });
 
+            
             $(document).on('click', '.img_item_remove', function () {
                 $(this).closest('.image_data_item').remove();
+                $('.replace-image').each(function() {
+                    if($.trim($(this).attr("src")) != "") {
+                        $('.profilePicPreview').css('background-image', 'url(' + $.trim($(this).attr("src")) + ')');
+                    }
+                });
             });
 
             @if(old('currency'))

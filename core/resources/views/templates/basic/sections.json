@@ -44,6 +44,7 @@
         "name": "Feature Section",
         "element": {
             "title": "text",
+            "sub_text": "text",
             "feature_icon": "icon",
             "modal": true
         }
@@ -264,6 +265,7 @@
         "name": "Policy Pages",
         "element": {
             "title": "text",
+            "pdf": "text",
             "details": "textarea-nic",
             "modal": false
         }

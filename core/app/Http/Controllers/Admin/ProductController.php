@@ -13,6 +13,9 @@ use App\Models\Auction;
 use App\Models\User;
 use App\Models\Searchlist;
 use App\Models\Winner;
+use App\Models\Shopping;
+use App\Models\Wishlist;
+use App\Models\Auctionwishlist;
 use App\Models\Transaction;
 use App\Models\UserNotification;
 use App\Rules\FileTypeValidate;
@@ -312,6 +315,11 @@ class ProductController extends Controller
         $oneimgurl = uploadOneImage($request->imagefile, imagePath()['product']['path'], imagePath()['product']['size']);
         return $oneimgurl;
     }
+    
+    public function storeonepdf(Request $request) {
+        $onepdfurl = uploadOnePdf($request->pdffile, imagePath()['product']['path'], imagePath()['product']['size']);
+        return $onepdfurl;
+    }
 
     public function update(Request $request, $id)
     {
@@ -369,7 +377,7 @@ class ProductController extends Controller
             'specification'         => 'nullable|array',
             'imagereplaceinput'     => 'nullable|array',
             // 'started_at'            => 'required_if:started_at,exists|date|after:yesterday',
-            'image'                 => [$imgValidation,'image', new FileTypeValidate(['jpeg', 'jpg', 'png', 'bmp'])]
+            'image'                 => [$imgValidation,'image', new FileTypeValidate(['jpeg', 'jpg', 'png', 'bmp', 'JPG', 'JPEG'])]
         ]);
     }
 
@@ -589,6 +597,7 @@ class ProductController extends Controller
     
     public function winneritemdelete(Request $request) {
         $winner = Winner::findOrFail($request->winner_item_id);
+        $product = Product::findOrFail($request->product_item_id);
         
         $paidresult = explode(',', $winner->paid_imageurl);
         $pickresult = explode(',', $winner->picked_imageurl);
@@ -613,6 +622,8 @@ class ProductController extends Controller
         }
         
         $winner->delete();
+        $product->delete();
+        
         $notify[] = ['success', 'Item Deleted Successfully'];
         return back()->withNotify($notify);
     }
@@ -623,6 +634,20 @@ class ProductController extends Controller
         
         unlink(imagePath()['product']['path']."/".$product->image);
         unlink(imagePath()['product']['path']."/thumb_".$product->image);
+        
+        $wishlists = Wishlist::where('product_id', $request->product_id)->get();
+        
+        foreach($wishlists as $wishlist) {
+            $wishs = Wishlist::findOrFail($wishlist->id);
+            $wishs->delete();
+        }
+        
+        $shoppings = Shopping::where('product_id', $request->product_id)->get();
+        
+        foreach($shoppings as $shopping) {
+            $shops = Shopping::findOrFail($shopping->id);
+            $shops->delete();
+        }
         
         foreach($product->imagereplaceinput as $imgri) {
             unlink(imagePath()['product']['path']."/".$imgri['url']);

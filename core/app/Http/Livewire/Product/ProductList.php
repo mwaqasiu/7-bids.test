@@ -72,6 +72,8 @@ class ProductList extends Component
 
     public function render()
     {
+        
+        
         $emptyMessage = "No Product Found";
 
         $products = Product::with('winner.bid')
@@ -101,6 +103,9 @@ class ProductList extends Component
             ->when(isset($this->minPrice) && $this->minPrice !=0 && isset($this->maxPrice) && $this->maxPrice != 0, function($query){
                 $query->whereBetween('price', [$this->minPrice, $this->maxPrice]);
             })
+            ->when(\Request::get('type') !== null && in_array(\Request::get('type'),[1,0]),function($query){
+                 $query->where('admin_id',\Request::get('type'));
+            })
             ->when(!empty($this->sortByDate), function ($query) {
                 if ($this->sortByDate === 'created_at_asc') {
                     $query->orderBy('created_at', 'ASC');
@@ -118,6 +123,7 @@ class ProductList extends Component
             ->when(count($this->searchBySold) === 0, function($query){
                 $query->live()->doesnthave('winner');
             })
+            
             ->latest('created_at')
             ->paginate(18);
 
@@ -167,9 +173,12 @@ class ProductList extends Component
                     $query->live()->doesnthave('winner');
                 });
         }])->whereStatus(true)->get();
+        
+        $wishlists = Wishlist::all();
 
         return view('livewire.product.product-list')
             ->with('products', $products)
+            ->with('wishlists', $wishlists)
             ->with('categories', $categories)
             ->with('emptyMessage', $emptyMessage);
     }

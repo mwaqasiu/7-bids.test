@@ -4,6 +4,7 @@
 <section class="product-section pt-120 pb-120">
     <div class="container">
         <div class="row justify-content-center">
+            
             @forelse ($products as $product)
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-10 mb-3">
                         <div class="slide-item">

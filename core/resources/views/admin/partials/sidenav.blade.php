@@ -41,6 +41,12 @@
                         <span class="menu-title">@lang('Front Slider')</span>
                     </a>
                 </li>
+                <li class="sidebar-menu-item {{menuActive('admin.shipping-cost')}}">
+                    <a href="{{route('admin.shipping-cost')}}" class="nav-link ">
+                        <i class="menu-icon la la-calculator"></i>
+                        <span class="menu-title">@lang('Shipping Cost')</span>
+                    </a>
+                </li>
                 <li class="sidebar-menu-item {{menuActive('admin.charity')}}">
                     <a href="{{route('admin.charity')}}" class="nav-link ">
                         <i class="menu-icon las la-hand-holding-heart"></i>

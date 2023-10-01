@@ -95,6 +95,22 @@ function uploadOneImage($file, $location, $size = null) {
     return $filename;
 }
 
+function uploadOnePdf($file, $location, $size = null) {
+    $path = makeDirectory($location);
+    if (!$path) throw new Exception('File could not been created.');
+    $filename = uniqid() . time() . '.' . $file->getClientOriginalExtension();
+    // $image = Image::make($file);
+    if ($size) {
+        $size = explode('x', strtolower($size));
+        // $image->resize($size[0], $size[1]);
+    }
+    $file->move(
+        $location."/", $filename
+    );
+    // $image->save($location . '/' . $filename);
+    return $filename;
+}
+
 //moveable
 function uploadImage($file, $location, $size = null, $old = null, $thumb = null)
 {
@@ -479,12 +495,9 @@ function getImage($image, $size = null, $isAvatar = false)
 
 function notify($user, $type, $shortCodes = null, $userType='user')
 {
-
     sendEmail($user, $type, $shortCodes, $userType);
     sendSms($user, $type, $shortCodes);
 }
-
-
 
 function sendSms($user, $type, $shortCodes = [])
 {
@@ -500,6 +513,86 @@ function sendSms($user, $type, $shortCodes = [])
         $message = shortCodeReplacer("{{message}}", $template, $general->sms_api);
         $message = shortCodeReplacer("{{name}}", $user->username, $message);
         $sendSms->$gateway($user->mobile,$general->sitename,$message,$general->sms_config);
+    }
+}
+
+function shoppingBagAdminSendEmail($adminemail, $type, $shortCodes = null, $userType='user') {
+    $general = GeneralSetting::first();
+    
+    $emailTemplate = EmailTemplate::where('act', $type)->where('email_status', 1)->first();
+    if ($general->en != 1 || !$emailTemplate) {
+        return;
+    }
+    
+    $message = shortCodeReplacer("{{fullname}}", $adminemail, $emailTemplate->email_body);
+    
+    if (empty($message)) {
+        $message = $emailTemplate->email_body;
+    }
+    
+    foreach ($shortCodes as $code => $value) {
+        $message = shortCodeReplacer('{{' . $code . '}}', $value, $message);
+    }
+
+    $config = $general->mail_config;
+
+    if ($config->name == 'php') {
+        sendPhpMail($adminemail, "7-BIDS.COM",$emailTemplate->subj, $message, $general);
+    } else if ($config->name == 'smtp') {
+        sendSmtpMail($config, $adminemail, "7-BIDS.COM", $emailTemplate->subj, $message,$general);
+    } else if ($config->name == 'sendgrid') {
+        sendSendGridMail($config, $adminemail, "7-BIDS.COM", $emailTemplate->subj, $message,$general);
+    } else if ($config->name == 'mailjet') {
+        sendMailjetMail($config, $adminemail, "7-BIDS.COM", $emailTemplate->subj, $message,$general);
+    }
+}
+
+function shoppingBagSendEmail($user, $type, $shortCodes = null, $userType='user')
+{
+    $general = GeneralSetting::first();
+
+    $emailTemplate = EmailTemplate::where('act', $type)->where('email_status', 1)->first();
+    if ($general->en != 1 || !$emailTemplate) {
+        return;
+    }
+
+    $message = shortCodeReplacer("{{fullname}}", $user->fullname, $emailTemplate->email_body);
+    $message = shortCodeReplacer("{{username}}", $user->username, $message);
+    $message = shortCodeReplacer("{{message}}", $emailTemplate->email_body, $message);
+
+    if (empty($message)) {
+        $message = $emailTemplate->email_body;
+    }
+
+    foreach ($shortCodes as $code => $value) {
+        $message = shortCodeReplacer('{{' . $code . '}}', $value, $message);
+    }
+
+    $config = $general->mail_config;
+
+    $emailLog = new EmailLog();
+
+    if($userType == 'user'){
+        $emailLog->user_id = $user->id;
+    } elseif($userType == 'merchant'){
+        $emailLog->merchant_id = $user->id;
+    }
+
+    $emailLog->mail_sender = $config->name;
+    $emailLog->email_from = $general->sitename.' '.$general->email_from;
+    $emailLog->email_to = $user->email;
+    $emailLog->subject = $emailTemplate->subj;
+    $emailLog->message = $message;
+    $emailLog->save();
+
+    if ($config->name == 'php') {
+        sendPhpMail($user->email, $user->username,$emailTemplate->subj, $message, $general);
+    } else if ($config->name == 'smtp') {
+        sendSmtpMail($config, $user->email, $user->username, $emailTemplate->subj, $message,$general);
+    } else if ($config->name == 'sendgrid') {
+        sendSendGridMail($config, $user->email, $user->username, $emailTemplate->subj, $message,$general);
+    } else if ($config->name == 'mailjet') {
+        sendMailjetMail($config, $user->email, $user->username, $emailTemplate->subj, $message,$general);
     }
 }
 
@@ -561,7 +654,7 @@ function sendSelluswithPhpMail($receiver_email, $receiver_name, $subject, $messa
     @mail($receiver_email, $subject, $message, $headers);
 }
 
-function sendPhpMail($receiver_email, $receiver_name, $subject, $message,$general)
+function sendPhpMail($receiver_email, $receiver_name, $subject, $message, $general)
 {
     $headers = "From: $general->sitename <$general->email_from> \r\n";
     $headers .= "Reply-To: $general->sitename <$general->email_from> \r\n";
@@ -808,20 +901,47 @@ function sendGeneralEmail($email, $subject, $message, $receiver_name = '')
     }
 
 
-    $message = shortCodeReplacer("{{message}}", $message, $general->email_template);
-    $message = shortCodeReplacer("{{fullname}}", $receiver_name, $message);
-    $message = shortCodeReplacer("{{username}}", $email, $message);
+    $messages = shortCodeReplacer("{{message}}", $message, $general->email_template);
+    $messages = shortCodeReplacer("{{fullname}}", $receiver_name, $messages);
+    $messages = shortCodeReplacer("{{username}}", $email, $messages);
 
     $config = $general->mail_config;
 
     if ($config->name == 'php') {
-        sendPhpMail($email, $receiver_name, $subject, $message, $general);
+        sendPhpMail($email, $receiver_name, $subject, $messages, $general);
     } else if ($config->name == 'smtp') {
-        sendSmtpMail($config, $email, $receiver_name, $subject, $message, $general);
+        sendSmtpMail($config, $email, $receiver_name, $subject, $messages, $general);
     } else if ($config->name == 'sendgrid') {
-        sendSendGridMail($config, $email, $receiver_name,$subject, $message,$general);
+        sendSendGridMail($config, $email, $receiver_name,$subject, $messages,$general);
     } else if ($config->name == 'mailjet') {
-        sendMailjetMail($config, $email, $receiver_name,$subject, $message, $general);
+        sendMailjetMail($config, $email, $receiver_name,$subject, $messages, $general);
+    }
+}
+
+function sendGeneralSingleEmail($email, $subject, $message, $firstname = '', $lastname = '')
+{
+    $general = GeneralSetting::first();
+    
+    $emailTemplate = EmailTemplate::where('act', "SINGLE_USER_MAIL_FROM_ADMIN")->where('email_status', 1)->first();
+    if ($general->en != 1 || !$emailTemplate) {
+        return;
+    }
+
+    $messages = shortCodeReplacer("{{message}}", $message, $emailTemplate->email_body);
+    $messages = shortCodeReplacer("{{firstname}}", $firstname, $messages);
+    $messages = shortCodeReplacer("{{lastname}}", $lastname, $messages);
+
+    $receiver_name = $firstname." ".$lastname;
+    $config = $general->mail_config;
+
+    if ($config->name == 'php') {
+        sendPhpMail($email, $receiver_name, $subject, $messages, $general);
+    } else if ($config->name == 'smtp') {
+        sendSmtpMail($config, $email, $receiver_name, $subject, $messages, $general);
+    } else if ($config->name == 'sendgrid') {
+        sendSendGridMail($config, $email, $receiver_name,$subject, $messages,$general);
+    } else if ($config->name == 'mailjet') {
+        sendMailjetMail($config, $email, $receiver_name,$subject, $messages, $general);
     }
 }
 

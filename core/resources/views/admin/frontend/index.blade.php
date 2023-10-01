@@ -149,7 +149,13 @@
                                 <tbody class="list">
                                 @forelse($elements as $data)
                                     <tr>
-                                        <td data-label="@lang('SL')">{{$loop->iteration}}</td>
+                                        <td data-label="@lang('SL')">
+                                            @if($key == "faq")
+                                                {{ $data->data_values->order }}
+                                            @else
+                                                {{ $loop->iteration }}
+                                            @endif
+                                        </td>
                                         @if(@$section->element->images)
                                         @php $firstKey = collect($section->element->images)->keys()[0]; @endphp
                                             <td data-label="@lang('Image')">
@@ -177,6 +183,16 @@
                                             @endif
                                         @endforeach
                                         <td data-label="@lang('Action')">
+                                            @if($key == "faq")
+                                                <button class="icon-btn btn--success updateOrderBtn" data-id="{{$data->id}}" data-orderid="{{ $data->data_values->order }}">
+                                                    <i class="las la-arrows-alt"></i>
+                                                </button>
+                                            @endif
+                                            <!--@if($key == "policy_pages")-->
+                                            <!--    <button class="icon-btn btn--success updateOrderBtn" data-id="{{$data->id}}">-->
+                                            <!--        <i class="las la-file-pdf"></i>-->
+                                            <!--    </button>-->
+                                            <!--@endif-->
                                             @if($section->element->modal)
                                             @php
                                                 $images = [];
@@ -307,8 +323,37 @@
                 </div>
             </div>
         </div>
-
-
+        
+        <!--Update Order Modal-->
+        <div id="updateOrderBtn" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"> @lang('Update') @lang('Item')</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('admin.frontend.sections.contentorder', $key) }}" class="edit-route" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="orderid">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>@lang('Current Order:')</label>
+                                <input type="text" class="form-control" id="currentorderid" placeholder="Current Order" name="currentorderid" value="" readonly required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Changable Order:</label>
+                                <input type="text" class="form-control" id="changeorderid" placeholder="Order" name="changeorderid" required/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn--primary btn-block">@lang('Update')</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
         {{-- Update METHOD MODAL --}}
@@ -399,7 +444,6 @@
                                 @endif
                             @endforeach
                         </div>
-
                         <div class="modal-footer">
                             <button type="submit" class="btn btn--primary btn-block">@lang('Update')</button>
                         </div>
@@ -466,6 +510,13 @@
 
             $('.addBtn').on('click', function () {
                 var modal = $('#addModal');
+                modal.modal('show');
+            });
+            
+            $('.updateOrderBtn').on('click', function () {
+                var modal = $('#updateOrderBtn');
+                modal.find('input[name=orderid]').val($(this).data('id'));
+                modal.find('input[name=currentorderid]').val($(this).data('orderid'));
                 modal.modal('show');
             });
 

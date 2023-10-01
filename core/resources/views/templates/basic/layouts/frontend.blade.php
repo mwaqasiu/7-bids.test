@@ -9,7 +9,6 @@
 
     <title> {{ $general->sitename(__($pageTitle)) }}</title>
     @include('partials.seo')
-
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/animate.css') }}">
     <link rel="stylesheet" href="{{asset('assets/global/css/all.min.css')}}">
@@ -28,6 +27,14 @@
 
     @stack('style')
     @livewireStyles
+    
+    <script>
+        if(localStorage.getItem("lightmodedata") == null) {
+            localStorage.setItem("lightmodedata", "mode");
+            $('head').append(`<link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/lightmode.css') }}">`);
+        }
+    </script>
+    <script src="https://cloud.ccm19.de/app.js?apiKey=00674c0f4d54871ba82fade7999d171432408559ad4c4507&amp;domain=6516a116857d65f1fc0314b5" referrerpolicy="origin"></script>
 </head>
 
 <body>
@@ -101,6 +108,7 @@
     @include('partials.notify')
 
     <script>
+    
         (function ($) {
             "use strict";
 
@@ -133,11 +141,29 @@
                         var langmod = $('#languageModal');
                         langmod.modal('show');
                     }
+                    if(langsetval == "at") {
+                        var langmod = $('#languageModal');
+                        langmod.modal('show');
+                    }
                 }
             }, 2000);
 
         })(jQuery);
     </script>
     @livewireScripts
+    
+    <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/64bd6e5dcc26a871b02abc9c/1h61ve7q5';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
 </body>
 </html>

@@ -58,8 +58,9 @@
         <div class="container">
             <div class="footer-middle-wrapper">
                 <div>
-                    <div>&copy; {{ date('Y') }}
-                        <a href="{{ route('home') }}">{{ __($general->sitename ) }}</a>.</div>
+                    <div>
+                        <a href="{{ route('home') }}">&copy; {{ date('Y') }} {{ __($general->sitename ) }}</a>
+                    </div>
                 </div>
                 @foreach ($policyPages as $policyPage)
                 <div>

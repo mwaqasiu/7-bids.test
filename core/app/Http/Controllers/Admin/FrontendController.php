@@ -62,13 +62,20 @@ class FrontendController extends Controller
         }
         $content = Frontend::where('data_keys', $key . '.content')->orderBy('id','desc')->first();
         $elements = Frontend::where('data_keys', $key . '.element')->orderBy('id')->orderBy('id','desc')->get();
-        $pageTitle = $section->name ;
+        $pageTitle = $section->name;
         $emptyMessage = 'No item created yet.';
         return view('admin.frontend.index', compact('section', 'content', 'elements', 'key', 'pageTitle', 'emptyMessage'));
     }
-
-
-
+    
+    public function frontendFaqOrder(Request $request, $key) {
+        $content = Frontend::findOrFail($request->orderid);
+        $datas = '{"question":"'.$content->data_values->question.'","english_question":"'.$content->data_values->english_question.'","answer":"'.$content->data_values->answer.'","english_answer":"'.$content->data_values->english_answer.'","order":"'.$request->changeorderid.'"}';
+        $datas = json_decode($datas, true);
+        $content->data_values = $datas;
+        $content->save();
+        $notify[] = ['success', 'Order has been updated.'];
+        return back()->withNotify($notify);
+    }
 
     public function frontendContent(Request $request, $key)
     {
