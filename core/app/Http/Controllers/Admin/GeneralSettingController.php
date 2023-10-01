@@ -276,6 +276,21 @@ class GeneralSettingController extends Controller
         return back()->withNotify($notify);
     }
 
+    public function updateFrontSlider(Request $request, $id) {
+        $sliders = Frontslider::findOrFail($id);
+        $request->validate([
+//            'sellimagereplaceinputid' => 'required',
+            'main_heading' => 'required',
+            'sub_text' => 'required',
+            'slider_link' => 'required'
+        ]);
+
+        $sliders->update($request->all());
+
+        $notify = ['success', 'Update image success'];
+        return back()->withNotify($notify);
+    }
+
     public function delFrontsliders(Request $request) {
         $sliders = Frontslider::findOrFail($request->slider_id);
         $sliders->delete();

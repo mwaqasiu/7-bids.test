@@ -103,6 +103,14 @@ p a:hover {
     color: #c151cc;
 }
 
+#search_input_text_product::placeholder{
+    color: #adb5bd !important;
+}
+
+.Sbids-Logo {
+      margin-left: 7.25rem;
+}
+
 .checkbox {
     opacity: 0;
     position: absolute;
@@ -150,9 +158,25 @@ p a:hover {
     bottom: -5.5rem !important;
 }
 
+.top-search-icon svg{
+    color: #0E86D4;
+}
+
+.searchkeybtngroup {
+    border-bottom: 1px solid #0E86D4 !important;
+}
+
+.searchkeybtngroup input{
+    background: transparent !important;
+}
+
 @media (max-width: 575px) {
     p {
         font-size: 16px;
+    }
+
+    .Sbids-Logo {
+        margin-left: 0;
     }
 }
 
@@ -1638,16 +1662,17 @@ body.bg--section {
     border: none;
     padding: 0;
     min-width: 44px;
+    background: transparent !important;
 }
 
 .search-form {
     width: 100%;
-    max-width: 380px;
+    /*max-width: 380px;*/
 }
 
 .header__top__wrapper {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -1680,9 +1705,9 @@ body.bg--section {
     font-family: "Jost", sans-serif;
 }
 
-.header__top__wrapper .search-form {
-    margin-left: 15px;
-}
+/*.header__top__wrapper .search-form {*/
+/*    margin-left: 15px;*/
+/*}*/
 
 @media (max-width: 991px) {
     .header__top__wrapper .search-form {

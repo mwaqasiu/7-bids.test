@@ -51,6 +51,12 @@
                                                         <i class="las la-check text--shadow"></i>
                                                     </button>
                                                 @endif
+                                                    <button class="btn btn--primary box--shadow1 text--small editSliderbtn" data-id="{{ $slider->id }}"
+                                                            data-main-heading="{{ $slider->main_heading }}"
+                                                            data-sub-text="{{ $slider->sub_text }}"
+                                                            data-slider-link="{{ $slider->slider_link }}">
+                                                        <i class="las la-pen text-shadow"></i>
+                                                    </button>
                                                 <button class="icon-btn btn--danger deleteOneSlider" data-id="{{ $slider->id }}">
                                                     <i class="la la-trash"></i>
                                                 </button>
@@ -104,6 +110,50 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('No')</button>
                         <button type="submit" class="btn btn--primary">@lang('ADD')</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {{-- EDIT MODAL --}}
+    <div id="editSliderModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Edit Item')</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form class="px-3" action="{{route('admin.update.frontsliders', ['id' => $slider->id] )}}" method="POST">
+                    @csrf
+{{--                    <div class="modal-body" style="display: flex; justify-content: center;">--}}
+{{--                        <input type="file" class="slideuploadimageinput" name="uploadimage" id="uploadimage" accept=".png, .jpg, .jpeg, .bmp" required />--}}
+{{--                        <div class="slideuploadimageview">--}}
+{{--                            <label for="uploadimage" class="uploadimagelabel" >--}}
+{{--                                <i class="las la-upload"></i>--}}
+{{--                            </label>--}}
+{{--                            <div class="slideitemview">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+                    <div class="mb-2">
+                        <label class="form-label">Main Heading</label>
+                        <input type="text" class="form-control" name="main_heading" value="{{ old('main_heading', $slider->main_heading) }}" placeholder="Enter main heading">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Sub Text</label>
+                        <textarea type="text" class="form-control resize--none" name="sub_text" placeholder="Enter sub text">{{ old('sub_text', $slider->sub_text) }}</textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Link</label>
+                        <input type="url" class="form-control" name="slider_link" value="{{ old('slider_link', $slider->slider_link) }}" placeholder="link">
+                    </div>
+                    <input type="hidden" name="slider_id">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn--dark" data-dismiss="modal">@lang('No')</button>
+                        <button type="submit" class="btn btn--primary">@lang('Update')</button>
                     </div>
                 </form>
             </div>
@@ -339,6 +389,28 @@
                 var modal = $('#addSliderModal');
                 modal.modal('show');
             });
+
+            // $(document).on('click', '.editSliderbtn', function(e) {
+            //     var modal = $('#editSliderModal');
+            //     $('input[name="slider_id"]').val($(this).data('id'));
+            //     modal.modal('show');
+            // });
+
+            $(document).on('click', '.editSliderbtn', function(e) {
+                var modal = $('#editSliderModal');
+                var sliderId = $(this).data('id');
+                var sliderMainHeading = $(this).data('main-heading');
+                var sliderSubText = $(this).data('sub-text');
+                var sliderLink = $(this).data('slider-link');
+
+                modal.find('input[name="slider_id"]').val(sliderId);
+                modal.find('input[name="main_heading"]').val(sliderMainHeading);
+                modal.find('textarea[name="sub_text"]').val(sliderSubText);
+                modal.find('input[name="slider_link"]').val(sliderLink);
+
+                modal.modal('show');
+            });
+
 
             $(".slideuploadimageinput").on('change', function() {
                 slideuploadimageURL(this);

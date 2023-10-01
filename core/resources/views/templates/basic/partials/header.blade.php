@@ -128,8 +128,56 @@
                     </div>
                 </a>
             </div>
-{{--            <div class="fw-bold ">LOGO</div>--}}
+            <div class="Sbids-Logo">
+                <img id="logoImage" width="30" height="30" src="{{ asset('assets/images/logoIcon/7-bids-logo-lm.jpeg') }}">
+            </div>
             <div class="d-flex gap-2 align-items-center">
+                <button type="button" class="border-0 bg-transparent top-search-icon" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered bg-transparent">
+                        <div class="modal-content bg-transparent" style="border: 0 !important">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <form action="{{ route('product.search') }}" class="search-form" style="border: 0 !important">
+                                    <div class="input-group input--group searchkeybtngroup" style="position: relative;">
+                                        <input type="text" class="form-control"
+                                               style="border: 0 !important; border-radius: unset; border-left: 0 !important;"
+                                               id="search_input_text_product"
+                                               name="search_key" value="{{ request()->search_key }}"
+                                               placeholder="@lang('Search Item')">
+                                        <div class="searchtextclearbtn"
+                                             style="background: transparent; position: absolute; right: 92px; top: 20px; z-index: 30; transform: translateY(-50%); cursor: pointer;">
+                                            <i class="las la-times"></i>
+                                        </div>
+                                        <button type="submit" class="cmn--btn" style="border: 0 !important;">
+                                            <i class="las la-search"></i></button>
+                                        @if (auth()->check())
+                                            <button type="button" onclick="bellbtnwithsearch()"
+                                                    class="cmn--btn" style="border: 0 !important" ><i
+                                                    class="las la-bell"></i></button>
+                                        @else
+                                            <button type="button" onclick="bellbtnwithlogin()" style="border: 0 !important" class="cmn--btn">
+                                                <i class="las la-bell"></i></button>
+                                        @endif
+                                        <!--<div class="search_bottom_list_view">-->
+                                        <!--    <p>Type your keyword and receive a notification when new results match your search.</p>-->
+                                        <!--</div>-->
+                                    </div>
+                                </form>
+                                <div style="display: none;">
+                                    <form action="{{ route('user.searchitem.save') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="search_keys" id="form_search_keys" value=""/>
+                                        <input type="submit" id="searchitemsubmitbtn" value="submit"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="d-none d-md-block">
                     <input type="checkbox" class="checkbox" checked id="formcheckinput" onchange="switchmode()">
                     <label for="formcheckinput" class="checkbox-label">
@@ -204,7 +252,9 @@
                 @endauth
             </div>
         </div>
-
+    </div>
+    <hr class="my-1">
+    <div class="container">
         <div class="header-wrapper justify-content-center">
             <div class="menu-area">
                 <div class="menu-close">
@@ -383,9 +433,6 @@
 {{--<div class="header-top bg--section">--}}
 {{--    <div class="container">--}}
 {{--        <div class="header__top__wrapper">--}}
-{{--            <ul>--}}
-
-{{--            </ul>--}}
 {{--            <form action="{{ route('product.search') }}" class="search-form">--}}
 {{--                <div class="input-group input--group searchkeybtngroup" style="position: relative;">--}}
 {{--                    <input type="text" class="form-control" id="search_input_text_product" name="search_key" value="{{ request()->search_key }}" placeholder="@lang('Search Item')">--}}
@@ -460,10 +507,12 @@
 {{-- End Language modal --}}
 
 @push('script')
-
     <script>
         "use strict";
-
+        $('.searchtextclearbtn').on('click', function () {
+            $('#search_input_text_product').val("");
+            $('#search_input_text_product').focus();
+        });
         if (localStorage.getItem("lightmodedata") != null && localStorage.getItem("lightmodedata") != "null") {
             document.getElementById("formcheckinput").checked = false;
             document.getElementById("formcheckinput2").checked = false;
@@ -516,11 +565,6 @@
         (function ($) {
             "use strict";
 
-            $('.searchtextclearbtn').on('click', function () {
-                $('#search_input_text_product').val("");
-                $('#search_input_text_product').focus();
-            });
-
             $('.changelangbtn').on('click', function () {
                 var langmodals = $('#languageModal');
                 langmodals.modal('show');
@@ -538,6 +582,18 @@
                 }
             });
         })(jQuery);
+    </script>
+    <script>
+        const logoImage = document.getElementById("logoImage");
+        function isLightMode() {
+            const mode = localStorage.getItem("lightmodedata");
+            return mode === "mode";
+        }
+        if (isLightMode()) {
+            logoImage.src = "{{ asset('assets/images/logoIcon/7-bids-logo-lm.jpeg') }}";
+        } else {
+            logoImage.src = "{{ asset('assets/images/logoIcon/7-bids-logo-dm.jpeg') }}";
+        }
     </script>
 @endpush
 <!-- Header -->

@@ -16,25 +16,25 @@ class SearchproductController extends Controller
     {
         $this->activeTemplate = activeTemplate();
     }
-    
+
     public function searchproducts()
     {
         $pageTitle      = 'Search Items';
         $emptyPMessage  = 'No Marketplace Item found';
         $emptyAMessage  = 'No Auction Item found';
         $categories     = Category::with('products')->where('status', 1)->get();
-        
+
         $products       = Product::live();
         $products       = $products->where('name', 'like', '%'.request()->search_key.'%')->with('category');
-        $allProducts    = clone $products->get();
+        $allProducts    = clone $products->live()->get();
         if(request()->category_id){
             $products   = $products->where('category_id', request()->category_id);
         }
         $products = $products->orderBy('expired_at', 'ASC')->paginate(getPaginate(18));
-        
+
         $auctions       = Auction::live();
         $auctions       = $auctions->where('name', 'like', '%'.request()->search_key.'%')->with('category');
-        $allAuctions    = clone $auctions->get();
+        $allAuctions    = clone $auctions->live()->get();
         if(request()->category_id) {
             $auctions   = $auctions->where('category_id', request()->category_id);
         }
@@ -42,13 +42,13 @@ class SearchproductController extends Controller
 
         return view($this->activeTemplate.'search.list', compact('pageTitle', 'emptyPMessage', 'emptyAMessage', 'products', 'allProducts', 'auctions', 'allAuctions', 'categories'));
     }
-    
+
     public function searchlistproducts(Request $request) {
         $pageTitle      = 'Search Items';
         $emptyPMessage  = 'No Marketplace Item found';
         $emptyAMessage  = 'No Auction Item found';
         $categories     = Category::with('products')->where('status', 1)->get();
-        
+
         $sdate=date_create(now());
         date_sub($sdate, date_interval_create_from_date_string("2days"));
 
@@ -59,7 +59,7 @@ class SearchproductController extends Controller
             $products   = $products->where('category_id', request()->category_id);
         }
         $products = $products->paginate(getPaginate(18));
-        
+
         $auctions       = Auction::live();
         $auctions       = $auctions->where('name', 'like', '%'.request()->search_key.'%')->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"))->with('category');
         $allAuctions    = clone $auctions->get();
@@ -70,19 +70,19 @@ class SearchproductController extends Controller
 
         return view($this->activeTemplate.'search.list', compact('pageTitle', 'emptyPMessage', 'emptyAMessage', 'products', 'allProducts', 'auctions', 'allAuctions', 'categories'));
     }
-    
+
     public function searchlistfilter(Request $request) {
         $pageTitle = "Search Items";
         $emptyPMessage = "No Marketplace Item found";
         $emptyAMessage = "No Auction Item found";
         $products = Product::live()->where('name', 'like', '%'.$request->search_key.'%');
         $auctions = Auction::live()->where('name', 'like', '%'.$request->search_key.'%');
-        
+
         $sdate=date_create(now());
         date_sub($sdate, date_interval_create_from_date_string("2days"));
         $products = $products->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"));
         $auctions = $auctions->where('created_at', '>=', date_format($sdate,"Y-m-d H:i:s"));
-        
+
         if($request->categories){
             $products->whereIn('category_id', $request->categories);
             $auctions->whereIn('category_id', $request->categories);
@@ -95,13 +95,13 @@ class SearchproductController extends Controller
             $products->where('price', '<=', $request->maxPrice);
             $auctions->where('price', '<=', $request->maxPrice);
         }
-        
+
         $products = $products->paginate(getPaginate(18));
         $auctions = $auctions->paginate(getPaginate(18));
 
         return view($this->activeTemplate.'search.listfiltered', compact('pageTitle', 'emptyAMessage', 'emptyPMessage', 'products', 'auctions'));
     }
-    
+
     public function searchfilter(Request $request)
     {
         $pageTitle      = 'Search Items';
@@ -154,11 +154,11 @@ class SearchproductController extends Controller
             $products->where('price', '<=', $request->maxPrice);
             $auctions->where('price', '<=', $request->maxPrice);
         }
-        
+
         $products = $products->paginate(getPaginate(18));
         $auctions = $auctions->paginate(getPaginate(18));
 
         return view($this->activeTemplate.'search.filtered', compact('pageTitle', 'emptyAMessage', 'emptyPMessage', 'products', 'auctions'));
     }
-    
+
 }

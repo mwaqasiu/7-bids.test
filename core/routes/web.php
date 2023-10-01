@@ -377,6 +377,7 @@ Route::namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
         //Front Sliders
         Route::get('frontsliders', 'GeneralSettingController@frontsliders')->name('frontsliders');
         Route::post('frontsliders', 'GeneralSettingController@addFrontsliders')->name('add.frontsliders');
+        Route::post('frontsliders/update/{id}', 'GeneralSettingController@updateFrontSlider')->name('update.frontsliders');
         Route::post('frontsliders/delete', 'GeneralSettingController@delFrontsliders')->name('delete.frontsliders');
         Route::post('frontsliders/pending', 'GeneralSettingController@pendingFrontsliders')->name('pending.frontsliders');
         Route::post('frontsliders/live', 'GeneralSettingController@liveFrontsliders')->name('live.frontsliders');

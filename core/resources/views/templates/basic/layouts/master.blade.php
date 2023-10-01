@@ -10,7 +10,7 @@
     <title> {{ $general->sitename(__($pageTitle)) }}</title>
 
     @include('partials.seo')
-    
+
 
     <link rel="stylesheet" href="{{ asset('assets/global/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/animate.css') }}">
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue.'css/color.php')}}?color={{ $general->base_color }}">
 
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] .'/favicon.png') }}" type="image/x-icon">
-   
+
     @stack('style-lib')
 
     @stack('style')
@@ -42,8 +42,8 @@
 
         <div class="overlay"></div>
         <a href="#0" class="scrollToTop"><i class="las la-angle-up"></i></a>
-        
-        
+
+
         <main class="dashboard-section bg--section">
             @include($activeTemplate.'partials.sidenav')
             <article class="dashboard__article">
@@ -110,7 +110,7 @@
             }
             });
         })(jQuery);
-        
+
     </script>
 
 </body>

@@ -11,6 +11,21 @@ body{
     background-color: #fff !important;
 }
 
+.search-form i{
+    color: #eee !important;
+}
+
+.top-search-icon svg{
+    color: #000000;
+}
+
+.searchkeybtngroup{
+    border-bottom: 1px solid #C09956 !important;
+    border-top: 0!important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
 body::before,
 .bg--body::before {
     background-color: #fff !important;
@@ -104,8 +119,10 @@ i {
 }
 
 input.form-control {
-    background-color: #eee!important;
-    color: #000 !important;
+    /*background-color: #eee!important;*/
+    /*color: #000 !important;*/
+    background-color: transparent !important;
+    color: #eee !important;
 }
 
 input.form-control::placeholder {
