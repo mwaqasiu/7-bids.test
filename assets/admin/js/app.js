@@ -226,9 +226,11 @@ async function proStatusUpload(input, stype, wid) {
                     message: "Upload Success!",
                     position: "topRight"
                 });
+                location.reload();
               },
               error: function(data){
                 return;
+                location.reload();
               }
             });
         } else {
@@ -260,7 +262,7 @@ async function proPicURL(input) {
                     $(preview).hide();
                     $(preview).fadeIn(650);
                     
-                    $('.imagelist_block').append(`<div class="image_data_item" style="text-align: center;position: relative; width: 45px; height: 35px; margin: 2px;display: inline-block;"><input name="imagereplaceinput[`+imagenum+`][url]" id="imagereplaceinput`+imagenum+`" type="hidden" required><img id="image_replace_id` + imagenum + `" src="https://www.1400g.de/assets/images/loading.gif" class="replace-image" style="height: 35px; cursor: pointer;" ><div style="position: absolute; right: 0; top: 0; transform: translate(50%,-50%); display: flex; justify-content: center; align-items: center; width: 10px; height: 10px; cursor: pointer; background-color: #ea5455; border-radius: 50%;" class="img_item_remove"><i class="fa fa-times" style="font-size: 8px; color: white;"></i></div></div>`);
+                    $('.imagelist_block').append(`<div class="image_data_item" style="text-align: center;position: relative; width: 45px; height: 35px; margin: 2px;display: inline-block;"><input name="imagereplaceinput[`+imagenum+`][url]" id="imagereplaceinput`+imagenum+`" type="hidden" required><img id="image_replace_id` + imagenum + `" src="https://7-bids.com/assets/images/loading.gif" class="replace-image" style="height: 35px; cursor: pointer;" ><div style="position: absolute; right: 0; top: 0; transform: translate(50%,-50%); display: flex; justify-content: center; align-items: center; width: 10px; height: 10px; cursor: pointer; background-color: #ea5455; border-radius: 50%;" class="img_item_remove"><i class="fa fa-times" style="font-size: 8px; color: white;"></i></div></div>`);
                 }
                 
                 reader.readAsDataURL(input.files[ii]);
@@ -285,7 +287,7 @@ async function proPicURL(input) {
                     percent_length = Number(100 / percent_num * (ii + 1)).toFixed(1);
                     $('#percent_span').text(Number(100 / percent_num * (ii + 1)).toFixed(1) + '%');
                     document.getElementById("imagereplaceinput"+imagenum).value = responseURL;
-                    document.getElementById("image_replace_id"+imagenum).src = "https://www.1400g.de/assets/images/product/" + responseURL;
+                    document.getElementById("image_replace_id"+imagenum).src = "https://7-bids.com/assets/images/product/" + responseURL;
                     document.getElementById("image_replace_id"+imagenum).style.width = "45px";
                     imagenum ++;
                     if(Number(percent_length) == 100) {

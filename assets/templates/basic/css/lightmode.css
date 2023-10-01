@@ -7,6 +7,8 @@ a {
 	/*background: #fff;*/
 }
 
+
+
 body{
     background-color: #fff !important;
 }
@@ -15,8 +17,20 @@ body{
     color: #eee !important;
 }
 
+.twittersvg > svg > path {
+    fill: #000 !important;
+}
+
 .top-search-icon svg{
     color: #000000;
+}
+
+.specifics-td {
+    color: #000 !important;
+}
+
+.specifics-th {
+    color: #000 !important;
 }
 
 .searchkeybtngroup{
@@ -44,12 +58,9 @@ body::before,
 }
 
 .header-bottom {
-	background-color: #fff;
+	background-color: #fffafa;
 }
 
-.header-bottom .menu{
-    background-color: #fff;
-}
 
 .banner-slider-line{
     height: 0.5rem;
@@ -69,7 +80,13 @@ body::before,
 }
 
 .change-language a:not(:last-child)::after {
-	color: #fff;
+	color: transparent;
+}
+
+@media (max-width: 575px) {
+    .change-language a:not(:last-child)::after {
+        color: #000;
+    }
 }
 
 .form--check label {
@@ -112,6 +129,7 @@ body::before,
 
 .account__section-content.bg--section {
     box-shadow: none !important;
+    border: none !important;
 }
 
 i {
@@ -119,10 +137,10 @@ i {
 }
 
 input.form-control {
-    /*background-color: #eee!important;*/
-    /*color: #000 !important;*/
-    background-color: transparent !important;
-    color: #eee !important;
+    background-color: #eee!important;
+    color: #000 !important;
+    background-color: transparent;
+    color: #eee;
 }
 
 input.form-control::placeholder {
@@ -360,6 +378,10 @@ h4.page-title {
     background-color: transparent;
 }
 
+.auction__item.bg--body::before {
+    background-color: #fff !important;
+}
+
 .overlay-2 {
     background-color: #eee;
 }
@@ -399,9 +421,7 @@ h5.modal-title {
     background-color: transparent;
 }
 
-.shopping-table thead tr {
-  background-color: #aaa;
-}
+
 
 .shopping-table thead tr th {
   color: #fff;
@@ -960,23 +980,23 @@ table.cmn--table > thead > tr {
 }
 
 .inputsellwithus::-webkit-input-placeholder {
-    color: #000 !important;
+    color: darkgray !important;
 }
 
 .inputsellwithus:-moz-placeholder {
-    color: #000 !important;
+    color: darkgray !important;
 }
 
 .inputsellwithus::-moz-placeholder {
-    color: #000 !important;
+    color: darkgray !important;
 }
 
 .inputsellwithus:-ms-input-placeholder {
-    color: #000 !important;
+    color: darkgray !important;
 }
 
 .inputsellwithus::placeholder {
-    color: #000 !important;
+    color: darkgray !important;
 }
 
 .inputsellwithus:-webkit-autofill, .inputsellwithus:-webkit-autofill:hover, .inputsellwithus:-webkit-autofill:focus, .inputsellwithus:-webkit-autofill:active {
@@ -1099,15 +1119,15 @@ table.cmn--table > thead > tr {
 }
 
 .step-submethod1 {
-    background-color: gray !important;
+    background-color: #c09956 !important;
 }
 
 .step-submethod2 {
-    background-color: gray !important;
+    background-color: #c09956 !important;
 }
 
 .step-method {
-    background-color: #000 !important;
+    background-color: #c09956 !important;
 }
 
 .step-method-success {
@@ -1175,7 +1195,13 @@ table.cmn--table > thead > tr {
 }
 
 .header-wrapper > .menu-area {
-    background: #eee !important;
+    background: transparent !important;
+}
+
+@media (max-width: 991px) {
+    .header-wrapper > .menu-area {
+        background: #eee !important;
+    }
 }
 
 .delete-filter-list > i {
@@ -1210,4 +1236,63 @@ table.cmn--table > thead > tr {
     justify-content: center;
     align-items: center;
     font-family: "Jost", sans-serif;
+}
+
+/* wsa */
+input.form--control{
+    background-color: rgb(238, 238, 238) !important;
+    color: black !important;
+    padding:10px !important;
+}
+.table>:not(caption)>*>*{
+    /*background-color: var(--bs-table-color-state);*/
+    color: black;
+}
+input.totalpricespan{
+    color: #000 !important;
+}
+/* wsa */
+
+.makeanoffercurrency {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #336699 !important;
+}
+
+.sliderleftbtn {
+    border-color: transparent black transparent transparent !important;
+}
+
+.sliderrightbtn {
+    border-color: transparent transparent transparent black !important;
+}
+
+.lightdarksectionitem {
+    border: 1px transparent !important;
+}
+
+.feature_section_item {
+    border-color: #c09956 !important;
+}
+
+.feature_top_section {
+    border-color: #c09956 !important;
+    background-color: #fffafa !important;
+}
+
+.contact-area .contact-content .contact-content-botom .subtitle {
+    color: #000 !important;
+}
+
+.contact-area .contact-content .contact-content-botom .contact-info li .cont a {
+    color: #000 !important;
+}
+
+.auction__slider-btn {
+    background-color: #e9ba17 !important;
+}
+
+
+table.shopping-table > thead > tr {
+    background: #c09956 !important;
 }

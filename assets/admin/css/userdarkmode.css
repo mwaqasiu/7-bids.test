@@ -1,5 +1,10 @@
 .sidebar__inner {
-    background: #eee;
+    /*background: #eee;*/
+    background: #fff;
+}
+
+body {
+    background: #fff;
 }
 
 .sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item .menu-icon, .sidebar[class*="overlay"] .sidebar__menu .sidebar-menu-item .menu-title {
@@ -37,7 +42,8 @@
 }
 
 .navbar-wrapper {
-    background: #eee;
+    /*background: #eee;*/
+    background: #fff;
 }
 
 .navbar__right > .navbar__action-list > li > a {
@@ -194,7 +200,8 @@ table.table--light thead th {
 }
 
 .card-body {
-    background: #f3f5f7 !important;
+    /*background: #f3f5f7 !important;*/
+    background: #fff !important;
 }
 
 .status-main > .paidstatus {
@@ -276,3 +283,10 @@ table.table--light thead th {
 .currencyicon {
     color: #919293 !important;
 }
+
+/* wsa dark */
+.homebutton{
+    font-size: 26px;
+    color: #000;
+}
+/* wsa dark */

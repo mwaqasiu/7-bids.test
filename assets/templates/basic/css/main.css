@@ -107,9 +107,6 @@ p a:hover {
     color: #adb5bd !important;
 }
 
-.Sbids-Logo {
-      margin-left: 7.25rem;
-}
 
 .checkbox {
     opacity: 0;
@@ -118,8 +115,8 @@ p a:hover {
 
 .checkbox-label {
     background-color: #111;
-    width: 50px;
-    height: 26px;
+    width: 42px;
+    height: 20px;
     border-radius: 50px;
     position: relative;
     padding: 5px;
@@ -129,13 +126,13 @@ p a:hover {
     align-items: center;
 }
 
-.fa-sun {color: #f39c12;}
-.fa-moon {color: #f1c40f;}
+.fa-sun {font-size: 12px; color: #f39c12;}
+.fa-moon {font-size: 12px; color: #f1c40f;}
 
 .checkbox-label .ball {
     background-color: #fff;
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
     position: absolute;
     left: 2px;
     top: 2px;
@@ -176,7 +173,7 @@ p a:hover {
     }
 
     .Sbids-Logo {
-        margin-left: 0;
+        margin-left: 64px;
     }
 }
 
@@ -1986,7 +1983,7 @@ body.bg--section {
 
 .form-control:disabled,
 .form-control[readonly] {
-    background: transparent;
+    color: #fff;
 }
 .cmn--card .form--control[readonly] {
     background: #001329;
@@ -4510,7 +4507,8 @@ div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
 }
 
 .auction__item-footer .cmn--btn {
-    font-size: 14px;
+    font-size: 13px;
+    font-weight:500;
     padding: 10px 30px;
 }
 
@@ -4541,14 +4539,17 @@ div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
 .auction__item-countdown .inner__grp .total-price {
     padding: 10px 7px;
     color: #28c76f;
-    font-size: 15px;
+    font-size: 13px;
+    font-weight:500;
 }
 @media (max-width:767px) {
     .auction__item-countdown .inner__grp .total-price {
-        font-size: 14px;
+        font-size: 13px;
+        font-weight:500;
     }
     .auction__item-countdown .inner__grp .countdown li {
-        font-size: 14px;
+        font-size: 13px;
+        font-weight:500;
     }
 }
 
@@ -5986,7 +5987,7 @@ div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
     margin-bottom: 28px;
 }
 
-.form--control {
+/*.form--control {
     background: transparent;
     outline: none;
     border: none;
@@ -6003,7 +6004,7 @@ div[class*="col"]:nth-of-type(4n + 1) .feature__item-icon {
     box-shadow: none;
     background: transparent;
     color: #fff;
-}
+}*/
 select.form--control option {
     color: #001329;
 }
@@ -7511,3 +7512,44 @@ button.cmn--btn:hover {
 .lightmodeswitchresponsive > div > svg > path {
     color: #fff;
 }
+
+/* wsa */
+.table>:not(caption)>*>*{
+    background-color: var(--bs-table-color-state);
+    color: white;
+}
+/* wsa */
+
+.headernavbardesktop {
+    display: block;
+}
+
+.headernavbarmobile {
+    display: none;
+}
+
+@media (max-width: 991px) {
+    .headernavbardesktop {
+        display: none;
+    }
+    
+    .headernavbarmobile {
+        display: block;
+    }
+}
+
+@media (max-width: 678px) {
+    .sellwithusatag {
+        position: absolute;
+        bottom: 15px;
+    }
+    
+    .bonussection {
+        display: none;
+    }
+}
+
+.change-language a:not(:last-child)::after {
+    color: transparent !important;
+}
+
